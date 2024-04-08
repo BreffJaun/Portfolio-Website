@@ -2,6 +2,9 @@
 import logoTW from "../assets/breffjaun_turquoise-white.svg";
 import "../styles/header.scss";
 
+// I M P O R T:  T Y P E S
+import { HeaderProps } from "../types/interfaces";
+
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
 
@@ -9,8 +12,7 @@ import { NavLink } from "react-router-dom";
 import MainNavigation from "../components/Main-Navigation";
 
 // C O D E
-
-const Header = () => {
+const Header: React.FC<HeaderProps> = ({ onAboutClick }) => {
   return (
     <header>
       <div className="header__logo">
@@ -19,7 +21,7 @@ const Header = () => {
         </NavLink>
       </div>
       <div className="main__navigation">
-        <MainNavigation />
+        <MainNavigation onAboutClick={onAboutClick} />
       </div>
       <div className="theme__button">
         <button>Theme</button>
@@ -29,7 +31,7 @@ const Header = () => {
           <span className="material-symbols-outlined">lunch_dining</span>
         </div>
         <div className="main_navigation_sm">
-          <MainNavigation />
+          <MainNavigation onAboutClick={onAboutClick} />
           <button>Theme</button>
         </div>
       </div>

@@ -1,16 +1,13 @@
 // I M P O R T:   F I L E S
-
-// I M P O R T:  T Y P E S
-import { HeaderProps } from "../types/interfaces";
+import "../styles/subNavigation.scss";
 
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
-import SubNavigation from "../views/Sub-Navigation";
 
 // C O D E
-const MainNavigation: React.FC<HeaderProps> = ({ onAboutClick }) => {
+const SubNavigation = () => {
   return (
     <nav>
       <ul>
@@ -19,10 +16,9 @@ const MainNavigation: React.FC<HeaderProps> = ({ onAboutClick }) => {
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
-            to="/about"
-            onClick={onAboutClick}
+            to="/about/me"
           >
-            About
+            About Me
           </NavLink>
         </li>
         <li>
@@ -30,9 +26,9 @@ const MainNavigation: React.FC<HeaderProps> = ({ onAboutClick }) => {
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
-            to="/feed"
+            to="/about/stack"
           >
-            Feed
+            Stack
           </NavLink>
         </li>
         <li>
@@ -40,7 +36,17 @@ const MainNavigation: React.FC<HeaderProps> = ({ onAboutClick }) => {
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
-            to="/contact"
+            to="/about/projects"
+          >
+            Projects
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+            to="/about/contact"
           >
             Contact
           </NavLink>
@@ -50,4 +56,4 @@ const MainNavigation: React.FC<HeaderProps> = ({ onAboutClick }) => {
   );
 };
 
-export default MainNavigation;
+export default SubNavigation;

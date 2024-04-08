@@ -1,0 +1,13 @@
+.sub__navigation {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #4b4e51;
+  transition: top 0.3s ease;
+  z-index: 999;
+}
+
+.sub__navigation.visible {
+  top: 125px;
+}
