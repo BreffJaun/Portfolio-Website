@@ -8,8 +8,9 @@ header {
   height: 125px;
   width: 100%;
   background-color: var(--bs-body-color);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 
+  // LOGO
   .header__logo {
     flex: 1;
 
@@ -19,6 +20,7 @@ header {
     }
   }
 
+  // MAIN NAVIGATION
   .main__navigation {
     flex: 2;
     display: flex;
@@ -78,6 +80,7 @@ header {
     }
   }
 
+  // THEME BUTTON
   .theme__button {
     flex: 1;
     display: flex;
@@ -89,11 +92,105 @@ header {
     }
   }
   
+  // HAMBURGER MENU
   .hamburger__menu {
     display: none;
     @media (max-width: 767px) {
       display: block;
     }
-  }
+  }  
+  
 }
 
+// SUB NAVIGATION
+.sub__navigation {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  background-color: #4b4e51;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  transition: top 0.3s ease;
+
+  // .placeholder__div {
+  //   flex: 1;
+  //   border: 1px solid red;
+  // }
+
+  nav {
+    width: 80%;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 950px;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+
+      li {
+        margin: 0 10px;
+      }
+    }
+  }
+
+    // @media (max-width: 1162px) {
+    //   height: 72px;
+    //   nav {
+    //     ul {
+    //       flex-wrap: wrap;
+    //       justify-content: space-between;
+    //     }
+    //   }
+    // }
+
+  a {
+    text-decoration: none;
+    color: var(--bs-font-color);
+    display: block;
+    padding: 2.5px 0;
+    font-size: 1.5rem;
+    position: relative;
+
+    &:hover {
+      color: var(--bs-teal);
+    }
+
+    &.active {
+      color: var(--bs-teal);
+
+      &::after {
+        width: 100%;
+      }
+
+      span {
+        color: var(--bs-font-color)
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--bs-font-color);
+      transition: width 0.3s ease;
+    }
+
+    span {
+      color: var(--bs-teal)
+    }
+  }
+
+}
+
+.show {
+  top: 125px !important;
+}

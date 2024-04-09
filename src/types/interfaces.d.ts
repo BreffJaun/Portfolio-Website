@@ -1,3 +1,4 @@
-export interface HeaderProps {
+export interface MainNavProps {
   onAboutClick: () => void;
+  hideSubNavigation: () => void;
 }
