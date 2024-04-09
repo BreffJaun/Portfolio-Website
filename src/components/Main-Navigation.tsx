@@ -7,33 +7,82 @@ import { MainNavProps } from "../types/interfaces";
 import { NavLink } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
+import SubNavigation from "./Sub-Navigation";
+import { useEffect, useState } from "react";
 
 // C O D E
 const MainNavigation: React.FC<MainNavProps> = ({
   onAboutClick,
   hideSubNavigation,
+  hideMobileNav,
+  showMobileNavigation,
+  handleAboutLinkClick,
+  aboutLinkClicked,
 }) => {
+  const [mobileView, setMobileView] = useState<boolean>(false);
+  const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobileView = () => {
+      return window.innerWidth < 768;
+    };
+
+    const handleResize = () => {
+      setMobileView(checkMobileView());
+    };
+
+    setMobileView(checkMobileView());
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (aboutLinkClicked && mobileView) {
+      setShowSubNavigation(true);
+    } else {
+      setShowSubNavigation(false);
+    }
+  }, [aboutLinkClicked, mobileView]);
+  const handleOnClick = () => {
+    hideSubNavigation();
+    hideMobileNav();
+  };
+
+  const handleOnAboutClick = () => {
+    onAboutClick(); // macht subNav auf true
+    handleAboutLinkClick(); // macht aboutLinkClicked auf true
+    console.log("aboutLinkClicked: ", aboutLinkClicked);
+  };
+
   return (
     <nav>
       <ul>
         <li>
           <NavLink
             className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
+              `about ${isPending ? "pending" : ""} ${isActive ? "active" : ""}`
             }
             to="/about"
-            onClick={onAboutClick}
+            onClick={handleOnAboutClick}
           >
             About
           </NavLink>
         </li>
+        {showSubNavigation && (
+          <li>
+            <SubNavigation />
+          </li>
+        )}
         <li>
           <NavLink
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
             }
             to="/feed"
-            onClick={hideSubNavigation}
+            onClick={handleOnClick}
           >
             Feed
           </NavLink>
@@ -44,6 +93,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
               isPending ? "pending" : isActive ? "active" : ""
             }
             to="/contact"
+            onClick={hideMobileNav}
           >
             Contact
           </NavLink>

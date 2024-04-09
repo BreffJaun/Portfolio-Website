@@ -18,6 +18,10 @@ header {
       width: 200px;
       height: 100px;
     }
+    @media (max-width: 767px) {
+      flex: 2;
+      // border: 1px solid blue;
+    }
   }
 
   // MAIN NAVIGATION
@@ -95,10 +99,67 @@ header {
   // HAMBURGER MENU
   .hamburger__menu {
     display: none;
+
     @media (max-width: 767px) {
-      display: block;
+      display: flex;
+      justify-content: end;
+      flex: 1;
+
+      .hamburger__icon {
+        margin-right: 3rem;
+        position: relative;
+        color: var(--bs-teal);
+
+        &:hover {
+          color: var(--bs-font-color);
+        }
+      
+        &.active {
+          color: var(--bs-font-color);
+      
+          &::after {
+            width: 100%;
+          }
+        }
+      
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -0.5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background-color: var(--bs-teal);
+          transition: width 0.3s ease;
+        }
+
+        .material-symbols-outlined {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .main_navigation_sm {
+      display: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 20px;
+        position: absolute; 
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 1001;   
+
+        nav ul li {
+          display: block;
+          margin-bottom: 10px; 
+        }
+      
     }
   }  
+
   
 }
 
@@ -116,15 +177,13 @@ header {
   justify-content: center;
   transition: top 0.3s ease;
 
-  // .placeholder__div {
-  //   flex: 1;
-  //   border: 1px solid red;
-  // }
-
   nav {
     width: 80%;
+    display: flex;
+    justify-content: center;
 
     ul {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -138,16 +197,6 @@ header {
       }
     }
   }
-
-    // @media (max-width: 1162px) {
-    //   height: 72px;
-    //   nav {
-    //     ul {
-    //       flex-wrap: wrap;
-    //       justify-content: space-between;
-    //     }
-    //   }
-    // }
 
   a {
     text-decoration: none;
@@ -189,8 +238,15 @@ header {
     }
   }
 
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
-.show {
+.show__sub__navigation {
   top: 125px !important;
+}
+
+.show__mobile__navigation {
+  display: block !important;
 }
