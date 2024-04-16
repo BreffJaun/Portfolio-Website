@@ -1,15 +1,17 @@
 // I M P O R T:   F I L E S
 
+// I M P O R T:  T Y P E S
+import { SubNavProps } from "../types/interfaces";
+
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
 
 // C O D E
-const SubNavigation = () => {
+const SubNavigation: React.FC<SubNavProps> = ({ hideMobileNav }) => {
   return (
     <>
-      {/* <div className="placeholder__div"></div> */}
       <nav>
         <ul>
           <li>
@@ -18,6 +20,7 @@ const SubNavigation = () => {
                 isPending ? "pending" : isActive ? "active" : ""
               }
               to="/about/me"
+              onClick={hideMobileNav}
             >
               <span>01. </span>
               About Me
@@ -29,6 +32,7 @@ const SubNavigation = () => {
                 isPending ? "pending" : isActive ? "active" : ""
               }
               to="/about/stack"
+              onClick={hideMobileNav}
             >
               <span>02. </span>
               Stack
@@ -40,6 +44,7 @@ const SubNavigation = () => {
                 isPending ? "pending" : isActive ? "active" : ""
               }
               to="/about/projects"
+              onClick={hideMobileNav}
             >
               <span>03. </span>
               Projects
@@ -51,6 +56,7 @@ const SubNavigation = () => {
                 isPending ? "pending" : isActive ? "active" : ""
               }
               to="/about/contact"
+              onClick={hideMobileNav}
             >
               <span>04. </span>
               Contact
@@ -58,7 +64,6 @@ const SubNavigation = () => {
           </li>
         </ul>
       </nav>
-      {/* <div className="placeholder__div"></div> */}
     </>
   );
 };

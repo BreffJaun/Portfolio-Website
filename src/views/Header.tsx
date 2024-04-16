@@ -78,7 +78,6 @@ const Header = () => {
 
   const handleAboutLinkClick = () => {
     setAboutLinkClicked((prev) => !prev);
-    // showSubNavOnClickAbout();
   };
 
   return (
@@ -133,7 +132,7 @@ const Header = () => {
           showSubNavigation ? "show__sub__navigation" : ""
         }`}
       >
-        <SubNavigation />
+        <SubNavigation hideMobileNav={hideMobileNav} />
       </div>
     </>
   );

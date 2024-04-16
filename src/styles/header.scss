@@ -104,6 +104,7 @@ header {
       display: flex;
       justify-content: end;
       flex: 1;
+      position: relative;
 
       .hamburger__icon {
         margin-right: 3rem;
@@ -139,28 +140,113 @@ header {
       }
     }
 
+    // MOBILE NAVIGATION STYLES
     .main_navigation_sm {
-      display: none;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        padding: 20px;
-        position: absolute; 
-        top: 100%;
-        left: 0;
-        right: 0;
-        margin: auto;
-        z-index: 1001;   
+      opacity: 1;
+      width: 100%;
+      min-width: 235px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 20px;
+      position: absolute; 
+      top: -2rem;
+      right: 1rem;
+      margin: auto;
+      z-index: 1001;
 
-        nav ul li {
-          display: block;
-          margin-bottom: 10px; 
+      // TEST
+      transform: translateX(110%);
+      transition: 
+      transform 1.5s ease;
+
+      &.show__mobile__navigation {
+        transform: translateX(0);
+      }
+      
+      nav ul {
+        margin-left: 20px;
+      }
+
+      nav ul li {
+        margin-bottom: 10px;
+        list-style-type: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: var(--bs-teal);
+        display: inline-block;
+        padding: 5px 0;
+        font-size: 1.5rem;
+        position: relative;
+      
+        &:hover {
+          color: var(--bs-font-color);
         }
       
+        &.active {
+          color: var(--bs-font-color);
+      
+          &::after {
+            width: 100%;
+          }
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -0.5px;
+          left: 0;
+          width: auto;
+          height: 2px;
+          background-color: var(--bs-teal);
+          transition: width 0.3s ease;
+        }
+      }
+    }
+    .sub_navigation_sm {
+      a {
+        text-decoration: none;
+        color: var(--bs-font-color);
+        display: inline-block;
+        padding: 2.5px 0;
+        font-size: 1.5rem;
+        position: relative;
+    
+        &:hover {
+          color: var(--bs-teal);
+        }
+    
+        &.active {
+          color: var(--bs-teal);
+    
+          &::after {
+            width: 100%;
+          }
+    
+          span {
+            color: var(--bs-font-color)
+          }
+        }
+    
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -0.5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background-color: var(--bs-font-color);
+          transition: width 0.3s ease;
+        }
+    
+        span {
+          color: var(--bs-teal)
+        }
+      }
     }
   }  
-
-  
 }
 
 // SUB NAVIGATION
@@ -243,10 +329,18 @@ header {
   }
 }
 
+
 .show__sub__navigation {
   top: 125px !important;
 }
 
-.show__mobile__navigation {
-  display: block !important;
-}
+// HERE IT IS
+// .show__mobile__navigation {
+//   visibility: visible !important;
+//   transform: translateX(100%) !important;
+//   transition: transform 1.5s ease, visibility 0s linear;
+// }
+
+// .show__mobile__navigation.show__mobile__navigation {
+//   transform: translateX(0%) !important;
+// }

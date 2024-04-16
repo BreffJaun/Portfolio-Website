@@ -72,8 +72,8 @@ const MainNavigation: React.FC<MainNavProps> = ({
           </NavLink>
         </li>
         {showSubNavigation && (
-          <li>
-            <SubNavigation />
+          <li className="sub_navigation_sm">
+            <SubNavigation hideMobileNav={hideMobileNav} />
           </li>
         )}
         <li>

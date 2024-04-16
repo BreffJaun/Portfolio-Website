@@ -6,3 +6,7 @@ export interface MainNavProps {
   handleAboutLinkClick: () => void;
   aboutLinkClicked?: boolean;
 }
+
+export interface SubNavProps {
+  hideMobileNav?: () => void;
+}
