@@ -18,8 +18,10 @@ const MainNavigation: React.FC<MainNavProps> = ({
   showMobileNavigation,
   handleAboutLinkClick,
   aboutLinkClicked,
+  mobileView,
+  setMobileView,
 }) => {
-  const [mobileView, setMobileView] = useState<boolean>(false);
+  // const [mobileView, setMobileView] = useState<boolean>(false);
   const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
 
   useEffect(() => {

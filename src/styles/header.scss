@@ -1,3 +1,6 @@
+// I M P O R T S
+
+
 header {
   display: flex;
   justify-content: space-between;
@@ -20,7 +23,6 @@ header {
     }
     @media (max-width: 767px) {
       flex: 2;
-      // border: 1px solid blue;
     }
   }
 
@@ -84,12 +86,102 @@ header {
     }
   }
 
-  // THEME BUTTON
-  .theme__button {
+  // THEME BUTTON MAIN NAVIGATION
+  
+  .theme__button__outer__container{
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .theme__button__inner__container{
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 28px;
+
+      // Former Values
+      // width: 60px;
+      // height: 34px;
+  
+      input[type='checkbox'] {
+        display: none;
+      }
+
+      input[type='checkbox']:checked+.toggle {
+        background-color: var(--bs-teal);
+
+        &:before {
+          transform: translateX(20px);
+
+          // Former Values
+          // transform: translateX(26px);
+        }
+      }
+    
+      .toggle {
+        position: relative;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 48px;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ccc;
+        border-radius: 34px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        
+        &:before {
+          position: absolute;
+          content: '';
+          height: 20px;
+          width: 20px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          border-radius: 50%;
+          transition: transform 0.3s;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.75);
+          // Former Values
+          // height: 26px;
+          // width: 26px;
+        }
+
+        span {
+          display: inline-block;
+        }
+
+        .sun,
+        .moon {
+          position: absolute;
+          top: 55%;
+          transform: translateY(-50%);
+          width: 18px;
+          height: 18px;
+          font-size: 1.1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-repeat: no-repeat;
+          background-position: center;
+          transition: opacity 0.3s;
+          color: var(--bs-font-color);
+          z-index: 1;
+        }
+
+        .sun {
+          left: 4px;
+        }
+
+        .moon {
+          right: 4px;
+        }
+      }
+    }
 
     @media (max-width: 767px) {
       display: none;
@@ -154,8 +246,6 @@ header {
       right: 1rem;
       margin: auto;
       z-index: 1001;
-
-      // TEST
       transform: translateX(110%);
       transition: 
       transform 1.5s ease;
@@ -166,6 +256,7 @@ header {
       
       nav ul {
         margin-left: 20px;
+        // border: 1px solid violet;
       }
 
       nav ul li {
@@ -203,8 +294,108 @@ header {
           background-color: var(--bs-teal);
           transition: width 0.3s ease;
         }
+      }      
+
+      // THEME BUTTON MOBILE NAVIGATION
+      .theme__button__outer__container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .theme__button__inner__container {
+          position: relative;
+          display: inline-block;
+          width: 48px;
+          height: 28px;
+          background-color: #ccc;
+          border-radius: 34px;
+          transition: background-color 0.3s, box-shadow 0.3s;
+
+          input[type='checkbox'] {
+            display: none;
+          }
+
+          input[type='checkbox']:checked+.toggle {
+            background-color: var(--bs-teal);
+
+            &:before {
+              transform: translateX(20px);
+            }
+          }
+
+          .toggle {
+            position: relative;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 48px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+
+            &:before {
+              position: absolute;
+              content: '';
+              height: 20px;
+              width: 20px;
+              left: 4px;
+              bottom: 4px;
+              background-color: white;
+              border-radius: 50%;
+              transition: transform 0.3s;
+              box-shadow: 0 5px 15px rgba(0, 0, 0, 0.75);
+
+            }
+
+            span {
+              display: inline-block;
+            }
+
+            .sun,
+            .moon {
+              position: absolute;
+              top: 55%;
+              transform: translateY(-50%);
+              width: 18px;
+              height: 18px;
+              font-size: 1.1rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-repeat: no-repeat;
+              background-position: center;
+              transition: opacity 0.3s;
+              color: var(--bs-font-color);
+              z-index: 1;
+            }
+
+            .sun {
+              left: 4px;
+            }
+
+            .moon {
+              right: 4px;
+            }
+          }
+        }
+
+        @media (max-width: 767px) {
+          border: 1px solid red;
+          display: flex;
+          justify-content: start;
+          margin-left: 20px;
+
+        }
       }
     }
+
     .sub_navigation_sm {
       a {
         text-decoration: none;
@@ -246,6 +437,8 @@ header {
         }
       }
     }
+
+    
   }  
 }
 
@@ -334,13 +527,3 @@ header {
   top: 125px !important;
 }
 
-// HERE IT IS
-// .show__mobile__navigation {
-//   visibility: visible !important;
-//   transform: translateX(100%) !important;
-//   transition: transform 1.5s ease, visibility 0s linear;
-// }
-
-// .show__mobile__navigation.show__mobile__navigation {
-//   transform: translateX(0%) !important;
-// }

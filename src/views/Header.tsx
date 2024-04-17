@@ -12,9 +12,11 @@ import { useState, useEffect } from "react";
 // I M P O R T:   F U N C T I O N S
 import MainNavigation from "../components/Main-Navigation";
 import SubNavigation from "../components/Sub-Navigation";
+import ThemeButton from "../components/ThemeButton";
 
 // C O D E
 const Header = () => {
+  const [mobileView, setMobileView] = useState<boolean>(false);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // handles bevahiour of the mobile navigation. If clicked outside of the navigation, it will close.
@@ -62,15 +64,18 @@ const Header = () => {
   };
 
   const toggleMobileNav = () => {
-    setShowMobileNavigation((prev) => !prev);
-    const burgerIcon = document.querySelector(".hamburger__icon");
-    if (burgerIcon) {
-      if (!showMobileNavigation) {
-        burgerIcon.classList.add("active");
-      } else {
-        burgerIcon.classList.remove("active");
+    setShowMobileNavigation((prev) => {
+      const newState = !prev;
+      const burgerIcon = document.querySelector(".hamburger__icon");
+      if (burgerIcon) {
+        if (newState) {
+          burgerIcon.classList.add("active");
+        } else {
+          burgerIcon.classList.remove("active");
+        }
       }
-    }
+      return newState;
+    });
   };
 
   // HANDLE CLICK ON ABOUT IN MOBILE NAVIGATION
@@ -98,12 +103,18 @@ const Header = () => {
             showMobileNavigation={showMobileNavigation}
             handleAboutLinkClick={handleAboutLinkClick}
             aboutLinkClicked={aboutLinkClicked}
+            mobileView={mobileView}
+            setMobileView={setMobileView}
           />
         </div>
 
-        <div className="theme__button">
-          <button>Theme</button>
-        </div>
+        {mobileView ? (
+          <></>
+        ) : (
+          <div className="theme__button__outer__container">
+            <ThemeButton />
+          </div>
+        )}
 
         {/* MOBILE VIEW */}
         <div className="hamburger__menu">
@@ -122,8 +133,16 @@ const Header = () => {
               showMobileNavigation={showMobileNavigation}
               handleAboutLinkClick={handleAboutLinkClick}
               aboutLinkClicked={aboutLinkClicked}
+              mobileView={mobileView}
+              setMobileView={setMobileView}
             />
-            <button>Theme</button>
+            {mobileView ? (
+              <div className="theme__button__outer__container">
+                <ThemeButton />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </header>
