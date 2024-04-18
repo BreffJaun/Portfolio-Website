@@ -1,5 +1,9 @@
 // I M P O R T S
-
+// :root {
+//   --visibility: $ {
+//       showSubNavigation ? 'visible': 'hidden'
+//     };
+// }
 
 header {
   display: flex;
@@ -87,7 +91,6 @@ header {
   }
 
   // THEME BUTTON MAIN NAVIGATION
-  
   .theme__button__outer__container{
     flex: 1;
     display: flex;
@@ -186,6 +189,7 @@ header {
     @media (max-width: 767px) {
       display: none;
     }
+    // USELESS ???
   }
   
   // HAMBURGER MENU
@@ -233,7 +237,7 @@ header {
     }
 
     // MOBILE NAVIGATION STYLES
-    .main_navigation_sm {
+    .main__navigation__sm {
       opacity: 1;
       width: 100%;
       min-width: 235px;
@@ -256,7 +260,6 @@ header {
       
       nav ul {
         margin-left: 20px;
-        // border: 1px solid violet;
       }
 
       nav ul li {
@@ -289,12 +292,69 @@ header {
           position: absolute;
           bottom: -0.5px;
           left: 0;
-          width: auto;
+          width: 0;
           height: 2px;
           background-color: var(--bs-teal);
           transition: width 0.3s ease;
         }
-      }      
+      }   
+      
+      // SUB NAVIGATION MOBILE NAVIGATION
+      .sub__navigation__sm {
+        // HERE I AM //
+        position: relative;
+        top: -250px;
+        opacity: 0;
+        height: 0;
+        transition: top 0.3s ease, opacity 0.3s ease, height 0.3s ease;
+        margin:0;
+        
+        &.show__sub__navigation__sm{
+          top: 0 !important;
+          opacity: 1 !important;
+          height: auto;
+        }
+        
+        a {
+          text-decoration: none;
+          color: var(--bs-font-color);
+          display: inline-block;
+          padding: 2.5px 0;
+          font-size: 1.5rem;
+          position: relative;
+
+          &:hover {
+            color: var(--bs-teal);
+          }
+
+          &.active {
+            color: var(--bs-teal);
+
+            &::after {
+              width: 100%;
+            }
+
+            span {
+              color: var(--bs-font-color)
+            }
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--bs-font-color);
+            transition: width 0.3s ease;
+          }
+
+          span {
+            color: var(--bs-teal)
+          }
+        }
+      }
 
       // THEME BUTTON MOBILE NAVIGATION
       .theme__button__outer__container {
@@ -361,7 +421,7 @@ header {
             .sun,
             .moon {
               position: absolute;
-              top: 55%;
+              top: 52.5%;
               transform: translateY(-50%);
               width: 18px;
               height: 18px;
@@ -387,58 +447,12 @@ header {
         }
 
         @media (max-width: 767px) {
-          border: 1px solid red;
           display: flex;
           justify-content: start;
           margin-left: 20px;
-
         }
       }
     }
-
-    .sub_navigation_sm {
-      a {
-        text-decoration: none;
-        color: var(--bs-font-color);
-        display: inline-block;
-        padding: 2.5px 0;
-        font-size: 1.5rem;
-        position: relative;
-    
-        &:hover {
-          color: var(--bs-teal);
-        }
-    
-        &.active {
-          color: var(--bs-teal);
-    
-          &::after {
-            width: 100%;
-          }
-    
-          span {
-            color: var(--bs-font-color)
-          }
-        }
-    
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -0.5px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background-color: var(--bs-font-color);
-          transition: width 0.3s ease;
-        }
-    
-        span {
-          color: var(--bs-teal)
-        }
-      }
-    }
-
-    
   }  
 }
 
@@ -455,6 +469,10 @@ header {
   display: flex;
   justify-content: center;
   transition: top 0.3s ease;
+
+  &.show__sub__navigation {
+    top: 125px !important;
+  }
 
   nav {
     width: 80%;
@@ -523,7 +541,4 @@ header {
 }
 
 
-.show__sub__navigation {
-  top: 125px !important;
-}
 

@@ -21,8 +21,8 @@ const MainNavigation: React.FC<MainNavProps> = ({
   mobileView,
   setMobileView,
 }) => {
-  // const [mobileView, setMobileView] = useState<boolean>(false);
   const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
+  const [showTransition, setShowTransition] = useState<boolean>(false);
 
   useEffect(() => {
     const checkMobileView = () => {
@@ -48,6 +48,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
       setShowSubNavigation(false);
     }
   }, [aboutLinkClicked, mobileView]);
+
   const handleOnClick = () => {
     hideSubNavigation();
     hideMobileNav();
@@ -56,7 +57,11 @@ const MainNavigation: React.FC<MainNavProps> = ({
   const handleOnAboutClick = () => {
     onAboutClick(); // macht subNav auf true
     handleAboutLinkClick(); // macht aboutLinkClicked auf true
-    console.log("aboutLinkClicked: ", aboutLinkClicked);
+    if (showSubNavigation) {
+      setShowSubNavigation(false);
+    } else {
+      setShowSubNavigation(true);
+    }
   };
 
   return (
@@ -73,8 +78,12 @@ const MainNavigation: React.FC<MainNavProps> = ({
             About
           </NavLink>
         </li>
-        {showSubNavigation && (
-          <li className="sub_navigation_sm">
+        {mobileView && (
+          <li
+            className={`sub__navigation__sm ${
+              showSubNavigation ? "show__sub__navigation__sm" : ""
+            }`}
+          >
             <SubNavigation hideMobileNav={hideMobileNav} />
           </li>
         )}

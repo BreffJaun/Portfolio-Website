@@ -122,7 +122,7 @@ const Header = () => {
             <span className="material-symbols-outlined">lunch_dining</span>
           </div>
           <div
-            className={`main_navigation_sm ${
+            className={`main__navigation__sm ${
               showMobileNavigation ? "show__mobile__navigation" : ""
             }`}
           >
