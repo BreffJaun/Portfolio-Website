@@ -1,5 +1,6 @@
 // I M P O R T:   F I L E S
 import logoTW from "../assets/breffjaun_turquoise-white.svg";
+import logoTA from "../assets/breffjaun_turquoise-anthrazit.svg";
 import "../styles/header.scss";
 
 // I M P O R T:  T Y P E S
@@ -7,7 +8,8 @@ import "../styles/header.scss";
 
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import ThemeContext from "../context/themeContext";
 
 // I M P O R T:   F U N C T I O N S
 import MainNavigation from "../components/Main-Navigation";
@@ -16,6 +18,7 @@ import ThemeButton from "../components/ThemeButton";
 
 // C O D E
 const Header = () => {
+  const [theme, setTheme] = useContext(ThemeContext);
   const [mobileView, setMobileView] = useState<boolean>(false);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -91,7 +94,7 @@ const Header = () => {
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
           <NavLink to="/">
-            <img src={logoTW} alt="breffjaun-logo" />
+            <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </NavLink>
         </div>
 

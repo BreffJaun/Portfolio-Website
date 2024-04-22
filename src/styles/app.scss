@@ -2,9 +2,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;500;700;800;900&display=swap');
 
 :root {
-  --bs-teal: #20c997;
-  --bs-font-color: #fff;
-  --bs-body-color: #222529;
+  --teal: #20c997;
+  --white: #fff;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+  --body-color: #222529;
+  
+  // LIGHTMODE COLORS
+  // --bs-gray-100: #f8f9fa; // body
+  // --bs-gray-900: #212529; // h2
+  // --bs-gray-700: #495057; // h3
+  // --bs-gray-500: #adb5bd; // p
 }
 
 * {
@@ -17,14 +32,45 @@
 body {
   height: 100%;
   width: 100%;
-  background-color: var(--bs-body-color);
-  color: var(--bs-font-color);
+  // background-color: #222529;
+  color: var(--white);
 }
 
 .main__content {
   position: relative;
   top: 165px;
 }
+
+.light-theme {
+  background-color: #f8f9fa;
+  h2 {
+    color: var(--gray-900);
+  }
+
+  h3 {
+    color: var(--gray-700);
+  }
+
+  p {
+    color: var(--gray-500);
+  }
+}
+
+.dark-theme {
+  background-color: #222529;
+  h2 {
+    color: var(--white);
+  }
+
+  h3 {
+    color: var(--gray-700);
+  }
+
+  p {
+    color: var(--gray-500);
+  }
+}
+
 
 
 
