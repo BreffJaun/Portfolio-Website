@@ -18,3 +18,8 @@ export interface SubNavProps {
 export interface ThemeButtonProps {
   mobileView?: boolean;
 }
+
+export interface ThemeClickCountContextType {
+  clickCount: number;
+  setClickCount: (count: number) => void;
+}

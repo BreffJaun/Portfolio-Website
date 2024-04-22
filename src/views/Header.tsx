@@ -152,7 +152,7 @@ const Header = () => {
       <div
         className={`sub__navigation ${
           showSubNavigation ? "show__sub__navigation" : ""
-        }`}
+        } ${theme ? "" : "light-theme"}`}
       >
         <SubNavigation hideMobileNav={hideMobileNav} />
       </div>
