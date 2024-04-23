@@ -6,7 +6,7 @@ import "./styles/app.scss";
 // I M P O R T:   P A C K A G E S
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ThemeContext from "./context/themeContext";
+import ThemeContext from "./context/ThemeContext";
 import ThemeClickCountContext from "./context/ThemeClickCountContext";
 import { ThemeClickCountContextType } from "./types/types";
 

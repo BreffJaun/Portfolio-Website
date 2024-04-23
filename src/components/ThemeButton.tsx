@@ -1,10 +1,10 @@
 // I M P O R T:   F I L E S
 
 // I M P O R T:  T Y P E S
-import { ThemeButtonProps } from "../types/interfaces";
+// import { ThemeButtonProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
-import ThemeContext from "../context/themeContext";
+import ThemeContext from "../context/ThemeContext";
 import ThemeClickCountContext from "../context/ThemeClickCountContext";
 
 // I M P O R T:   F U N C T I O N S
@@ -16,16 +16,13 @@ const ThemeButton = () => {
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const [clickCount, setClickCount] = useContext(ThemeClickCountContext);
+  const [showOutOfOrder, setShowOutOfOrder] = useState(false);
 
   // Effect to store theme in localStorage and add classes to body
   useEffect(() => {
-    // Store theme in localStorage
     localStorage.setItem("theme", JSON.stringify(theme));
-
-    // Add classes to body
     document.body.classList.toggle("dark-theme", theme);
     document.body.classList.toggle("light-theme", !theme);
-
     const storedClickCount = localStorage.getItem("clickCount");
     if (
       typeof storedClickCount === "string" &&
@@ -54,28 +51,21 @@ const ThemeButton = () => {
   };
 
   const handleButtonClick = () => {
-    if (clickCount < 3) {
-      const newClickCount = clickCount + 1;
-      setClickCount(newClickCount);
-      localStorage.setItem("clickCount", JSON.stringify(newClickCount));
-    } else {
-      setIsDisabled(true);
-    }
+    const newClickCount = clickCount + 1;
+    setClickCount(newClickCount);
+    localStorage.setItem("clickCount", JSON.stringify(newClickCount));
+    console.log("clickCount: ", newClickCount);
   };
 
-  let tooltipText = "";
-  if (clickCount === 0) {
-    tooltipText = "";
-  } else if (clickCount === 1) {
-    tooltipText = "First Click!";
-  } else if (clickCount === 2) {
-    tooltipText = "Second Click!";
-  } else if (clickCount === 3) {
-    tooltipText = "Third Click!";
-  } else {
-    tooltipText = "Out of Order";
-  }
-  console.log("clickCount: ", clickCount);
+  useEffect(() => {
+    if (clickCount >= 3) {
+      console.log("Button wird deaktiviert!");
+      setIsDisabled(true);
+      setShowOutOfOrder(true);
+    }
+  }, [clickCount]);
+
+  let tooltippText = ["", "Are you sure?", "Honestly?", "Out of Order"];
 
   return (
     <div className="theme__button__inner__container">
@@ -87,10 +77,20 @@ const ThemeButton = () => {
         onChange={toggleTheme}
         checked={theme ? true : false}
       />
-      <label htmlFor="theme-toggle" className="toggle">
+      <label
+        htmlFor="theme-toggle"
+        className={`toggle ${clickCount === 3 ? "disabled" : ""}`}
+      >
         <span className="material-symbols-outlined sun">light_mode</span>
         <span className="material-symbols-outlined moon">dark_mode</span>
-        <div className="tooltip">{tooltipText}</div>
+        {clickCount > 0 && (
+          <div className={`tooltip`}>
+            {/* <div className={`tooltip ${clickCount === 3 ? "disabled" : ""}`}></div> */}
+            {tooltippText[clickCount]}
+          </div>
+        )}
+        {showOutOfOrder && <div className="out-of-order first"></div>}
+        {showOutOfOrder && <div className="out-of-order second"></div>}
       </label>
     </div>
   );
