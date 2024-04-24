@@ -6,11 +6,12 @@ import "./styles/app.scss";
 // I M P O R T:   P A C K A G E S
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ThemeContext from "./context/ThemeContext";
-import ThemeClickCountContext from "./context/ThemeClickCountContext";
+import ThemeContext from "../ThemeContext";
+import ThemeClickCountContext from "../ThemeClickCountContext";
 import { ThemeClickCountContextType } from "./types/types";
 
 // I M P O R T:   F U N C T I O N S
+import Spotlight from "./components/Spotlight";
 import Header from "./views/Header";
 import SubNavigation from "./components/Sub-Navigation";
 import CombinedLP from "./views/CombinedLP";
@@ -32,11 +33,11 @@ function App() {
           <div className="main__content">
             <Routes>
               <Route path="/" element={<CombinedLP />} />
-              {/* <Route path="/about" element={<About />} /> */}
               <Route path="/feed" element={<Feed />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>
           </div>
+          <Spotlight />
         </div>
       </ThemeContext.Provider>
     </ThemeClickCountContext.Provider>

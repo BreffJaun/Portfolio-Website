@@ -14,6 +14,57 @@
   --gray-800: #343a40;
   --gray-900: #212529;
   --body-color: #222529;
+
+  // Spacing
+  --mt-1: 0.25rem;
+  --mt-2: 0.5rem;
+  --mt-3: 1rem;
+  --mt-4: 1.5rem;
+  --mt-5: 5rem;
+
+  --me-1: 0.25rem;
+  --me-2: 0.5rem;
+  --me-3: 1rem;
+  --me-4: 1.5rem;
+  --me-5: 5rem;
+
+  --mb-1: 0.25rem;
+  --mb-2: 0.5rem;
+  --mb-3: 1rem;
+  --mb-4: 1.5rem;
+  --mb-5: 5rem;
+
+  --ms-1: 0.25rem;
+  --ms-2: 0.5rem;
+  --ms-3: 1rem;
+  --ms-4: 1.5rem;
+  --ms-5: 5rem;
+
+  --pt-1: 0.25rem;
+  --pt-2: 0.5rem;
+  --pt-3: 1rem;
+  --pt-4: 1.5rem;
+  --pt-5: 5rem;
+
+  --pr-1: 0.25rem;
+  --pr-2: 0.5rem;
+  --pr-3: 1rem;
+  --pr-4: 1.5rem;
+  --pr-5: 5rem;
+
+  --pb-1: 0.25rem;
+  --pb-2: 0.5rem;
+  --pb-3: 1rem;
+  --pb-4: 1.5rem;
+  --pb-5: 5rem;
+
+  --pl-1: 0.25rem;
+  --pl-2: 0.5rem;
+  --pl-3: 1rem;
+  --pl-4: 1.5rem;
+  --pl-5: 5rem;
+
+
   
   // LIGHTMODE COLORS
   // --bs-gray-100: #f8f9fa; // body
@@ -50,6 +101,10 @@ body {
     color: var(--gray-700);
   }
 
+  h6 {
+    color: var(--teal);
+  }
+
   p {
     color: var(--gray-500);
   }
@@ -77,58 +132,28 @@ body {
   }
 }
 
-a {
-  text-decoration: none;
-  color: var(--white);
-  display: inline-block;
-  padding: 2.5px 0;
-  font-size: 1.5rem;
-  position: relative;
-
-  &:hover {
-    color: var(--teal);
-  }
-
-  &.active {
-    color: var(--teal);
-
-    &::after {
-      width: 100%;
-    }
-
-    span {
-      color: var(--white)
-    }
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -0.5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--white);
-    transition: width 0.3s ease;
-  }
-}
-
 
 .dark-theme {
   background-color: #222529;
-  h2 {
+  h1{
     color: var(--white);
+  }
+
+  h2 {
+    color: var(--gray-700);
   }
 
   h3 {
     color: var(--gray-700);
   }
 
+  h6 {
+    color: var(--teal);
+  }
+
   p {
     color: var(--gray-500);
   }
 }
-
-
 
 

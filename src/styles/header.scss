@@ -14,6 +14,10 @@ header {
   .header__logo {
     flex: 1;
 
+    a::after {
+      content: none;
+    }
+
     img {
       width: 200px;
       height: 100px;
@@ -192,6 +196,7 @@ header {
   // HAMBURGER MENU
   .hamburger__menu {
     display: none;
+    cursor: pointer;
 
     @media (max-width: 767px) {
       display: flex;

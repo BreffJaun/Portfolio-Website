@@ -9,19 +9,20 @@ import "../styles/landingPage.scss";
 const LandingPage = () => {
   return (
     <div className="landing__page">
-      <section id="/landing-page">
-        <h2>Landing Page</h2>
+      <section id="/#">
+        <h6>Hallo, mein Name ist</h6>
+        <h1>Jeff Braun.</h1>
+        <h2>Ich bin Fullstack Web Developer.</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor
-          velit nec nunc dignissim, ac ultricies felis congue. Donec nec purus
-          vitae elit ultricies tempus. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio.
+          Ich bin ein Web Developer aus Nordrhein-Westfalen, DE. Ich bemühe mich
+          Einfachheit und Effektivität auf meine Projekte zu übertragen.
+          Programme und Code müssen für mich so benutzerfreundlich wie möglich
+          gestaltet werden und unnötige Designelemente sowie überflüssiger Code
+          vermieden werden.
         </p>
+        <a type="button" href="mailto:braun_jeff@web.de">
+          In Kontakt treten
+        </a>
       </section>
     </div>
   );

@@ -9,7 +9,7 @@ import "../styles/header.scss";
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import ThemeContext from "../context/themeContext";
+import ThemeContext from "../../ThemeContext";
 
 // I M P O R T:   F U N C T I O N S
 import MainNavigation from "../components/Main-Navigation";
@@ -93,9 +93,12 @@ const Header = () => {
       <header>
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
-          <NavLink to="/">
+          {/* <NavLink to="/#">
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
-          </NavLink>
+          </NavLink> */}
+          <a href="/#">
+            <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />{" "}
+          </a>
         </div>
 
         <div className="main__navigation">

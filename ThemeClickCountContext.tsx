@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ThemeClickCountContextType } from "../types/types";
+import { ThemeClickCountContextType } from "./src/types/types";
 
 const ThemeClickCountContext = createContext<ThemeClickCountContextType>([
   0,
