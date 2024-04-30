@@ -4,63 +4,205 @@
 import { SubNavProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
+// import { scrollToSection, isSectionInView } from "../utils/utils";
+import { isSectionInView } from "../utils/utils";
 
 // C O D E
-const SubNavigation: React.FC<SubNavProps> = ({ hideMobileNav }) => {
+// const SubNavigation: React.FC<SubNavProps> = ({ hideMobileNav = () => {} }) => {
+//   const [activeSection, setActiveSection] = useState<string>("");
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       const sections = ["aboutme", "stack", "projects", "contact"];
+//       sections.forEach((sectionId) => {
+//         const section = document.getElementById(sectionId);
+//         if (section) {
+//           const rect = section.getBoundingClientRect();
+//           if (rect.top <= 0 && rect.bottom >= 0) {
+//             window.scrollTo({
+//               top: section.offsetTop,
+//               behavior: "smooth",
+//             });
+//             return;
+//           }
+//         }
+//       });
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+//     return () => {
+//       window.removeEventListener("scroll", handleScroll);
+//     };
+//   }, []);
+
+//   return (
+//     <>
+//       <nav>
+//         <ul>
+//           <li>
+//             <NavLink
+//               className={activeSection === "aboutme" ? "active" : ""}
+//               to="#aboutme"
+//               onClick={(e) => {
+//                 e.preventDefault();
+//                 hideMobileNav();
+//                 scrollToSection("aboutme");
+//               }}
+//             >
+//               <span>01. </span>
+//               About Me
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink
+//               className={activeSection === "stack" ? "active" : ""}
+//               to="#stack"
+//               onClick={(e) => {
+//                 e.preventDefault();
+//                 hideMobileNav();
+//                 scrollToSection("stack");
+//               }}
+//             >
+//               <span>02. </span>
+//               Stack
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink
+//               className={activeSection === "projects" ? "active" : ""}
+//               to="#projects"
+//               onClick={(e) => {
+//                 e.preventDefault();
+//                 hideMobileNav();
+//                 scrollToSection("projects");
+//               }}
+//             >
+//               <span>03. </span>
+//               Projects
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink
+//               className={activeSection === "contact" ? "active" : ""}
+//               to="#contact"
+//               onClick={(e) => {
+//                 e.preventDefault();
+//                 hideMobileNav();
+//                 scrollToSection("contact");
+//               }}
+//             >
+//               <span>04. </span>
+//               Contact
+//             </NavLink>
+//           </li>
+//         </ul>
+//       </nav>
+//     </>
+//   );
+// };
+
+// export default SubNavigation;
+
+const SubNavigation = ({ hideMobileNav = () => {} }) => {
+  const [activeSection, setActiveSection] = useState<string>("");
+  const handleScroll = () => {
+    const sections = ["aboutme", "stack", "projects", "contact"];
+    let newActiveSection = "";
+
+    sections.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 165) {
+          newActiveSection = sectionId;
+        }
+      }
+    });
+
+    setActiveSection(newActiveSection);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const targetElement = document.getElementById(sectionId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: "smooth",
+      });
+      handleScroll();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <nav>
         <ul>
           <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/about/me"
-              onClick={hideMobileNav}
+            <a
+              href="#aboutme"
+              className={activeSection === "aboutme" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                hideMobileNav();
+                scrollToSection("aboutme");
+              }}
             >
-              <span>01. </span>
-              About Me
-            </NavLink>
+              <span>My </span>
+              Self
+            </a>
           </li>
           <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/about/stack"
-              onClick={hideMobileNav}
+            <a
+              href="#stack"
+              className={activeSection === "stack" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                hideMobileNav();
+                scrollToSection("stack");
+              }}
             >
-              <span>02. </span>
+              <span>My </span>
               Stack
-            </NavLink>
+            </a>
           </li>
           <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/about/projects"
-              onClick={hideMobileNav}
+            <a
+              href="#projects"
+              className={activeSection === "projects" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                hideMobileNav();
+                scrollToSection("projects");
+              }}
             >
-              <span>03. </span>
+              <span>My </span>
               Projects
-            </NavLink>
+            </a>
           </li>
           <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-              to="/about/contact"
-              onClick={hideMobileNav}
+            <a
+              href="#contact"
+              className={activeSection === "contact" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                hideMobileNav();
+                scrollToSection("contact");
+              }}
             >
-              <span>04. </span>
+              <span>My </span>
               Contact
-            </NavLink>
+            </a>
           </li>
         </ul>
       </nav>

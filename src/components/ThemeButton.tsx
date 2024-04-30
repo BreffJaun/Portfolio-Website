@@ -59,7 +59,6 @@ const ThemeButton = () => {
 
   useEffect(() => {
     if (clickCount >= 3) {
-      console.log("Button wird deaktiviert!");
       setIsDisabled(true);
       setShowOutOfOrder(true);
     }

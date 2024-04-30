@@ -1,4 +1,5 @@
 // I M P O R T:   F I L E S
+import "../../styles/projects.scss";
 
 // I M P O R T:   P A C K A G E S
 
@@ -8,7 +9,7 @@
 const Projects = () => {
   return (
     <div>
-      <section className="projects" id="/projects">
+      <section className="projects" id="projects">
         <h2>Projects</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor

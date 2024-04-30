@@ -1,4 +1,5 @@
 // I M P O R T:   F I L E S
+import "../styles/contact.scss";
 
 // I M P O R T:   P A C K A G E S
 
@@ -9,7 +10,7 @@ import Footer from "../components/Footer";
 const Contact = () => {
   return (
     <div>
-      <section className="contact" id="/contact">
+      <section className="contact" id="contact">
         <h2>Contact</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor

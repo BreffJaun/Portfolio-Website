@@ -20,7 +20,11 @@ const LandingPage = () => {
           gestaltet werden und unnötige Designelemente sowie überflüssiger Code
           vermieden werden.
         </p>
-        <a type="button" href="mailto:braun_jeff@web.de">
+        <a
+          type="button"
+          className="btn btn__outline__success"
+          // href="mailto:braun_jeff@web.de"
+        >
           In Kontakt treten
         </a>
       </section>

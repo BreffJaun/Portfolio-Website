@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 // I M P O R T:   F U N C T I O N S
 import SubNavigation from "./Sub-Navigation";
 import { useEffect, useState } from "react";
+import { scrollToSection } from "../utils/utils";
 
 // C O D E
 const MainNavigation: React.FC<MainNavProps> = ({
@@ -70,10 +71,14 @@ const MainNavigation: React.FC<MainNavProps> = ({
         <li>
           <NavLink
             className={({ isActive, isPending }) =>
-              `about ${isPending ? "pending" : ""} ${isActive ? "active" : ""}`
+              isPending ? "pending" : isActive ? "active" : ""
             }
-            to="/about"
-            onClick={handleOnAboutClick}
+            to="/"
+            // onClick={handleOnAboutClick}
+            onClick={() => {
+              handleOnAboutClick();
+              scrollToSection("#");
+            }}
           >
             About
           </NavLink>
@@ -104,7 +109,10 @@ const MainNavigation: React.FC<MainNavProps> = ({
               isPending ? "pending" : isActive ? "active" : ""
             }
             to="/contact"
-            onClick={hideMobileNav}
+            onClick={() => {
+              handleOnClick();
+              scrollToSection("contact");
+            }}
           >
             Contact
           </NavLink>

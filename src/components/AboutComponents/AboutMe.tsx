@@ -8,7 +8,7 @@
 const AboutMe = () => {
   return (
     <div>
-      <section className="about__me" id="/about-me">
+      <section className="about__me" id="aboutme">
         <h2>About Me</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor

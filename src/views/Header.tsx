@@ -15,6 +15,7 @@ import ThemeContext from "../../ThemeContext";
 import MainNavigation from "../components/Main-Navigation";
 import SubNavigation from "../components/Sub-Navigation";
 import ThemeButton from "../components/ThemeButton";
+import { scrollToSection } from "../utils/utils";
 
 // C O D E
 const Header = () => {
@@ -93,11 +94,18 @@ const Header = () => {
       <header>
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
-          {/* <NavLink to="/#">
+          {/* <NavLink
+            to="/#"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("#");
+            }}
+          >
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </NavLink> */}
+
           <a href="/#">
-            <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />{" "}
+            <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </a>
         </div>
 
