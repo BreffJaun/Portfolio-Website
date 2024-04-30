@@ -84,6 +84,7 @@
 html {
   // Verhindert das die Überschrift unter die sticky navbar fällt
   scroll-padding-top: 5rem;
+  scrollbar-color: var(--teal) var(--gray-800);
 }
 
 body {

@@ -17,7 +17,7 @@ const LandingPage = () => {
           Ich bin ein Web Developer aus Nordrhein-Westfalen, DE. Ich bemühe mich
           Einfachheit und Effektivität auf meine Projekte zu übertragen.
           Programme und Code müssen für mich so benutzerfreundlich wie möglich
-          gestaltet werden und unnötige Designelemente sowie überflüssiger Code
+          gestaltet und unnötige Designelemente sowie überflüssiger Code
           vermieden werden.
         </p>
         <a
