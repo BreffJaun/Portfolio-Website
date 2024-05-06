@@ -1,26 +1,33 @@
 // I M P O R T:   F I L E S
+import "../../styles/stack.scss";
 
 // I M P O R T:   P A C K A G E S
+import Tilt from "react-parallax-tilt";
 
 // I M P O R T:   F U N C T I O N S
 
 // C O D E
 const Stack = () => {
   return (
-    <div>
-      <section className="stack" id="stack">
-        <h2>Stack</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor
-          velit nec nunc dignissim, ac ultricies felis congue. Donec nec purus
-          vitae elit ultricies tempus. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio.
-        </p>
+    <div className="stack">
+      <section id="stack">
+        <h1>Stack</h1>
+        <div>
+          <Tilt
+            className="parallax-effect-glare-scale"
+            perspective={500}
+            glareEnable={true}
+            glareMaxOpacity={0.45}
+            scale={1.02}
+            gyroscope={true}
+          >
+            <div className="inner-element">
+              <div>React</div>
+              <div>Parallax Tilt</div>
+              <div>👀</div>
+            </div>
+          </Tilt>
+        </div>
       </section>
     </div>
   );
