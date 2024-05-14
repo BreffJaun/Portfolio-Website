@@ -94,16 +94,6 @@ const Header = () => {
       <header>
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
-          {/* <NavLink
-            to="/#"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("#");
-            }}
-          >
-            <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
-          </NavLink> */}
-
           <a href="/#">
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </a>

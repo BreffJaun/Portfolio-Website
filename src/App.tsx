@@ -25,6 +25,18 @@ function App() {
   const [theme, setTheme] = useState<boolean>(true);
   const [clickCount, setClickCount] = useState<number>(0);
 
+  const toggleThemeClass = () => {
+    document.documentElement.classList.toggle("light-theme");
+  };
+
+  useEffect(() => {
+    toggleThemeClass();
+  }, [theme]);
+
+  const switchTheme = () => {
+    setTheme(!theme);
+  };
+
   return (
     <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
       <ThemeContext.Provider value={[theme, setTheme]}>

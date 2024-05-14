@@ -24,15 +24,18 @@ const Stack = () => {
     {
       name: "HTML",
       logo: htmlLogo,
+      style: "html__logo",
     },
-    // {
-    //   name: "CSS",
-    //   logo: cssLogo,
-    // },
-    // {
-    //   name: "Sass",
-    //   logo: sass,
-    // },
+    {
+      name: "CSS",
+      logo: cssLogo,
+      style: "css__logo",
+    },
+    {
+      name: "Sass",
+      logo: sass,
+      style: "sass__logo",
+    },
     // {
     //   name: "Bootstrap",
     //   logo: bootstrapLogo,
@@ -95,11 +98,11 @@ const Stack = () => {
             >
               <div className="inner__element">
                 <h2>{el.name}</h2>
-                {/* <div className="white__circle">
-                  <img src={el.logo} alt={el.name} />
-                </div> */}
-                <div className="white__circle"></div>
-                <img src={el.logo} alt={el.name} />
+                <div className="white__circle">
+                  <img src={el.logo} alt={el.name} className={el.style} />
+                </div>
+                {/* <div className="white__circle"></div>
+                <img src={el.logo} alt={el.name} className={el.style} /> */}
               </div>
             </Tilt>
           ))}
