@@ -36,10 +36,11 @@ const Stack = () => {
       logo: sass,
       style: "sass__logo",
     },
-    // {
-    //   name: "Bootstrap",
-    //   logo: bootstrapLogo,
-    // },
+    {
+      name: "Bootstrap",
+      logo: bootstrapLogo,
+      style: "bootstrap__logo",
+    },
     // {
     //   name: "JavaScript",
     //   logo: jsLogo,
@@ -101,25 +102,9 @@ const Stack = () => {
                 <div className="white__circle">
                   <img src={el.logo} alt={el.name} className={el.style} />
                 </div>
-                {/* <div className="white__circle"></div>
-                <img src={el.logo} alt={el.name} className={el.style} /> */}
               </div>
             </Tilt>
           ))}
-          {/* <Tilt
-            className="parallax-effect-glare-scale"
-            perspective={500}
-            glareEnable={true}
-            glareMaxOpacity={0.45}
-            scale={1.02}
-            gyroscope={true}
-          >
-            <div className="inner-element">
-              <div>React</div>
-              <div>Parallax Tilt</div>
-              <div>👀</div>
-            </div>
-          </Tilt> */}
         </div>
       </section>
     </div>

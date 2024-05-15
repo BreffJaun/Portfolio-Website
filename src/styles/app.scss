@@ -65,8 +65,6 @@
   --pl-4: 1.5rem;
   --pl-5: 5rem;
 
-
-  
   // LIGHTMODE COLORS
   // --bs-gray-100: #f8f9fa; // body
   // --bs-gray-900: #212529; // h2
@@ -130,16 +128,31 @@ body {
     color: var(--gray-500);
   }
 
-  a {
-    color: var(--teal) !important;
-    &.active {
-      color: var(--gray-600) !important;
+  .main__navigation {
+    a {
+      color: var(--teal) !important;
+
+      &:hover {
+        color: var(--gray-600) !important;
+      }
+
+      &.active {
+        color: var(--gray-600) !important;
+      }
+
+      &::after {
+        content: '';
+        background-color: var(--teal);
+      }
     }
   }
 
-  &.sub__navigation {
+  .sub__navigation {
     a {
       color: var(--gray-600) !important;
+      &:hover{
+        color: var(--teal) !important;
+      }
       &.active {
         color: var(--teal) !important;
         span {
@@ -152,9 +165,73 @@ body {
     }
   }
 
-  .inner__element {
-    color: var(--gray-700);
+  .hamburger__menu {
+    .hamburger__icon {
+      &:hover {
+        color: var(--gray-600) !important;
+      }
+  
+      &.active {
+        color: var(--gray-600) !important;
+  
+        &::after {
+          width: 100%;
+        }
+      }
+  
+    }
 
+    .main__navigation__sm {
+      a {
+        color: var(--teal) !important;
+    
+        &:hover {
+          color: var(--gray-600) !important;
+        }
+    
+        &.active {
+          color: var(--gray-600) !important;
+        }
+    
+        &::after {
+          content: '';
+          background-color: var(--teal);
+        }
+      }
+
+      .sub__navigation__sm {
+        a {
+          color: var(--gray-600) !important;
+      
+          &:hover {
+            color: var(--teal) !important;
+          }
+      
+          &.active {
+            color: var(--teal) !important;
+      
+            span {
+              color: var(--gray-600) !important;
+            }
+          }
+      
+          &::after {
+            background-color: var(--gray-600);
+          }
+        }
+      }
+    }
+  }
+  
+  .parallax-effect-glare-scale {
+    background-color: var(--white) !important;
+    h2 {
+      color: var(--gray-700) !important;
+    }
+  }
+
+  .spotlight__shadow {
+    background: radial-gradient(circle, rgba(32, 201, 151, 0.3) 0%, rgba(255, 255, 255, 0) 70%) !important;
   }
 }
 
