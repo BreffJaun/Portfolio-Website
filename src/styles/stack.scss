@@ -1,5 +1,6 @@
 .stack {
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   z-index: 1;
 
   section {
@@ -9,6 +10,7 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
+
 
     &>* {
       margin: 3rem;
@@ -30,19 +32,16 @@
     }
 
     .outer__element {
-      // width: 100%;
       display: flex;
+      flex-wrap: wrap;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      // padding: 0 2rem;
       // border: 1px solid orange;
 
       &>* {
         margin: 1rem;
       }
-
 
       .parallax-effect-glare-scale {
         display: flex;
@@ -105,28 +104,58 @@
   }
 }
 
-
-
-.html__logo {
-  scale: 0.225;
+.stack__logo {
   z-index: 3;
   transform: translateZ(60px);
 }
 
-.css__logo {
-  scale: 0.08;
-  z-index: 3;
-  transform: translateZ(60px);
-}
+// .html__logo {
+//   width: 115px;
+//   height: 115px;
+//   // scale: 0.225;
+// }
 
-.sass__logo {
-  scale: 0.02;
-  z-index: 3;
-  transform: translateZ(60px);
-}
+// .css__logo {
+//   scale: 0.08;
+// }
 
-.bootstrap__logo {
-  scale: 0.12;
-  z-index: 3;
-  transform: translateZ(60px);
-}
+// .sass__logo {
+//   scale: 0.02;
+// }
+
+// .bootstrap__logo {
+//   scale: 0.12;
+// }
+
+// .js__logo {
+//   scale: 0.3;
+// }
+
+// .ts__logo {
+//   scale: 0.16;
+// }
+
+// .react__logo {
+//   scale: 0.2;
+// }
+
+// .node__logo {
+//   scale: 0.12;
+// }
+
+// .express__logo {
+//   scale: 0.10;
+// }
+
+// .mongo__logo {
+//   scale: 0.15;
+// }
+
+// .git__logo {
+//   scale: 0.10;
+// }
+
+// .github__logo {
+//   scale: 0.18;
+// }
+

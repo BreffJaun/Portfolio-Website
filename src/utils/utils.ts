@@ -18,3 +18,21 @@ export const isSectionInView = (sectionId: string): boolean => {
     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
   );
 };
+
+export const scaleImageToFitCircle = (
+  naturalWidth: number,
+  naturalHeight: number
+) => {
+  const circleDiameter = 150;
+  const widthScale = circleDiameter / naturalWidth;
+  const heightScale = circleDiameter / naturalHeight;
+
+  const scale = Math.min(widthScale, heightScale);
+
+  // Scale 40% smaller
+  const additionalScale = 0.6;
+  const finalScale = scale * additionalScale;
+  const scaledWidth = naturalWidth * finalScale;
+  const scaledHeight = naturalHeight * finalScale;
+  return { scaledWidth, scaledHeight };
+};

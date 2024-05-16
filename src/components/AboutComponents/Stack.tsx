@@ -13,14 +13,19 @@ import mongoLogo from "../../images/mongodb.png";
 import gitLogo from "../../images/git.png";
 import githubLogo from "../../images/github.png";
 
+// I M P O R T:  T Y P E S
+import { StackItem } from "../../types/interfaces";
+
 // I M P O R T:   P A C K A G E S
+import { useState, useEffect } from "react";
 import Tilt from "react-parallax-tilt";
 
 // I M P O R T:   F U N C T I O N S
+import { scaleImageToFitCircle } from "../../utils/utils";
 
 // C O D E
 const Stack = () => {
-  const stackArray = [
+  const stackArray: StackItem[] = [
     {
       name: "HTML",
       logo: htmlLogo,
@@ -41,39 +46,81 @@ const Stack = () => {
       logo: bootstrapLogo,
       style: "bootstrap__logo",
     },
-    // {
-    //   name: "JavaScript",
-    //   logo: jsLogo,
-    // },
-    // {
-    //   name: "TypeScript",
-    //   logo: tsLogo,
-    // },
-    // {
-    //   name: "React",
-    //   logo: reactLogo,
-    // },
-    // {
-    //   name: "Node.js",
-    //   logo: nodeLogo,
-    // },
-    // {
-    //   name: "Express.js",
-    //   logo: expressLogo,
-    // },
-    // {
-    //   name: "MongoDB",
-    //   logo: mongoLogo,
-    // },
-    // {
-    //   name: "Git",
-    //   logo: gitLogo,
-    // },
-    // {
-    //   name: "GitHub",
-    //   logo: githubLogo,
-    // }
+    {
+      name: "JavaScript",
+      logo: jsLogo,
+      style: "js__logo",
+    },
+    {
+      name: "TypeScript",
+      logo: tsLogo,
+      style: "ts__logo",
+    },
+    {
+      name: "React",
+      logo: reactLogo,
+      style: "react__logo",
+    },
+    {
+      name: "Node.js",
+      logo: nodeLogo,
+      style: "node__logo",
+    },
+    {
+      name: "Express.js",
+      logo: expressLogo,
+      style: "express__logo",
+    },
+    {
+      name: "MongoDB",
+      logo: mongoLogo,
+      style: "mongo__logo",
+    },
+    {
+      name: "Git",
+      logo: gitLogo,
+      style: "git__logo",
+    },
+    {
+      name: "GitHub",
+      logo: githubLogo,
+      style: "github__logo",
+    },
   ];
+  const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>([]);
+
+  useEffect(() => {
+    const loadImageDimensions = async () => {
+      const promises = stackArray.map((image) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const { naturalWidth, naturalHeight } = img;
+            const { scaledWidth, scaledHeight } = scaleImageToFitCircle(
+              naturalWidth,
+              naturalHeight
+            );
+            resolve({
+              ...image,
+              naturalWidth,
+              naturalHeight,
+              scaledWidth,
+              scaledHeight,
+            });
+          };
+          img.src = image.logo;
+        });
+      });
+
+      const updatedStackArray = (await Promise.all(promises)) as StackItem[];
+      setStackArrayWND(updatedStackArray);
+    };
+    loadImageDimensions();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(stackArrayWND);
+  // }, [stackArrayWND]);
 
   return (
     <div className="stack">
@@ -84,7 +131,7 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className="outer__element">
-          {stackArray.map((el, index) => (
+          {stackArrayWND.map((el, index) => (
             <Tilt
               key={index}
               className="parallax-effect-glare-scale"
@@ -100,7 +147,15 @@ const Stack = () => {
               <div className="inner__element">
                 <h2>{el.name}</h2>
                 <div className="white__circle">
-                  <img src={el.logo} alt={el.name} className={el.style} />
+                  <img
+                    src={el.logo}
+                    alt={el.name}
+                    height={`${el.scaledHeight}px`}
+                    width={`${el.scaledWidth}px`}
+                    className="stack__logo"
+                    // Output of the current target element
+                    onLoad={(e) => console.log(e.target)}
+                  />
                 </div>
               </div>
             </Tilt>
