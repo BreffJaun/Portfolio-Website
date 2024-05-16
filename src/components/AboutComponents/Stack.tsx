@@ -17,77 +17,78 @@ import githubLogo from "../../images/github.png";
 import { StackItem } from "../../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 
 // I M P O R T:   F U N C T I O N S
 import { scaleImageToFitCircle } from "../../utils/utils";
 
 // C O D E
+const stackArray: StackItem[] = [
+  {
+    name: "HTML",
+    logo: htmlLogo,
+    style: "html__logo",
+  },
+  {
+    name: "CSS",
+    logo: cssLogo,
+    style: "css__logo",
+  },
+  {
+    name: "Sass",
+    logo: sass,
+    style: "sass__logo",
+  },
+  {
+    name: "Bootstrap",
+    logo: bootstrapLogo,
+    style: "bootstrap__logo",
+  },
+  {
+    name: "JavaScript",
+    logo: jsLogo,
+    style: "js__logo",
+  },
+  {
+    name: "TypeScript",
+    logo: tsLogo,
+    style: "ts__logo",
+  },
+  {
+    name: "React",
+    logo: reactLogo,
+    style: "react__logo",
+  },
+  {
+    name: "Node.js",
+    logo: nodeLogo,
+    style: "node__logo",
+  },
+  {
+    name: "Express.js",
+    logo: expressLogo,
+    style: "express__logo",
+  },
+  {
+    name: "MongoDB",
+    logo: mongoLogo,
+    style: "mongo__logo",
+  },
+  {
+    name: "Git",
+    logo: gitLogo,
+    style: "git__logo",
+  },
+  {
+    name: "GitHub",
+    logo: githubLogo,
+    style: "github__logo",
+  },
+];
 const Stack = () => {
-  const stackArray: StackItem[] = [
-    {
-      name: "HTML",
-      logo: htmlLogo,
-      style: "html__logo",
-    },
-    {
-      name: "CSS",
-      logo: cssLogo,
-      style: "css__logo",
-    },
-    {
-      name: "Sass",
-      logo: sass,
-      style: "sass__logo",
-    },
-    {
-      name: "Bootstrap",
-      logo: bootstrapLogo,
-      style: "bootstrap__logo",
-    },
-    {
-      name: "JavaScript",
-      logo: jsLogo,
-      style: "js__logo",
-    },
-    {
-      name: "TypeScript",
-      logo: tsLogo,
-      style: "ts__logo",
-    },
-    {
-      name: "React",
-      logo: reactLogo,
-      style: "react__logo",
-    },
-    {
-      name: "Node.js",
-      logo: nodeLogo,
-      style: "node__logo",
-    },
-    {
-      name: "Express.js",
-      logo: expressLogo,
-      style: "express__logo",
-    },
-    {
-      name: "MongoDB",
-      logo: mongoLogo,
-      style: "mongo__logo",
-    },
-    {
-      name: "Git",
-      logo: gitLogo,
-      style: "git__logo",
-    },
-    {
-      name: "GitHub",
-      logo: githubLogo,
-      style: "github__logo",
-    },
-  ];
   const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>([]);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadImageDimensions = async () => {
@@ -118,10 +119,6 @@ const Stack = () => {
     loadImageDimensions();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(stackArrayWND);
-  // }, [stackArrayWND]);
-
   return (
     <div className="stack">
       <section id="stack">
@@ -131,35 +128,116 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className="outer__element">
-          {stackArrayWND.map((el, index) => (
-            <Tilt
-              key={index}
-              className="parallax-effect-glare-scale"
-              perspective={500}
-              glareEnable={true}
-              glarePosition="all"
-              glareMaxOpacity={0.45}
-              glareColor="var(--teal)"
-              scale={1.02}
-              gyroscope={true}
-              glareBorderRadius="20px"
-            >
-              <div className="inner__element">
-                <h2>{el.name}</h2>
-                <div className="white__circle">
-                  <img
-                    src={el.logo}
-                    alt={el.name}
-                    height={`${el.scaledHeight}px`}
-                    width={`${el.scaledWidth}px`}
-                    className="stack__logo"
-                    // Output of the current target element
-                    onLoad={(e) => console.log(e.target)}
-                  />
+          <div className="carousel-track top-slide">
+            {stackArrayWND.map((el, index) => (
+              <Tilt
+                key={index}
+                className="parallax-effect-glare-scale"
+                perspective={500}
+                glareEnable={true}
+                glarePosition="all"
+                glareMaxOpacity={0.45}
+                glareColor="var(--teal)"
+                scale={1.02}
+                gyroscope={true}
+                glareBorderRadius="20px"
+              >
+                <div className="inner__element">
+                  <h2>{el.name}</h2>
+                  <div className="white__circle">
+                    <img
+                      src={el.logo}
+                      alt={el.name}
+                      height={`${el.scaledHeight}px`}
+                      width={`${el.scaledWidth}px`}
+                      className="stack__logo"
+                    />
+                  </div>
                 </div>
-              </div>
-            </Tilt>
-          ))}
+              </Tilt>
+            ))}
+            {stackArrayWND.map((el, index) => (
+              <Tilt
+                key={index}
+                className="parallax-effect-glare-scale carousel-card"
+                perspective={500}
+                glareEnable={true}
+                glarePosition="all"
+                glareMaxOpacity={0.45}
+                glareColor="var(--teal)"
+                scale={1.02}
+                gyroscope={true}
+                glareBorderRadius="20px"
+              >
+                <div className="inner__element">
+                  <h2>{el.name}</h2>
+                  <div className="white__circle">
+                    <img
+                      src={el.logo}
+                      alt={el.name}
+                      height={`${el.scaledHeight}px`}
+                      width={`${el.scaledWidth}px`}
+                      className="stack__logo"
+                    />
+                  </div>
+                </div>
+              </Tilt>
+            ))}
+            {stackArrayWND.map((el, index) => (
+              <Tilt
+                key={index}
+                className="parallax-effect-glare-scale"
+                perspective={500}
+                glareEnable={true}
+                glarePosition="all"
+                glareMaxOpacity={0.45}
+                glareColor="var(--teal)"
+                scale={1.02}
+                gyroscope={true}
+                glareBorderRadius="20px"
+              >
+                <div className="inner__element">
+                  <h2>{el.name}</h2>
+                  <div className="white__circle">
+                    <img
+                      src={el.logo}
+                      alt={el.name}
+                      height={`${el.scaledHeight}px`}
+                      width={`${el.scaledWidth}px`}
+                      className="stack__logo"
+                    />
+                  </div>
+                </div>
+              </Tilt>
+            ))}
+            {stackArrayWND.map((el, index) => (
+              <Tilt
+                key={index}
+                className="parallax-effect-glare-scale carousel-card"
+                perspective={500}
+                glareEnable={true}
+                glarePosition="all"
+                glareMaxOpacity={0.45}
+                glareColor="var(--teal)"
+                scale={1.02}
+                gyroscope={true}
+                glareBorderRadius="20px"
+              >
+                <div className="inner__element">
+                  <h2>{el.name}</h2>
+                  <div className="white__circle">
+                    <img
+                      src={el.logo}
+                      alt={el.name}
+                      height={`${el.scaledHeight}px`}
+                      width={`${el.scaledWidth}px`}
+                      className="stack__logo"
+                    />
+                  </div>
+                </div>
+              </Tilt>
+            ))}
+          </div>
         </div>
       </section>
     </div>
