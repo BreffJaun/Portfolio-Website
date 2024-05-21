@@ -16,6 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "ThemeClickCountContext.tsx", "ThemeContext.tsx"],
+  "include": [
+    "src",
+    "src/context/ThemeClickCountContext.tsx",
+    "src/context/ThemeContext.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

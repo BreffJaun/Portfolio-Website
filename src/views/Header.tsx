@@ -9,9 +9,10 @@ import "../styles/header.scss";
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import ThemeContext from "../../ThemeContext";
 
 // I M P O R T:   F U N C T I O N S
+import ThemeContext from "../context/ThemeContext";
+import MobileViewContext from "../context/MobileViewContext";
 import MainNavigation from "../components/Main-Navigation";
 import SubNavigation from "../components/Sub-Navigation";
 import ThemeButton from "../components/ThemeButton";
@@ -20,7 +21,8 @@ import { scrollToSection } from "../utils/utils";
 // C O D E
 const Header = () => {
   const [theme, setTheme] = useContext(ThemeContext);
-  const [mobileView, setMobileView] = useState<boolean>(false);
+  const [mobileView, setMobileView] = useContext(MobileViewContext);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // handles bevahiour of the mobile navigation. If clicked outside of the navigation, it will close.
@@ -94,7 +96,13 @@ const Header = () => {
       <header>
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
-          <a href="/#">
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("#");
+            }}
+          >
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </a>
         </div>
@@ -107,8 +115,8 @@ const Header = () => {
             showMobileNavigation={showMobileNavigation}
             handleAboutLinkClick={handleAboutLinkClick}
             aboutLinkClicked={aboutLinkClicked}
-            mobileView={mobileView}
-            setMobileView={setMobileView}
+            // mobileView={mobileView}
+            // setMobileView={setMobileView}
           />
         </div>
 

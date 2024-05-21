@@ -17,11 +17,12 @@ import githubLogo from "../../images/github.png";
 import { StackItem } from "../../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Tilt from "react-parallax-tilt";
 
 // I M P O R T:   F U N C T I O N S
 import { scaleImageToFitCircle } from "../../utils/utils";
+import MobileViewContext from "../../context/MobileViewContext";
 
 // C O D E
 const stackArray: StackItem[] = [
@@ -87,6 +88,7 @@ const stackArray: StackItem[] = [
   },
 ];
 const Stack = () => {
+  const [mobileView, setMobileView] = useContext(MobileViewContext);
   const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>([]);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -128,116 +130,120 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className="outer__element">
-          <div className="carousel-track top-slide">
-            {stackArrayWND.map((el, index) => (
-              <Tilt
-                key={index}
-                className="parallax-effect-glare-scale"
-                perspective={500}
-                glareEnable={true}
-                glarePosition="all"
-                glareMaxOpacity={0.45}
-                glareColor="var(--teal)"
-                scale={1.02}
-                gyroscope={true}
-                glareBorderRadius="20px"
-              >
-                <div className="inner__element">
-                  <h2>{el.name}</h2>
-                  <div className="white__circle">
-                    <img
-                      src={el.logo}
-                      alt={el.name}
-                      height={`${el.scaledHeight}px`}
-                      width={`${el.scaledWidth}px`}
-                      className="stack__logo"
-                    />
+          {mobileView ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="carousel-track top-slide">
+              {stackArrayWND.map((el, index) => (
+                <Tilt
+                  key={index}
+                  className="parallax-effect-glare-scale"
+                  perspective={500}
+                  glareEnable={true}
+                  glarePosition="all"
+                  glareMaxOpacity={0.45}
+                  glareColor="var(--teal)"
+                  scale={1.02}
+                  gyroscope={true}
+                  glareBorderRadius="20px"
+                >
+                  <div className="inner__element">
+                    <h2>{el.name}</h2>
+                    <div className="white__circle">
+                      <img
+                        src={el.logo}
+                        alt={el.name}
+                        height={`${el.scaledHeight}px`}
+                        width={`${el.scaledWidth}px`}
+                        className="stack__logo"
+                      />
+                    </div>
                   </div>
-                </div>
-              </Tilt>
-            ))}
-            {stackArrayWND.map((el, index) => (
-              <Tilt
-                key={index}
-                className="parallax-effect-glare-scale carousel-card"
-                perspective={500}
-                glareEnable={true}
-                glarePosition="all"
-                glareMaxOpacity={0.45}
-                glareColor="var(--teal)"
-                scale={1.02}
-                gyroscope={true}
-                glareBorderRadius="20px"
-              >
-                <div className="inner__element">
-                  <h2>{el.name}</h2>
-                  <div className="white__circle">
-                    <img
-                      src={el.logo}
-                      alt={el.name}
-                      height={`${el.scaledHeight}px`}
-                      width={`${el.scaledWidth}px`}
-                      className="stack__logo"
-                    />
+                </Tilt>
+              ))}
+              {stackArrayWND.map((el, index) => (
+                <Tilt
+                  key={index}
+                  className="parallax-effect-glare-scale carousel-card"
+                  perspective={500}
+                  glareEnable={true}
+                  glarePosition="all"
+                  glareMaxOpacity={0.45}
+                  glareColor="var(--teal)"
+                  scale={1.02}
+                  gyroscope={true}
+                  glareBorderRadius="20px"
+                >
+                  <div className="inner__element">
+                    <h2>{el.name}</h2>
+                    <div className="white__circle">
+                      <img
+                        src={el.logo}
+                        alt={el.name}
+                        height={`${el.scaledHeight}px`}
+                        width={`${el.scaledWidth}px`}
+                        className="stack__logo"
+                      />
+                    </div>
                   </div>
-                </div>
-              </Tilt>
-            ))}
-            {stackArrayWND.map((el, index) => (
-              <Tilt
-                key={index}
-                className="parallax-effect-glare-scale"
-                perspective={500}
-                glareEnable={true}
-                glarePosition="all"
-                glareMaxOpacity={0.45}
-                glareColor="var(--teal)"
-                scale={1.02}
-                gyroscope={true}
-                glareBorderRadius="20px"
-              >
-                <div className="inner__element">
-                  <h2>{el.name}</h2>
-                  <div className="white__circle">
-                    <img
-                      src={el.logo}
-                      alt={el.name}
-                      height={`${el.scaledHeight}px`}
-                      width={`${el.scaledWidth}px`}
-                      className="stack__logo"
-                    />
+                </Tilt>
+              ))}
+              {stackArrayWND.map((el, index) => (
+                <Tilt
+                  key={index}
+                  className="parallax-effect-glare-scale"
+                  perspective={500}
+                  glareEnable={true}
+                  glarePosition="all"
+                  glareMaxOpacity={0.45}
+                  glareColor="var(--teal)"
+                  scale={1.02}
+                  gyroscope={true}
+                  glareBorderRadius="20px"
+                >
+                  <div className="inner__element">
+                    <h2>{el.name}</h2>
+                    <div className="white__circle">
+                      <img
+                        src={el.logo}
+                        alt={el.name}
+                        height={`${el.scaledHeight}px`}
+                        width={`${el.scaledWidth}px`}
+                        className="stack__logo"
+                      />
+                    </div>
                   </div>
-                </div>
-              </Tilt>
-            ))}
-            {stackArrayWND.map((el, index) => (
-              <Tilt
-                key={index}
-                className="parallax-effect-glare-scale carousel-card"
-                perspective={500}
-                glareEnable={true}
-                glarePosition="all"
-                glareMaxOpacity={0.45}
-                glareColor="var(--teal)"
-                scale={1.02}
-                gyroscope={true}
-                glareBorderRadius="20px"
-              >
-                <div className="inner__element">
-                  <h2>{el.name}</h2>
-                  <div className="white__circle">
-                    <img
-                      src={el.logo}
-                      alt={el.name}
-                      height={`${el.scaledHeight}px`}
-                      width={`${el.scaledWidth}px`}
-                      className="stack__logo"
-                    />
+                </Tilt>
+              ))}
+              {stackArrayWND.map((el, index) => (
+                <Tilt
+                  key={index}
+                  className="parallax-effect-glare-scale carousel-card"
+                  perspective={500}
+                  glareEnable={true}
+                  glarePosition="all"
+                  glareMaxOpacity={0.45}
+                  glareColor="var(--teal)"
+                  scale={1.02}
+                  gyroscope={true}
+                  glareBorderRadius="20px"
+                >
+                  <div className="inner__element">
+                    <h2>{el.name}</h2>
+                    <div className="white__circle">
+                      <img
+                        src={el.logo}
+                        alt={el.name}
+                        height={`${el.scaledHeight}px`}
+                        width={`${el.scaledWidth}px`}
+                        className="stack__logo"
+                      />
+                    </div>
                   </div>
-                </div>
-              </Tilt>
-            ))}
-          </div>
+                </Tilt>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

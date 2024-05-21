@@ -5,11 +5,12 @@ import { MainNavProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { NavLink } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import SubNavigation from "./Sub-Navigation";
-import { useEffect, useState } from "react";
 import { scrollToSection } from "../utils/utils";
+import MobileViewContext from "../context/MobileViewContext";
 
 // C O D E
 const MainNavigation: React.FC<MainNavProps> = ({
@@ -19,11 +20,12 @@ const MainNavigation: React.FC<MainNavProps> = ({
   showMobileNavigation,
   handleAboutLinkClick,
   aboutLinkClicked,
-  mobileView,
-  setMobileView,
+  // mobileView,
+  // setMobileView,
 }) => {
   const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
   const [showTransition, setShowTransition] = useState<boolean>(false);
+  const [mobileView, setMobileView] = useContext(MobileViewContext);
 
   useEffect(() => {
     const checkMobileView = () => {
@@ -77,7 +79,6 @@ const MainNavigation: React.FC<MainNavProps> = ({
             // onClick={handleOnAboutClick}
             onClick={() => {
               handleOnAboutClick();
-              scrollToSection("#");
             }}
           >
             About

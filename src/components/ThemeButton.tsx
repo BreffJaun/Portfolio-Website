@@ -4,8 +4,8 @@
 // import { ThemeButtonProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
-import ThemeContext from "../../ThemeContext";
-import ThemeClickCountContext from "../../ThemeClickCountContext";
+import ThemeContext from "../context/ThemeContext";
+import ThemeClickCountContext from "../context/ThemeClickCountContext";
 
 // I M P O R T:   F U N C T I O N S
 import { useContext, useEffect, useState } from "react";

@@ -6,9 +6,10 @@ import "./styles/app.scss";
 // I M P O R T:   P A C K A G E S
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ThemeContext from "../ThemeContext";
-import ThemeClickCountContext from "../ThemeClickCountContext";
-import { ThemeClickCountContextType } from "./types/types";
+import ThemeContext from "./context/ThemeContext";
+import ThemeClickCountContext from "./context/ThemeClickCountContext";
+// import { ThemeClickCountContextType } from "./types/types";
+import MobileViewContext from "./context/MobileViewContext";
 
 // I M P O R T:   F U N C T I O N S
 import Spotlight from "./components/Spotlight";
@@ -24,6 +25,7 @@ import Contact from "./views/Contact";
 function App() {
   const [theme, setTheme] = useState<boolean>(true);
   const [clickCount, setClickCount] = useState<number>(0);
+  const [mobileView, setMobileView] = useState<boolean>(false);
 
   const toggleThemeClass = () => {
     document.documentElement.classList.toggle("light-theme");
@@ -38,21 +40,23 @@ function App() {
   };
 
   return (
-    <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
-      <ThemeContext.Provider value={[theme, setTheme]}>
-        <div className="App">
-          <Header />
-          <div className="main__content">
-            <Routes>
-              <Route path="/" element={<CombinedLP />} />
-              <Route path="/feed" element={<Feed />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+    <MobileViewContext.Provider value={[mobileView, setMobileView]}>
+      <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
+        <ThemeContext.Provider value={[theme, setTheme]}>
+          <div className="App">
+            <Header />
+            <div className="main__content">
+              <Routes>
+                <Route path="/" element={<CombinedLP />} />
+                <Route path="/feed" element={<Feed />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </div>
+            <Spotlight />
           </div>
-          <Spotlight />
-        </div>
-      </ThemeContext.Provider>
-    </ThemeClickCountContext.Provider>
+        </ThemeContext.Provider>
+      </ThemeClickCountContext.Provider>
+    </MobileViewContext.Provider>
   );
 }
 

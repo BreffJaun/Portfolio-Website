@@ -19,6 +19,10 @@ export const isSectionInView = (sectionId: string): boolean => {
   );
 };
 
+export const checkMobileView = () => {
+  return window.innerWidth < 768;
+};
+
 export const scaleImageToFitCircle = (
   naturalWidth: number,
   naturalHeight: number
