@@ -39,11 +39,15 @@
       width: auto;
       margin-top: 12.5rem;
 
+      &.mobile__view {
+        margin-top: 2rem;
+      }
+
       &>* {
         margin: 1rem;
       }
 
-      // SLIDER
+      // DESKTOP SLIDER
       .carousel-track {
         display: flex;
         position: absolute;
@@ -129,6 +133,43 @@
               z-index: 3;
               transform: translateZ(60px);
             }
+          }
+        }
+      }
+
+      // MOBILE SLIDER
+      .carousel-root {
+        width: 100%;
+        height: 100%;
+        max-width: 500px;
+        // border: 1px solid orange;
+
+        @media (max-width: 476px) {
+          max-width: 300px;
+        }
+
+        .carousel .slide {
+          height: 325px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: none;
+          // border: 1px solid red;
+          
+          img {
+            max-height: 300px;
+            object-fit: contain;
+            
+          }
+        }
+
+        .carousel .control-arrow {
+          background: none;
+          border-radius: 50%;
+          padding: 10px;
+          
+          &:before {
+            color: var(--gray-800);
           }
         }
       }

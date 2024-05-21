@@ -19,6 +19,8 @@ import { StackItem } from "../../types/interfaces";
 // I M P O R T:   P A C K A G E S
 import { useState, useEffect, useRef, useContext } from "react";
 import Tilt from "react-parallax-tilt";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // I M P O R T:   F U N C T I O N S
 import { scaleImageToFitCircle } from "../../utils/utils";
@@ -87,9 +89,17 @@ const stackArray: StackItem[] = [
     style: "github__logo",
   },
 ];
+
 const Stack = () => {
   const [mobileView, setMobileView] = useContext(MobileViewContext);
-  const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>([]);
+  // WND => With Natural Dimensions
+  const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>(
+    stackArray.map((item) => ({
+      ...item,
+      scaledWidth: 0,
+      scaledHeight: 0,
+    }))
+  );
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -121,6 +131,34 @@ const Stack = () => {
     loadImageDimensions();
   }, []);
 
+  const renderStackItem = (el: StackItem) => (
+    <Tilt
+      key={el.name}
+      className="parallax-effect-glare-scale"
+      perspective={500}
+      glareEnable={true}
+      glarePosition="all"
+      glareMaxOpacity={0.45}
+      glareColor="var(--teal)"
+      scale={1.02}
+      gyroscope={true}
+      glareBorderRadius="20px"
+    >
+      <div className="inner__element">
+        <h2>{el.name}</h2>
+        <div className="white__circle">
+          <img
+            src={el.logo}
+            alt={el.name}
+            height={`${el.scaledHeight}px`}
+            width={`${el.scaledWidth}px`}
+            className="stack__logo"
+          />
+        </div>
+      </div>
+    </Tilt>
+  );
+
   return (
     <div className="stack">
       <section id="stack">
@@ -129,119 +167,29 @@ const Stack = () => {
           Hier sind ein paar Technologien und Programmiersprachen, mit denen ich
           in letzter Zeit gearbeitet habe:
         </p>
-        <div className="outer__element">
+        <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
           {mobileView ? (
-            <div>Loading...</div>
+            <Carousel
+              autoPlay={true}
+              interval={5000}
+              infiniteLoop={true}
+              showArrows={true}
+              showIndicators={false}
+              showStatus={false}
+              swipeable={true}
+              stopOnHover={true}
+              showThumbs={false}
+            >
+              {stackArrayWND.map((el) => (
+                <div key={el.name}>{renderStackItem(el)}</div>
+              ))}
+            </Carousel>
           ) : (
             <div className="carousel-track top-slide">
-              {stackArrayWND.map((el, index) => (
-                <Tilt
-                  key={index}
-                  className="parallax-effect-glare-scale"
-                  perspective={500}
-                  glareEnable={true}
-                  glarePosition="all"
-                  glareMaxOpacity={0.45}
-                  glareColor="var(--teal)"
-                  scale={1.02}
-                  gyroscope={true}
-                  glareBorderRadius="20px"
-                >
-                  <div className="inner__element">
-                    <h2>{el.name}</h2>
-                    <div className="white__circle">
-                      <img
-                        src={el.logo}
-                        alt={el.name}
-                        height={`${el.scaledHeight}px`}
-                        width={`${el.scaledWidth}px`}
-                        className="stack__logo"
-                      />
-                    </div>
-                  </div>
-                </Tilt>
-              ))}
-              {stackArrayWND.map((el, index) => (
-                <Tilt
-                  key={index}
-                  className="parallax-effect-glare-scale carousel-card"
-                  perspective={500}
-                  glareEnable={true}
-                  glarePosition="all"
-                  glareMaxOpacity={0.45}
-                  glareColor="var(--teal)"
-                  scale={1.02}
-                  gyroscope={true}
-                  glareBorderRadius="20px"
-                >
-                  <div className="inner__element">
-                    <h2>{el.name}</h2>
-                    <div className="white__circle">
-                      <img
-                        src={el.logo}
-                        alt={el.name}
-                        height={`${el.scaledHeight}px`}
-                        width={`${el.scaledWidth}px`}
-                        className="stack__logo"
-                      />
-                    </div>
-                  </div>
-                </Tilt>
-              ))}
-              {stackArrayWND.map((el, index) => (
-                <Tilt
-                  key={index}
-                  className="parallax-effect-glare-scale"
-                  perspective={500}
-                  glareEnable={true}
-                  glarePosition="all"
-                  glareMaxOpacity={0.45}
-                  glareColor="var(--teal)"
-                  scale={1.02}
-                  gyroscope={true}
-                  glareBorderRadius="20px"
-                >
-                  <div className="inner__element">
-                    <h2>{el.name}</h2>
-                    <div className="white__circle">
-                      <img
-                        src={el.logo}
-                        alt={el.name}
-                        height={`${el.scaledHeight}px`}
-                        width={`${el.scaledWidth}px`}
-                        className="stack__logo"
-                      />
-                    </div>
-                  </div>
-                </Tilt>
-              ))}
-              {stackArrayWND.map((el, index) => (
-                <Tilt
-                  key={index}
-                  className="parallax-effect-glare-scale carousel-card"
-                  perspective={500}
-                  glareEnable={true}
-                  glarePosition="all"
-                  glareMaxOpacity={0.45}
-                  glareColor="var(--teal)"
-                  scale={1.02}
-                  gyroscope={true}
-                  glareBorderRadius="20px"
-                >
-                  <div className="inner__element">
-                    <h2>{el.name}</h2>
-                    <div className="white__circle">
-                      <img
-                        src={el.logo}
-                        alt={el.name}
-                        height={`${el.scaledHeight}px`}
-                        width={`${el.scaledWidth}px`}
-                        className="stack__logo"
-                      />
-                    </div>
-                  </div>
-                </Tilt>
-              ))}
+              {stackArrayWND.map(renderStackItem)}
+              {stackArrayWND.map(renderStackItem)}
+              {stackArrayWND.map(renderStackItem)}
+              {stackArrayWND.map(renderStackItem)}
             </div>
           )}
         </div>
