@@ -24,7 +24,6 @@
       max-height: calc(100vh - 6rem);
       object-fit: contain;
       transition: transform 0.3s ease-in-out;
-      // border: 1px solid yellow;
 
       &:hover {
         transform: scale(1.05);
@@ -51,6 +50,17 @@
         text-align: justify;
         line-height: 1.5rem;
         margin-bottom: 1rem;
+
+        a{
+          color: var(--teal);
+          text-decoration: none;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: var(--teal-light);
+          }
+        
+        }
       }
     }
   }

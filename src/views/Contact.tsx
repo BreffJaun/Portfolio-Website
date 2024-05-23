@@ -9,20 +9,20 @@ import Footer from "../components/Footer";
 // C O D E
 const Contact = () => {
   return (
-    <div>
-      <section className="contact" id="contact">
-        <h2>Contact</h2>
+    <div className="contact">
+      <section id="contact">
+        <h1>Contact</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor
-          velit nec nunc dignissim, ac ultricies felis congue. Donec nec purus
-          vitae elit ultricies tempus. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio. Nullam nec tortor nec nunc luctus
-          tincidunt. Sed in odio sit amet libero lacinia venenatis. Nullam
-          eleifend, risus sed mollis convallis, purus nunc ultricies nunc, nec
-          ultricies purus erat nec odio.
+          Gefällt Ihnen, was ich mache und möchten Sie jetzt mit mir in Kontakt
+          treten? Zögern Sie nicht und schreiben Sie mir eine E-Mail:
         </p>
+        <a
+          type="button"
+          className="btn btn__outline__success"
+          href="mailto:braun_jeff@web.de"
+        >
+          In Kontakt treten
+        </a>
       </section>
       <Footer />
     </div>

@@ -1,6 +1,6 @@
-.projects {
-  height: auto;
-  min-height: 100vh;
+.contact {
+  height: 100vh;
+  // min-height: 100vh;
   z-index: 1;
 
   section {
@@ -8,10 +8,9 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    // border: 1px solid orange;
 
     &>* {
       margin: 3rem;
@@ -31,11 +30,40 @@
       margin-bottom: 1rem;
     }
 
-    .project-cards-container {
-      max-width: 1500px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    a {
+      &.btn {
+        position: relative;
+        display: inline-block;
+        padding: 1rem;
+        max-width: fit-content;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--white);
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+        background-color: transparent;
+        border: 1px solid var(--teal);
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+
+      &.btn__outline__success {
+        color: var(--teal);
+        border-color: var(--teal);
+
+        &:hover {
+          color: var(--white);
+        }
+
+        &:active {
+          color: var(--white);
+          box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+      }
     }
   }
 }

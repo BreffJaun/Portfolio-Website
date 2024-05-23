@@ -15,6 +15,7 @@
   --gray-800: #343a40;
   --gray-900: #212529;
   --body-color: #222529;
+  --footer-color: #222222;
   --test: #2D3137;
 
   // Spacing
@@ -249,10 +250,7 @@ body {
         color: var(--gray-700) !important;
       }
     }
-
-
   }
-
 }
 
 
@@ -301,10 +299,15 @@ body {
 //   border: 1px solid violet;
 // }
 
-.contact {
-  height: 100vh;
-  border: 1px solid green;
-}
+// .contact {
+//   height: 100vh;
+//   border: 1px solid green;
+// }
+
+// .footer {
+//   height: 100vh;
+//   border: 1px solid blue;
+// }
 
 // DELETE UPER PART LATER
 
