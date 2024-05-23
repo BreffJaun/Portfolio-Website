@@ -26,8 +26,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <h3 className="project-card__title">
           <a href={link} target="blank">
             {title}
+            <span className="material-symbols-outlined">arrow_outward</span>
           </a>
-          <span className="material-symbols-outlined">arrow_outward</span>
         </h3>
         <p className="project-card__description">{description}</p>
         <div className="project-card__tags">
