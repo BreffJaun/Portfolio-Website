@@ -228,6 +228,7 @@ body {
     }
   }
   
+  // STACK SECTION
   .parallax-effect-glare-scale {
     background-color: var(--white) !important;
     h2 {
@@ -238,6 +239,20 @@ body {
   .spotlight__shadow {
     background: radial-gradient(circle, rgba(32, 201, 151, 0.3) 0%, rgba(255, 255, 255, 0) 70%) !important;
   }
+
+  // PROJECT SECTION
+  .project-card {
+    background-color: var(--white) !important;
+
+    .project-card__content {
+      .project-card__title {
+        color: var(--gray-700) !important;
+      }
+    }
+
+
+  }
+
 }
 
 
