@@ -1,0 +1,140 @@
+.project-card {
+  width: 600px;
+  height: 250px;
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 1rem;
+  background-color: var(--gray-800);
+  transition: all 0.3s ease;
+  flex-direction: row;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+
+  .project-card__image-container {
+    flex: 1;
+    padding: 10px;
+    // border: 1px solid orange;
+
+    .project-card__image {
+      object-fit: cover;
+      margin-top: 1rem;
+      margin-left: 1rem;
+      width: 90%;
+      border-radius: 10px;
+      aspect-ratio: 4 / 3;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .project-card__content {
+    padding: 10px;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .project-card__title {
+      margin: 1rem 0;
+      color: var(--gray-100) !important;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+
+      a{
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+      
+      &:hover {
+        color: var(--teal) !important;
+
+        span {
+          transform: translate(2.5px, -2.5px);
+        }
+      }
+
+      span{
+        font-weight: bold;
+        scale: 0.75;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .project-card__description {
+      max-height: 100px;
+      text-align: left !important;
+      flex-grow: 1;
+      margin-right: 1rem;
+    }
+
+    .project-card__tags {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      // border: 1px solid red;
+
+      .project-card__tag {
+        padding: 5px 10px;
+        background-color: var(--teal-light);
+        color: var(--teal);
+        border-radius: 20px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: 600px;
+    width: 250px;
+
+    .project-card__image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .project-card__image {
+        margin: 1rem;
+        aspect-ratio: 4/3;
+      }
+    }
+
+    .project-card__content {
+      padding: 0 1.5rem 0 1.5rem;
+      position: relative;
+      justify-content: flex-start;
+
+      .project-card__title {
+        margin-top: 1rem;
+      }
+
+      .project-card__tags {
+        position: absolute;
+        bottom: 1rem;
+        left: 1.5rem;
+        right: 1.5rem;
+      }
+    }
+  }  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

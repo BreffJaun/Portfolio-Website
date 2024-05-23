@@ -34,3 +34,11 @@ export interface StackItem {
   scaledWidth?: number;
   scaledHeight?: number;
 }
+
+export interface ProjectCardProps {
+  image: string;
+  title: string;
+  link: string;
+  description: string;
+  tags: string[];
+}
