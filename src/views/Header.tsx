@@ -7,7 +7,7 @@ import "../styles/header.scss";
 // import { MainNavProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 
 // I M P O R T:   F U N C T I O N S
@@ -22,6 +22,7 @@ import { scrollToSection } from "../utils/utils";
 const Header = () => {
   const [theme, setTheme] = useContext(ThemeContext);
   const [mobileView, setMobileView] = useContext(MobileViewContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -91,6 +92,17 @@ const Header = () => {
     setAboutLinkClicked((prev) => !prev);
   };
 
+  const handleLogoClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (window.location.pathname === "/") {
+      scrollToSection("#");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <header>
@@ -98,10 +110,11 @@ const Header = () => {
         <div className="header__logo" onClick={hideSubNavigation}>
           <a
             href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("#");
-            }}
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   scrollToSection("#");
+            // }}
+            onClick={handleLogoClick}
           >
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </a>

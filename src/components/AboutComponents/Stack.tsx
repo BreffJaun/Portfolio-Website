@@ -171,7 +171,7 @@ const Stack = () => {
           {mobileView ? (
             <Carousel
               autoPlay={true}
-              interval={5000}
+              interval={3000}
               infiniteLoop={true}
               showArrows={true}
               showIndicators={false}

@@ -18,55 +18,6 @@
   --footer-color: #222222;
   --test: #2D3137;
 
-  // Spacing
-  --mt-1: 0.25rem;
-  --mt-2: 0.5rem;
-  --mt-3: 1rem;
-  --mt-4: 1.5rem;
-  --mt-5: 5rem;
-
-  --me-1: 0.25rem;
-  --me-2: 0.5rem;
-  --me-3: 1rem;
-  --me-4: 1.5rem;
-  --me-5: 5rem;
-
-  --mb-1: 0.25rem;
-  --mb-2: 0.5rem;
-  --mb-3: 1rem;
-  --mb-4: 1.5rem;
-  --mb-5: 5rem;
-
-  --ms-1: 0.25rem;
-  --ms-2: 0.5rem;
-  --ms-3: 1rem;
-  --ms-4: 1.5rem;
-  --ms-5: 5rem;
-
-  --pt-1: 0.25rem;
-  --pt-2: 0.5rem;
-  --pt-3: 1rem;
-  --pt-4: 1.5rem;
-  --pt-5: 5rem;
-
-  --pr-1: 0.25rem;
-  --pr-2: 0.5rem;
-  --pr-3: 1rem;
-  --pr-4: 1.5rem;
-  --pr-5: 5rem;
-
-  --pb-1: 0.25rem;
-  --pb-2: 0.5rem;
-  --pb-3: 1rem;
-  --pb-4: 1.5rem;
-  --pb-5: 5rem;
-
-  --pl-1: 0.25rem;
-  --pl-2: 0.5rem;
-  --pl-3: 1rem;
-  --pl-4: 1.5rem;
-  --pl-5: 5rem;
-
   // LIGHTMODE COLORS
   // --bs-gray-100: #f8f9fa; // body
   // --bs-gray-900: #212529; // h2
@@ -108,10 +59,10 @@ body {
 }
 
 .light-theme {
-  background-color: #f8f9fa !important;
+  background-color: var(--gray-100) !important;
 
   header {
-    background-color: #f8f9fa !important;
+    background-color: var(--gray-100) !important;
   }
 
   h1 {
@@ -228,6 +179,20 @@ body {
       }
     }
   }
+
+  // CONTACT BUTTON
+  // used in Landing Page and Contact Section
+
+  .btn__outline__success {
+    &:hover {
+      color: var(--gray-600) !important;
+    }
+
+    &:active {
+      color: var(--white);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+  }
   
   // STACK SECTION
   .parallax-effect-glare-scale {
@@ -248,6 +213,17 @@ body {
     .project-card__content {
       .project-card__title {
         color: var(--gray-700) !important;
+      }
+    }
+  }
+
+  // FOOTER SECTION
+  .footer{
+    background-color: var(--gray-100) !important;
+
+    a {
+      &:hover {
+        color: var(--gray-800);
       }
     }
   }
