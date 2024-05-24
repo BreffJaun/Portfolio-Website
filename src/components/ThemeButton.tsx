@@ -54,7 +54,6 @@ const ThemeButton = () => {
     const newClickCount = clickCount + 1;
     setClickCount(newClickCount);
     localStorage.setItem("clickCount", JSON.stringify(newClickCount));
-    console.log("clickCount: ", newClickCount);
   };
 
   // Effect to disable button after 3 clicks

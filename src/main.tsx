@@ -1,4 +1,5 @@
 // I M P O R T:   F I L E S
+import "./styles/about.scss";
 
 // I M P O R T:   P A C K A G E S
 import React from "react";
