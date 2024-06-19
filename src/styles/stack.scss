@@ -148,34 +148,51 @@
           max-width: 300px;
         }
 
-        .carousel .slide {
-          height: 375px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: none;
-          // border: 1px solid red;
-          
-          img {
-            max-height: 300px;
-            object-fit: contain;
+        .carousel {
+          .slide {
+            height: 375px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            // border: 1px solid red;
             
+            img {
+              max-height: 300px;
+              object-fit: contain;
+              
+            }
           }
-        }
+          .control-arrow {
+            background: none;
+            border-radius: 50%;
+            padding: 10px;
 
-        .carousel .control-arrow {
-          background: none;
-          border-radius: 50%;
-          padding: 10px;
-          
-          &:before {
-            color: var(--gray-800);
+            &:before {
+              color: var(--gray-800);
+            }
           }
+          // .control-prev {
+          //   &.control-arrow {
+          //     &:before {
+          //       border-right: 8px solid red;
+          //     }
+          //   }
+          // }
+
+          // .control-next {
+          //   &.control-arrow {
+          //     &:before {
+          //       border-left: 8px solid red;
+          //     }
+          //   }
+          // }
         }
       }
     }
   }
 }
+
 
 
 

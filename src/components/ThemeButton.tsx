@@ -84,7 +84,9 @@ const ThemeButton = () => {
         <span className="material-symbols-outlined moon">dark_mode</span>
         {clickCount > 0 && (
           <div className={`tooltip`}>
-            {/* <div className={`tooltip ${clickCount === 3 ? "disabled" : ""}`}></div> */}
+            {/* <div
+              className={`tooltip ${clickCount === 3 ? "disabled" : ""}`}
+            ></div> */}
             {tooltippText[clickCount]}
           </div>
         )}

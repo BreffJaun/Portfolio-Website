@@ -16,3 +16,4 @@ Um die Website lokal auszuführen, benötigen Sie Node.js und npm auf Ihrem Syst
 
    ```bash
    git clone https://github.com/dein/benutzername/meine-website.git
+
