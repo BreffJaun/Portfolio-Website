@@ -4,11 +4,10 @@ import "./styles/app.scss";
 // I M P O R T:  T Y P E S
 
 // I M P O R T:   P A C K A G E S
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ThemeContext from "./context/ThemeContext";
 import ThemeClickCountContext from "./context/ThemeClickCountContext";
-// import { ThemeClickCountContextType } from "./types/types";
 import MobileViewContext from "./context/MobileViewContext";
 
 // I M P O R T:   F U N C T I O N S
@@ -18,26 +17,39 @@ import SubNavigation from "./components/Sub-Navigation";
 import CombinedLP from "./views/CombinedLP";
 import Feed from "./views/Feed";
 import Contact from "./views/Contact";
-// import LandingPage from "./components/LandingPage";
-// import About from "./components/About";
 
 // C O D E
 function App() {
+  const location = useLocation();
   const [theme, setTheme] = useState<boolean>(true);
   const [clickCount, setClickCount] = useState<number>(0);
   const [mobileView, setMobileView] = useState<boolean>(false);
 
-  const toggleThemeClass = () => {
-    document.documentElement.classList.toggle("light-theme");
-  };
-
   useEffect(() => {
-    toggleThemeClass();
-  }, [theme]);
+    const mainContentElement = document.querySelector(
+      ".main__content"
+    ) as HTMLElement; // Typumwandlung zu HTMLElement
 
-  const switchTheme = () => {
-    setTheme(!theme);
-  };
+    if (mainContentElement) {
+      if (location.pathname === "/feed") {
+        mainContentElement.style.top = "125px";
+      } else {
+        mainContentElement.style.top = "165px";
+      }
+    }
+  }, [location]);
+
+  // const toggleThemeClass = () => {
+  //   document.documentElement.classList.toggle("light-theme");
+  // };
+
+  // useEffect(() => {
+  //   toggleThemeClass();
+  // }, [theme]);
+
+  // const switchTheme = () => {
+  //   setTheme(!theme);
+  // };
 
   return (
     <MobileViewContext.Provider value={[mobileView, setMobileView]}>

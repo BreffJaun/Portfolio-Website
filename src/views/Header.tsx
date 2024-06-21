@@ -1,6 +1,6 @@
 // I M P O R T:   F I L E S
-import logoTW from "../assets/breffjaun_turquoise-white.svg";
-import logoTA from "../assets/breffjaun_turquoise-anthrazit.svg";
+import logoTW from "../assets/logos/breffjaun_turquoise-white.svg";
+import logoTA from "../assets/logos/breffjaun_turquoise-anthrazit.svg";
 import "../styles/header.scss";
 
 // I M P O R T:  T Y P E S

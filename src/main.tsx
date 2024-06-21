@@ -4,6 +4,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import "./assets/icons/fontawesome/fontawesome";
 
 // I M P O R T:   F U N C T I O N S
 import App from "./App";
