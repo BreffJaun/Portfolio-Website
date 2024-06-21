@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // I M P O R T:   F U N C T I O N S
 import Footer from "../components/Footer";
+import PostCard from "../components/PostCard";
 
 // C O D E
 const Feed: React.FC = () => {
@@ -61,7 +62,9 @@ const Feed: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="post__container"></div>
+        <div className="post__container">
+          <div className="horizontal__border"></div>
+        </div>
       </section>
       <Footer />
     </div>

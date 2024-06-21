@@ -42,3 +42,14 @@ export interface ProjectCardProps {
   description: string;
   tags: string[];
 }
+
+export interface PostCardProps {
+  imageSrc?: string;
+  authorAction?: string;
+  date?: string;
+  mood?: string;
+  articleTitle?: string;
+  articleContent?: string;
+  articleImageSrc?: string;
+  articleLink?: string;
+}

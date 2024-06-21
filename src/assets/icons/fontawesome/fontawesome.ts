@@ -4,6 +4,6 @@ import {
   faLinkedinIn,
   faXing,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
+import { faCakeCandles, faLink } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faGithub, faLinkedinIn, faXing, faCakeCandles);
+library.add(faGithub, faLinkedinIn, faXing, faCakeCandles, faLink);
