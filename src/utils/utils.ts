@@ -40,3 +40,27 @@ export const scaleImageToFitCircle = (
   const scaledHeight = naturalHeight * finalScale;
   return { scaledWidth, scaledHeight };
 };
+
+export const formatCurrentDate = (): string => {
+  const months = [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ];
+
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = months[currentDate.getMonth()];
+  const year = currentDate.getFullYear();
+
+  return `${day} ${month} ${year}`;
+};

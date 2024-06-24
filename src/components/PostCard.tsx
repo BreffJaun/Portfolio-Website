@@ -11,23 +11,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // C O D E
 
-const PostCard: React.FC<PostCardProps> = () => {
+const PostCard: React.FC<PostCardProps> = ({
+  avatar,
+  authorAction,
+  date,
+  mood,
+  articleTitle,
+  articleContent,
+  articleImageSrc,
+  articleLink,
+}) => {
   return (
     <div className="post__card">
-      <div className="image_container"></div>
+      <div className="avatar__container">
+        <img src={avatar} alt={avatar} />
+      </div>
       <div className="content__container">
         <div className="quick__info">
-          <h6 className="author__action"></h6>
-          <p className="date"></p>
-          <p className="mood"></p>
+          <div className="info__top">
+            <h6 className="author__action">{authorAction}</h6>
+            <span>•</span>
+            <p className="date">{date}</p>
+          </div>
+          <p className="mood__pill">{mood}</p>
         </div>
         <article>
-          <h3></h3>
-          <p></p>
-          <img src="" alt="" />
-          <a href="" target="_blank">
+          <h3>{articleTitle}</h3>
+          <p>{articleContent}</p>
+          <img src={articleImageSrc} alt={articleImageSrc} />
+          {/* <a href="" target="_blank">
             <FontAwesomeIcon icon={["fas", "link"]} />
-          </a>
+          </a> */}
         </article>
       </div>
     </div>

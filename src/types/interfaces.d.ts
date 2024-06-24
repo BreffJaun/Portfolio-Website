@@ -44,7 +44,7 @@ export interface ProjectCardProps {
 }
 
 export interface PostCardProps {
-  imageSrc?: string;
+  avatar?: string;
   authorAction?: string;
   date?: string;
   mood?: string;

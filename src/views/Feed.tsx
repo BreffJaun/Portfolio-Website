@@ -3,13 +3,46 @@ import "../styles/feed.scss";
 
 // I M P O R T:   P A C K A G E S
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import Footer from "../components/Footer";
 import PostCard from "../components/PostCard";
+import { formatCurrentDate } from "../utils/utils";
+
+import avatarImage from "../images/breffjaun_profile_img.jpg";
+
+const testPosts = [
+  {
+    avatar: avatarImage,
+    authorAction: `${"breffjaun"}`,
+    date: formatCurrentDate(),
+    mood: "🌴 Feelin fresh",
+    articleTitle: "Welcome to my portfolio!",
+    articleContent:
+      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+    articleImageSrc: avatarImage,
+    articleLink: "",
+  },
+  {
+    avatar: avatarImage,
+    authorAction: `${"breffjaun"}`,
+    date: formatCurrentDate(),
+    mood: "🙌 Excited",
+    articleTitle: "",
+    articleContent:
+      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+    articleImageSrc: avatarImage,
+    articleLink: "",
+  },
+];
+console.log(testPosts[0]);
 
 // C O D E
 const Feed: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="feed">
       <section id="feed">
@@ -64,6 +97,19 @@ const Feed: React.FC = () => {
         </div>
         <div className="post__container">
           <div className="horizontal__border"></div>
+          {testPosts.map((post, i) => (
+            <PostCard
+              key={i}
+              avatar={post.avatar}
+              authorAction={post.authorAction}
+              date={post.date}
+              mood={post.mood}
+              articleTitle={post.articleTitle}
+              articleContent={post.articleContent}
+              articleImageSrc={post.articleImageSrc}
+              articleLink={post.articleLink}
+            />
+          ))}
         </div>
       </section>
       <Footer />
