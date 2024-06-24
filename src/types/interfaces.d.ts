@@ -55,5 +55,5 @@ export interface PostCardProps {
 }
 
 export interface BackToTopBtnProps {
-  watchElementSelector: string | any;
+  watchElementSelector: string;
 }
