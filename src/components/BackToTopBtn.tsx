@@ -12,21 +12,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // C O D E
 
-const BackToTopBtn: React.FC<BackToTopBtnProps> = ({
-  watchElementSelector,
-}) => {
+const BackToTopBtn = ({ watchElementSelector }: BackToTopBtnProps) => {
   const [showScroll, setShowScroll] = useState(false);
 
   const checkScrollTop = () => {
     const watchElement = document.querySelector(watchElementSelector);
     if (watchElement) {
       const { bottom } = watchElement.getBoundingClientRect();
-      // console.log(`${watchElementSelector} bottom:`, bottom);
       setShowScroll(bottom < 0);
-      return true;
     } else {
-      // console.log(`${watchElementSelector} not found`);
-      return false;
+      setShowScroll(false);
     }
   };
 
@@ -36,14 +31,11 @@ const BackToTopBtn: React.FC<BackToTopBtnProps> = ({
 
   useEffect(() => {
     window.addEventListener("scroll", checkScrollTop);
-    checkScrollTop(); // Initial check in case the user is already scrolled down
+    checkScrollTop();
     return () => {
       window.removeEventListener("scroll", checkScrollTop);
     };
   }, [watchElementSelector]);
-
-  // console.log("BackToTopBtn component rendered");
-  // console.log("showScroll state:", showScroll);
 
   return (
     showScroll && (
