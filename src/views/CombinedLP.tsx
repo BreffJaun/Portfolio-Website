@@ -6,6 +6,7 @@
 import LandingPage from "../components/LandingPage";
 import About from "../components/About";
 import Contact from "./Contact";
+import BackToTopBtn from "../components/BackToTopBtn";
 
 // C O D E
 const CombinedLP = () => {
@@ -14,6 +15,7 @@ const CombinedLP = () => {
       <LandingPage />
       <About />
       <Contact />
+      <BackToTopBtn watchElementSelector=".hi__my__name__is" />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 // I M P O R T:   F I L E S
 import "../styles/feed.scss";
+import avatarImage from "../images/breffjaun_profile_img.jpg";
 
 // I M P O R T:   P A C K A G E S
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +9,8 @@ import { useEffect } from "react";
 // I M P O R T:   F U N C T I O N S
 import Footer from "../components/Footer";
 import PostCard from "../components/PostCard";
+import BackToTopBtn from "../components/BackToTopBtn";
 import { formatCurrentDate } from "../utils/utils";
-
-import avatarImage from "../images/breffjaun_profile_img.jpg";
 
 const testPosts = [
   {
@@ -35,8 +35,19 @@ const testPosts = [
     articleImageSrc: avatarImage,
     articleLink: "",
   },
+  {
+    avatar: avatarImage,
+    authorAction: `${"breffjaun"}`,
+    date: formatCurrentDate(),
+    mood: "🙌 Excited",
+    articleTitle: "",
+    articleContent:
+      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+    articleImageSrc: avatarImage,
+    articleLink: "",
+  },
 ];
-console.log(testPosts[0]);
+// console.log(testPosts[0]);
 
 // C O D E
 const Feed: React.FC = () => {
@@ -112,6 +123,7 @@ const Feed: React.FC = () => {
           ))}
         </div>
       </section>
+      <BackToTopBtn watchElementSelector=".bg__img__container" />
       <Footer />
     </div>
   );

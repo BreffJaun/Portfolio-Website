@@ -53,3 +53,7 @@ export interface PostCardProps {
   articleImageSrc?: string;
   articleLink?: string;
 }
+
+export interface BackToTopBtnProps {
+  watchElementSelector: string;
+}

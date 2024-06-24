@@ -1,9 +1,11 @@
 .feed {
-  height: 100vh; 
+  min-height: 100vh;
+  // height: 100vh; 
   // overflow-y: auto;
 
   section {
     height: 100%;
+    // margin-bottom: 200px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -57,7 +59,7 @@
     }
 
     .infobar__container {
-      border: 1px solid red;
+      // border: 1px solid red;
       width: 80%;
       max-width: 1000px;
       display: flex;
@@ -177,7 +179,7 @@
     }
 
     .post__container {
-      border: 1px solid blue;
+      // border: 1px solid blue;
       width: 80%;
       max-width: 1000px;
       display: flex;
@@ -185,6 +187,7 @@
       align-items: flex-start;
       flex-direction: column;
       padding-left: 5rem;
+      margin-bottom: 100px;
 
       @media (max-width: 1024px) {
         padding-left: 3rem;
@@ -203,7 +206,6 @@
         
       }
     }
-
   }
 }
 

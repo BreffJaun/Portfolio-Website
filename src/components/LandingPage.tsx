@@ -10,7 +10,7 @@ const LandingPage = () => {
   return (
     <div className="landing__page">
       <section id="#">
-        <h6>Hallo, mein Name ist</h6>
+        <h6 className="hi__my__name__is">Hallo, mein Name ist</h6>
         <h1>Jeff Braun.</h1>
         <h2>Ich bin Fullstack Web Developer.</h2>
         <p>
