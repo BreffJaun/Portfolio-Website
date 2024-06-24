@@ -12,7 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // C O D E
 
-const BackToTopBtn = ({ watchElementSelector }: BackToTopBtnProps) => {
+const BackToTopBtn: React.FC<BackToTopBtnProps> = ({
+  watchElementSelector,
+}) => {
   const [showScroll, setShowScroll] = useState(false);
 
   const checkScrollTop = () => {
@@ -21,10 +23,10 @@ const BackToTopBtn = ({ watchElementSelector }: BackToTopBtnProps) => {
       const { bottom } = watchElement.getBoundingClientRect();
       // console.log(`${watchElementSelector} bottom:`, bottom);
       setShowScroll(bottom < 0);
-      // return true;
+      return true;
     } else {
       // console.log(`${watchElementSelector} not found`);
-      // return false;
+      return false;
     }
   };
 
