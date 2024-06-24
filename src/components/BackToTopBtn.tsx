@@ -21,10 +21,10 @@ const BackToTopBtn: React.FC<BackToTopBtnProps> = ({
     const watchElement = document.querySelector(watchElementSelector);
     if (watchElement) {
       const { bottom } = watchElement.getBoundingClientRect();
-      console.log(`${watchElementSelector} bottom:`, bottom);
+      // console.log(`${watchElementSelector} bottom:`, bottom);
       setShowScroll(bottom < 0);
     } else {
-      console.log(`${watchElementSelector} not found`);
+      // console.log(`${watchElementSelector} not found`);
     }
   };
 
@@ -40,8 +40,8 @@ const BackToTopBtn: React.FC<BackToTopBtnProps> = ({
     };
   }, [watchElementSelector]);
 
-  console.log("BackToTopBtn component rendered");
-  console.log("showScroll state:", showScroll);
+  // console.log("BackToTopBtn component rendered");
+  // console.log("showScroll state:", showScroll);
 
   return (
     showScroll && (
