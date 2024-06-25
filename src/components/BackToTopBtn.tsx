@@ -20,10 +20,8 @@ const BackToTopBtn = ({ watchElementSelector }: BackToTopBtnProps) => {
     if (watchElement) {
       const { bottom } = watchElement.getBoundingClientRect();
       setShowScroll(bottom < 0);
-      return null;
     } else {
       setShowScroll(false);
-      return null;
     }
   };
 
@@ -38,6 +36,10 @@ const BackToTopBtn = ({ watchElementSelector }: BackToTopBtnProps) => {
       window.removeEventListener("scroll", checkScrollTop);
     };
   }, [watchElementSelector]);
+
+  if (!showScroll) {
+    return null;
+  }
 
   return (
     showScroll && (
