@@ -17,11 +17,8 @@ const MainNavigation: React.FC<MainNavProps> = ({
   onAboutClick,
   hideSubNavigation,
   hideMobileNav,
-  showMobileNavigation,
   handleAboutLinkClick,
   aboutLinkClicked,
-  // mobileView,
-  // setMobileView,
 }) => {
   const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
   const [showTransition, setShowTransition] = useState<boolean>(false);

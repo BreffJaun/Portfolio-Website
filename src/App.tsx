@@ -13,10 +13,10 @@ import MobileViewContext from "./context/MobileViewContext";
 // I M P O R T:   F U N C T I O N S
 import Spotlight from "./components/Spotlight";
 import Header from "./views/Header";
-import SubNavigation from "./components/Sub-Navigation";
 import CombinedLP from "./views/CombinedLP";
 import Feed from "./views/Feed";
 import Contact from "./views/Contact";
+import Login from "./views/Login";
 
 // C O D E
 function App() {
@@ -39,18 +39,6 @@ function App() {
     }
   }, [location]);
 
-  // const toggleThemeClass = () => {
-  //   document.documentElement.classList.toggle("light-theme");
-  // };
-
-  // useEffect(() => {
-  //   toggleThemeClass();
-  // }, [theme]);
-
-  // const switchTheme = () => {
-  //   setTheme(!theme);
-  // };
-
   return (
     <MobileViewContext.Provider value={[mobileView, setMobileView]}>
       <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
@@ -62,6 +50,7 @@ function App() {
                 <Route path="/" element={<CombinedLP />} />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
             <Spotlight />

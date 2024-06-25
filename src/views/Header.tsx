@@ -108,14 +108,7 @@ const Header = () => {
       <header>
         {/* DESKTOP VIEW */}
         <div className="header__logo" onClick={hideSubNavigation}>
-          <a
-            href="#"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   scrollToSection("#");
-            // }}
-            onClick={handleLogoClick}
-          >
+          <a href="#" onClick={handleLogoClick}>
             <img src={theme ? logoTW : logoTA} alt="breffjaun-logo" />
           </a>
         </div>
@@ -128,8 +121,6 @@ const Header = () => {
             showMobileNavigation={showMobileNavigation}
             handleAboutLinkClick={handleAboutLinkClick}
             aboutLinkClicked={aboutLinkClicked}
-            // mobileView={mobileView}
-            // setMobileView={setMobileView}
           />
         </div>
 
