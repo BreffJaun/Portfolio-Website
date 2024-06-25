@@ -35,8 +35,8 @@
       flex-wrap: nowrap;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      width: auto;
+      overflow-x: hidden;
+      // width: 100vw;
       margin-top: 12.5rem;
 
       &.mobile__view {
@@ -56,7 +56,7 @@
         align-items: center;
         height: 80px;
         gap: 16px;
-        width: 200%;
+        // width: 200%;
         height: 300px;
         animation: slide 40s linear infinite;
         
