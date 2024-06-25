@@ -167,7 +167,7 @@ const Stack = () => {
           Hier sind ein paar Technologien und Programmiersprachen, mit denen ich
           in letzter Zeit gearbeitet habe:
         </p>
-        {/* <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
+        <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
           {mobileView ? (
             <Carousel
               autoPlay={true}
@@ -192,7 +192,7 @@ const Stack = () => {
               {stackArrayWND.map(renderStackItem)}
             </div>
           )}
-        </div> */}
+        </div>
       </section>
     </div>
   );
