@@ -81,7 +81,6 @@ export const detectDevice = () => {
   if (
     /Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/.test(userAgent)
   ) {
-    console.log("userAgent: ", userAgent);
     return "mobiledevice";
   }
 

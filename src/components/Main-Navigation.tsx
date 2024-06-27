@@ -115,6 +115,20 @@ const MainNavigation: React.FC<MainNavProps> = ({
             Contact
           </NavLink>
         </li>
+        {/* <li>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+            to="/login"
+            onClick={() => {
+              handleOnClick();
+              scrollToSection("contact");
+            }}
+          >
+            Login
+          </NavLink>
+        </li> */}
       </ul>
     </nav>
   );

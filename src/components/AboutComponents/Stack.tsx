@@ -132,7 +132,6 @@ const Stack = () => {
       setStackArrayWND(updatedStackArray);
     };
     loadImageDimensions();
-    console.log("device: ", detectDevice());
     setDevice(detectDevice());
   }, []);
 
@@ -165,7 +164,6 @@ const Stack = () => {
   );
 
   return (
-    // <div className="stack">
     <div className={`stack ${device === "desktop" ? "desktopMode" : ""}`}>
       <section id="stack">
         <h1>Stack</h1>
@@ -198,21 +196,6 @@ const Stack = () => {
               {stackArrayWND.map(renderStackItem)}
             </div>
           )}
-          {/* <Carousel
-            autoPlay={true}
-            interval={3000}
-            infiniteLoop={true}
-            showArrows={true}
-            showIndicators={false}
-            showStatus={false}
-            swipeable={true}
-            stopOnHover={true}
-            showThumbs={false}
-          >
-            {stackArrayWND.map((el) => (
-              <div key={el.name}>{renderStackItem(el)}</div>
-            ))}
-          </Carousel> */}
         </div>
       </section>
     </div>
