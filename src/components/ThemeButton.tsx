@@ -34,16 +34,16 @@ const ThemeButton = () => {
   }, [theme]);
 
   // Effect to toggle theme after 2 seconds when theme is false
-  // useEffect(() => {
-  //   if (!theme) {
-  //     const id = window.setTimeout(() => {
-  //       setTheme(true);
-  //     }, 2000);
-  //     setTimeoutId(id);
+  useEffect(() => {
+    if (!theme) {
+      const id = window.setTimeout(() => {
+        setTheme(true);
+      }, 2000);
+      setTimeoutId(id);
 
-  //     return () => clearTimeout(id);
-  //   }
-  // }, [theme]);
+      return () => clearTimeout(id);
+    }
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = !theme;
@@ -57,12 +57,12 @@ const ThemeButton = () => {
   };
 
   // Effect to disable button after 3 clicks
-  // useEffect(() => {
-  //   if (clickCount >= 3) {
-  //     setIsDisabled(true);
-  //     setShowOutOfOrder(true);
-  //   }
-  // }, [clickCount]);
+  useEffect(() => {
+    if (clickCount >= 3) {
+      setIsDisabled(true);
+      setShowOutOfOrder(true);
+    }
+  }, [clickCount]);
 
   let tooltippText = ["", "Are you sure?", "Honestly?", "Out of Order"];
 
