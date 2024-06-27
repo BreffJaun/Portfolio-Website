@@ -73,6 +73,10 @@
       }
     }
   }
+
+  @media (max-height: 950px) {
+    min-height: 750px;
+  }
 }
 
 // mb => top 

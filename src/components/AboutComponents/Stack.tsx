@@ -168,7 +168,7 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
-          {mobileView ? (
+          {/* {mobileView ? (
             <Carousel
               autoPlay={true}
               interval={3000}
@@ -191,7 +191,22 @@ const Stack = () => {
               {stackArrayWND.map(renderStackItem)}
               {stackArrayWND.map(renderStackItem)}
             </div>
-          )}
+          )} */}
+          <Carousel
+            autoPlay={true}
+            interval={3000}
+            infiniteLoop={true}
+            showArrows={true}
+            showIndicators={false}
+            showStatus={false}
+            swipeable={true}
+            stopOnHover={true}
+            showThumbs={false}
+          >
+            {stackArrayWND.map((el) => (
+              <div key={el.name}>{renderStackItem(el)}</div>
+            ))}
+          </Carousel>
         </div>
       </section>
     </div>

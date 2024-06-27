@@ -104,23 +104,26 @@ const Feed: React.FC = () => {
                 April 24th
               </a>
             </div>
+            <div className="horizontal__border"></div>
           </div>
         </div>
         <div className="post__container">
-          <div className="horizontal__border"></div>
-          {testPosts.map((post, i) => (
-            <PostCard
-              key={i}
-              avatar={post.avatar}
-              authorAction={post.authorAction}
-              date={post.date}
-              mood={post.mood}
-              articleTitle={post.articleTitle}
-              articleContent={post.articleContent}
-              articleImageSrc={post.articleImageSrc}
-              articleLink={post.articleLink}
-            />
-          ))}
+          <div className="post__positioning__container">
+            {/* <div className="horizontal__border"></div> */}
+            {testPosts.map((post, i) => (
+              <PostCard
+                key={i}
+                avatar={post.avatar}
+                authorAction={post.authorAction}
+                date={post.date}
+                mood={post.mood}
+                articleTitle={post.articleTitle}
+                articleContent={post.articleContent}
+                articleImageSrc={post.articleImageSrc}
+                articleLink={post.articleLink}
+              />
+            ))}
+          </div>
         </div>
       </section>
       <BackToTopBtn watchElementSelector=".bg__img__container" />
