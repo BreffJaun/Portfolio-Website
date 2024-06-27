@@ -7,3 +7,5 @@ export type MobileViewContextType = [
   boolean,
   Dispatch<SetStateAction<boolean>>
 ];
+
+export type DeviceContextType = [string, Dispatch<SetStateAction<string>>];

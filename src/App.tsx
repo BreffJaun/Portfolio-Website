@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import ThemeContext from "./context/ThemeContext";
 import ThemeClickCountContext from "./context/ThemeClickCountContext";
 import MobileViewContext from "./context/MobileViewContext";
+import DeviceContext from "./context/DeviceContext";
 
 // I M P O R T:   F U N C T I O N S
 import Spotlight from "./components/Spotlight";
@@ -24,6 +25,7 @@ function App() {
   const [theme, setTheme] = useState<boolean>(true);
   const [clickCount, setClickCount] = useState<number>(0);
   const [mobileView, setMobileView] = useState<boolean>(false);
+  const [device, setDevice] = useState<string>("");
 
   useEffect(() => {
     const mainContentElement = document.querySelector(
@@ -40,24 +42,26 @@ function App() {
   }, [location]);
 
   return (
-    <MobileViewContext.Provider value={[mobileView, setMobileView]}>
-      <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
-        <ThemeContext.Provider value={[theme, setTheme]}>
-          <div className="App">
-            <Header />
-            <div className="main__content">
-              <Routes>
-                <Route path="/" element={<CombinedLP />} />
-                <Route path="/feed" element={<Feed />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
+    <DeviceContext.Provider value={[device, setDevice]}>
+      <MobileViewContext.Provider value={[mobileView, setMobileView]}>
+        <ThemeClickCountContext.Provider value={[clickCount, setClickCount]}>
+          <ThemeContext.Provider value={[theme, setTheme]}>
+            <div className="App">
+              <Header />
+              <div className="main__content">
+                <Routes>
+                  <Route path="/" element={<CombinedLP />} />
+                  <Route path="/feed" element={<Feed />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/login" element={<Login />} />
+                </Routes>
+              </div>
+              <Spotlight />
             </div>
-            <Spotlight />
-          </div>
-        </ThemeContext.Provider>
-      </ThemeClickCountContext.Provider>
-    </MobileViewContext.Provider>
+          </ThemeContext.Provider>
+        </ThemeClickCountContext.Provider>
+      </MobileViewContext.Provider>
+    </DeviceContext.Provider>
   );
 }
 

@@ -25,6 +25,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 // I M P O R T:   F U N C T I O N S
 import { scaleImageToFitCircle } from "../../utils/utils";
 import MobileViewContext from "../../context/MobileViewContext";
+import DeviceContext from "../../context/DeviceContext";
+import { detectDevice } from "../../utils/utils";
 
 // C O D E
 const stackArray: StackItem[] = [
@@ -92,6 +94,7 @@ const stackArray: StackItem[] = [
 
 const Stack = () => {
   const [mobileView, setMobileView] = useContext(MobileViewContext);
+  const [device, setDevice] = useContext(DeviceContext);
   // WND => With Natural Dimensions
   const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>(
     stackArray.map((item) => ({
@@ -129,6 +132,8 @@ const Stack = () => {
       setStackArrayWND(updatedStackArray);
     };
     loadImageDimensions();
+    console.log("device: ", detectDevice());
+    setDevice(detectDevice());
   }, []);
 
   const renderStackItem = (el: StackItem) => (
@@ -160,7 +165,8 @@ const Stack = () => {
   );
 
   return (
-    <div className="stack">
+    // <div className="stack">
+    <div className={`stack ${device === "desktop" ? "desktopMode" : ""}`}>
       <section id="stack">
         <h1>Stack</h1>
         <p>
@@ -168,7 +174,7 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
-          {/* {mobileView ? (
+          {device === "tablet" || device === "mobiledevice" ? (
             <Carousel
               autoPlay={true}
               interval={3000}
@@ -191,8 +197,8 @@ const Stack = () => {
               {stackArrayWND.map(renderStackItem)}
               {stackArrayWND.map(renderStackItem)}
             </div>
-          )} */}
-          <Carousel
+          )}
+          {/* <Carousel
             autoPlay={true}
             interval={3000}
             infiniteLoop={true}
@@ -206,7 +212,7 @@ const Stack = () => {
             {stackArrayWND.map((el) => (
               <div key={el.name}>{renderStackItem(el)}</div>
             ))}
-          </Carousel>
+          </Carousel> */}
         </div>
       </section>
     </div>

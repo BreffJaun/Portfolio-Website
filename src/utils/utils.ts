@@ -64,3 +64,36 @@ export const formatCurrentDate = (): string => {
 
   return `${day} ${month} ${year}`;
 };
+
+export const detectDevice = () => {
+  const userAgent = navigator.userAgent;
+
+  // Überprüfen auf Tablets
+  if (
+    /iPad|Tablet|PlayBook|Silk/.test(userAgent) &&
+    !/Mobile/.test(userAgent)
+  ) {
+    console.log("userAgent: ", userAgent);
+    return "tablet";
+  }
+
+  // Überprüfen auf mobile Geräte
+  if (
+    /Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/.test(userAgent)
+  ) {
+    console.log("userAgent: ", userAgent);
+    return "mobiledevice";
+  }
+
+  // Überprüfen auf Desktops (macOS, Windows, Linux)
+  if (
+    /Macintosh|Windows|Linux/.test(userAgent) &&
+    !/Mobi|Android/.test(userAgent)
+  ) {
+    console.log("userAgent: ", userAgent);
+    return "desktop";
+  }
+
+  // Wenn weder Tablet noch Mobilgerät, dann Desktop
+  return "desktop";
+};
