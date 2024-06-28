@@ -1,3 +1,12 @@
+// I M P O R T:   F I L E S
+
+// I M P O R T:   P A C K A G E S
+import UAParser from "ua-parser-js";
+
+// I M P O R T:   F U N C T I O N S
+
+// C O D E
+
 export const scrollToSection = (sectionId: string) => {
   const targetElement = document.getElementById(sectionId);
   if (targetElement) {
@@ -65,34 +74,93 @@ export const formatCurrentDate = (): string => {
   return `${day} ${month} ${year}`;
 };
 
-export const detectDevice = () => {
+// export const detectDevice = () => {
+//   const userAgent = navigator.userAgent;
+
+//   // Überprüfen auf Tablets
+//   if (
+//     ((/iPad/.test(userAgent) || /Surface/.test(userAgent)) &&
+//       !/Mobile/.test(userAgent)) ||
+//     (/Macintosh/.test(userAgent) && "ontouchend" in document) ||
+//     (/Windows NT/.test(userAgent) && /Touch/.test(userAgent)) ||
+//     (/Android/.test(userAgent) && !/Mobile/.test(userAgent)) ||
+//     (/Linux/.test(userAgent) &&
+//       !/Mobile/.test(userAgent) &&
+//       /CrKey/.test(userAgent))
+//   ) {
+//     console.log("TABLET => userAgent: ", userAgent);
+//     return "tablet";
+//   }
+
+//   // Überprüfen auf mobile Geräte
+//   if (
+//     /Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/.test(userAgent)
+//   ) {
+//     console.log("MOBILE => userAgent: ", userAgent);
+//     return "mobiledevice";
+//   }
+
+//   // Überprüfen auf Desktops (macOS, Windows, Linux)
+//   if (
+//     /Macintosh|Windows|Linux/.test(userAgent) &&
+//     !/Mobi|Android/.test(userAgent)
+//   ) {
+//     console.log("DESKTOP => userAgent: ", userAgent);
+//     return "desktop";
+//   }
+
+//   // Wenn weder Tablet noch Mobilgerät, dann Desktop
+//   return "desktop";
+// };
+
+// export const detectDevice = () => {
+//   // detect device type
+//   const parser = new UAParser();
+//   const result = parser.setUA(navigator.userAgent).getResult();
+//   let detectedDeviceType = result.device.type;
+//   const userAgent = navigator.userAgent;
+
+//   // Überprüfen, ob detectedDeviceType definiert ist, sonst einen Standardwert verwenden
+//   if (typeof detectedDeviceType === "undefined") {
+//     detectedDeviceType = "unknown";
+//   }
+//   console.log("userAgent: ", userAgent);
+//   return detectedDeviceType;
+// };
+
+// export const detectDevice = (): string => {
+//   const parser = new UAParser();
+//   const result = parser.setUA(navigator.userAgent).getResult();
+
+//   // Überprüfe, ob result.os.name existiert, bevor du darauf zugreifst
+//   const osName = result.os ? result.os.name : undefined;
+
+//   // Prüfe, ob das Gerät als Desktop eingestuft wird
+//   const isDesktop = ["windows", "mac", "linux"].includes(
+//     osName?.toLowerCase() ?? ""
+//   );
+
+//   // Wenn das Gerät als Desktop eingestuft wird, geben wir "desktop" zurück, sonst "mobile"
+//   return isDesktop ? "desktop" : "mobile";
+// };
+
+export const detectDevice = (): string => {
+  const parser = new UAParser();
+  const result = parser.setUA(navigator.userAgent).getResult();
   const userAgent = navigator.userAgent;
+  // console.log("userAgent: ", userAgent);
 
-  // Überprüfen auf Tablets
-  if (
-    /iPad|Tablet|PlayBook|Silk/.test(userAgent) &&
-    !/Mobile/.test(userAgent)
-  ) {
-    console.log("userAgent: ", userAgent);
-    return "tablet";
-  }
+  // Überprüfe, ob result.os.name existiert, bevor du darauf zugreifst
+  const osName = result.os ? result.os.name : undefined;
 
-  // Überprüfen auf mobile Geräte
-  if (
-    /Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/.test(userAgent)
-  ) {
-    return "mobiledevice";
-  }
+  // Prüfe, ob das Gerät als Desktop eingestuft wird
+  const isDesktop = ["windows", "mac", "linux"].includes(
+    osName?.toLowerCase() ?? ""
+  );
 
-  // Überprüfen auf Desktops (macOS, Windows, Linux)
-  if (
-    /Macintosh|Windows|Linux/.test(userAgent) &&
-    !/Mobi|Android/.test(userAgent)
-  ) {
-    console.log("userAgent: ", userAgent);
-    return "desktop";
-  }
+  // Zusätzliche Überprüfung für Surface-Geräte unter Windows NT
+  const isSurfaceOrSimilar = userAgent.includes("Windows NT") && isDesktop;
 
-  // Wenn weder Tablet noch Mobilgerät, dann Desktop
-  return "desktop";
+  // Wenn das Gerät als Desktop eingestuft wird und nicht ein Surface/Geräte, geben wir "desktop" zurück, sonst "mobile"
+  return isDesktop && !isSurfaceOrSimilar ? "desktop" : "mobile";
 };

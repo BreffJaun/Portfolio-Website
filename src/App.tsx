@@ -18,6 +18,7 @@ import CombinedLP from "./views/CombinedLP";
 import Feed from "./views/Feed";
 import Contact from "./views/Contact";
 import Login from "./views/Login";
+import { detectDevice } from "./utils/utils";
 
 // C O D E
 function App() {
@@ -28,6 +29,12 @@ function App() {
   const [device, setDevice] = useState<string>("");
 
   useEffect(() => {
+    const detectedDeviceType = detectDevice();
+    setDevice(detectedDeviceType);
+  }, []);
+
+  useEffect(() => {
+    // detect if mobile view
     const mainContentElement = document.querySelector(
       ".main__content"
     ) as HTMLElement; // Typumwandlung zu HTMLElement
@@ -39,6 +46,7 @@ function App() {
         mainContentElement.style.top = "165px";
       }
     }
+    // console.log("Detected device:", device);
   }, [location]);
 
   return (
@@ -58,6 +66,24 @@ function App() {
               </div>
               <Spotlight />
             </div>
+            {/* <div className="App">
+              {isDeviceReady ? (
+                <>
+                  <Header />
+                  <div className="main__content">
+                    <Routes>
+                      <Route path="/" element={<CombinedLP />} />
+                      <Route path="/feed" element={<Feed />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/login" element={<Login />} />
+                    </Routes>
+                  </div>
+                  <Spotlight />
+                </>
+              ) : (
+                <div>Loading...</div>
+              )}
+            </div> */}
           </ThemeContext.Provider>
         </ThemeClickCountContext.Provider>
       </MobileViewContext.Provider>
@@ -66,11 +92,3 @@ function App() {
 }
 
 export default App;
-
-// I M P O R T:   F I L E S
-
-// I M P O R T:   P A C K A G E S
-
-// I M P O R T:   F U N C T I O N S
-
-// C O D E

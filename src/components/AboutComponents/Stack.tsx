@@ -132,8 +132,11 @@ const Stack = () => {
       setStackArrayWND(updatedStackArray);
     };
     loadImageDimensions();
-    setDevice(detectDevice());
   }, []);
+
+  // useEffect(() => {
+  //   console.log("1. UE / device: ", device);
+  // }, [device]);
 
   const renderStackItem = (el: StackItem) => (
     <Tilt
@@ -172,7 +175,7 @@ const Stack = () => {
           in letzter Zeit gearbeitet habe:
         </p>
         <div className={`outer__element ${mobileView ? "mobile__view" : ""}`}>
-          {device === "tablet" || device === "mobiledevice" ? (
+          {device === "mobile" ? (
             <Carousel
               autoPlay={true}
               interval={3000}

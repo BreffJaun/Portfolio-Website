@@ -17,3 +17,10 @@ Um die Website lokal auszuführen, benötigen Sie Node.js und npm auf Ihrem Syst
    ```bash
    git clone https://github.com/dein/benutzername/meine-website.git
 
+// I M P O R T:   F I L E S
+
+// I M P O R T:   P A C K A G E S
+
+// I M P O R T:   F U N C T I O N S
+
+// C O D E

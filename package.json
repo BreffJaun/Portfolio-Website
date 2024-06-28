@@ -15,12 +15,14 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/gsap": "^3.0.0",
     "@types/react-router-dom": "^5.3.3",
+    "@types/ua-parser-js": "^0.7.39",
     "gsap": "^3.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-parallax-tilt": "^1.7.224",
     "react-responsive-carousel": "^3.2.23",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "ua-parser-js": "^1.0.38"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
