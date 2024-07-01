@@ -29,7 +29,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <div className="content__container">
         <div className="quick__info">
           <div className="info__top">
-            <h6 className="author__action">{authorAction}</h6>
+            <h6 className="author__action">breffjaun {authorAction}</h6>
             <span>•</span>
             <p className="date">{date}</p>
           </div>
@@ -39,6 +39,13 @@ const PostCard: React.FC<PostCardProps> = ({
           <h3>{articleTitle}</h3>
           <p>{articleContent}</p>
           <img src={articleImageSrc} alt={articleImageSrc} />
+          {articleLink && (
+            <div className="article__link">
+              <a href={articleLink} target="_blank">
+                <FontAwesomeIcon icon={["fas", "link"]} />
+              </a>
+            </div>
+          )}
           {/* <a href="" target="_blank">
             <FontAwesomeIcon icon={["fas", "link"]} />
           </a> */}

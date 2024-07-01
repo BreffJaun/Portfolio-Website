@@ -33,7 +33,7 @@ const testPosts = [
     articleContent:
       "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
     articleImageSrc: avatarImage,
-    articleLink: "",
+    articleLink: "test",
   },
   {
     avatar: avatarImage,
