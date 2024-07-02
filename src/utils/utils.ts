@@ -148,14 +148,14 @@ export const detectDevice = (): string => {
   const parser = new UAParser();
   const result = parser.setUA(navigator.userAgent).getResult();
   const userAgent = navigator.userAgent;
-  console.log("userAgent: ", userAgent);
+  // console.log("userAgent: ", userAgent);
 
   const osName = result.os ? result.os.name : undefined;
-  console.log("OS Name: ", osName);
+  // console.log("OS Name: ", osName);
   const isDesktop = ["windows", "mac", "mac os", "macintosh", "linux"].includes(
     osName?.toLowerCase() ?? ""
   );
-  console.log("isDesktop: ", isDesktop);
+  // console.log("isDesktop: ", isDesktop);
 
   // Zusätzliche Überprüfung für Surface-Geräte unter Windows NT
   const isSurfaceOrSimilar = userAgent.includes("Windows NT") && isDesktop;
