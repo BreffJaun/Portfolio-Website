@@ -134,9 +134,9 @@ const Stack = () => {
     loadImageDimensions();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("1. UE / device: ", device);
-  // }, [device]);
+  useEffect(() => {
+    console.log("1. UE / device: ", device);
+  }, [device]);
 
   const renderStackItem = (el: StackItem) => (
     <Tilt
