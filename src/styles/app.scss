@@ -40,8 +40,19 @@ html, body .stack {
 html {
   // Verhindert das die Überschrift unter die sticky navbar fällt
   scroll-padding-top: 5rem;
+}
 
-  .dark-theme {
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.main__content {
+  position: relative;
+}
+
+// scrollbar-color: var(--teal) var(--gray-800);
+.dark-theme {
   scrollbar-color: var(--teal) var(--gray-800);
   background-color: var(--body-color);
 
@@ -68,37 +79,111 @@ html {
   p {
     color: var(--gray-500);
   }
-    }
 
-  .light-theme {
-    scrollbar-color: var(--teal) var(--white) !important;
-    background-color: var(--gray-100);
+  // Custom scrollbar styles for dark theme
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 
-    header {
-        background-color: var(--white);
+  ::-webkit-scrollbar-track {
+    background: var(--gray-800);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--teal);
+    border-radius: 10px;
+    border: 3px solid var(--gray-800);
+  }
+
+}
+
+// scrollbar-color: var(--teal) var(--white) !important;
+.light-theme {
+  scrollbar-color: var(--teal) var(--white);
+  background-color: var(--gray-100);
+
+  header {
+    background-color: var(--white);
+  }
+
+  h1 {
+    color: var(--gray-900);
+  }
+
+  h2 {
+    color: var(--gray-700);
+  }
+
+  h3 {
+    color: var(--gray-700);
+  }
+
+  h6 {
+    color: var(--teal);
+  }
+
+  p {
+    color: var(--gray-500);
+  }
+
+  .main__navigation {
+    a {
+      color: var(--teal) !important;
+
+      &:hover {
+        color: var(--gray-600) !important;
       }
 
-    h1 {
-      color: var(--gray-900);
+      &.active {
+        color: var(--gray-600) !important;
+      }
+
+      &::after {
+        content: '';
+        background-color: var(--teal);
+      }
+    }
+  }
+
+  .sub__navigation {
+    a {
+      color: var(--gray-600) !important;
+
+      &:hover {
+        color: var(--teal) !important;
+      }
+
+      &.active {
+        color: var(--teal) !important;
+
+        span {
+          color: var(--gray-600) !important;
+        }
+      }
+
+      &::after {
+        background-color: var(--gray-600);
+      }
+    }
+  }
+
+  .hamburger__menu {
+    .hamburger__icon {
+      &:hover {
+        color: var(--gray-600) !important;
+      }
+
+      &.active {
+        color: var(--gray-600) !important;
+
+        &::after {
+          width: 100%;
+        }
+      }
+
     }
 
-    h2 {
-      color: var(--gray-700);
-    }
-
-    h3 {
-      color: var(--gray-700);
-    }
-
-    h6 {
-      color: var(--teal);
-    }
-
-    p {
-      color: var(--gray-500);
-    }
-
-    .main__navigation {
+    .main__navigation__sm {
       a {
         color: var(--teal) !important;
 
@@ -115,190 +200,133 @@ html {
           background-color: var(--teal);
         }
       }
-    }
 
-    .sub__navigation {
-      a {
-        color: var(--gray-600) !important;
-
-        &:hover {
-          color: var(--teal) !important;
-        }
-
-        &.active {
-          color: var(--teal) !important;
-
-          span {
-            color: var(--gray-600) !important;
-          }
-        }
-
-        &::after {
-          background-color: var(--gray-600);
-        }
-      }
-    }
-
-    .hamburger__menu {
-      .hamburger__icon {
-        &:hover {
-          color: var(--gray-600) !important;
-        }
-
-        &.active {
-          color: var(--gray-600) !important;
-
-          &::after {
-            width: 100%;
-          }
-        }
-
-      }
-
-      .main__navigation__sm {
+      .sub__navigation__sm {
         a {
-          color: var(--teal) !important;
+          color: var(--gray-600) !important;
 
           &:hover {
-            color: var(--gray-600) !important;
+            color: var(--teal) !important;
           }
 
           &.active {
-            color: var(--gray-600) !important;
+            color: var(--teal) !important;
+
+            span {
+              color: var(--gray-600) !important;
+            }
           }
 
           &::after {
-            content: '';
-            background-color: var(--teal);
+            background-color: var(--gray-600);
           }
-        }
-
-        .sub__navigation__sm {
-          a {
-            color: var(--gray-600) !important;
-
-            &:hover {
-              color: var(--teal) !important;
-            }
-
-            &.active {
-              color: var(--teal) !important;
-
-              span {
-                color: var(--gray-600) !important;
-              }
-            }
-
-            &::after {
-              background-color: var(--gray-600);
-            }
-          }
-        }
-      }
-    }
-
-    // CONTACT BUTTON
-    // used in Landing Page and Contact Section
-
-    .btn__outline__success {
-      &:hover {
-        color: var(--gray-600) !important;
-      }
-
-      &:active {
-        color: var(--white);
-        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-      }
-    }
-
-    // STACK SECTION
-    .stack {
-      section {
-        .outer__element {
-          .parallax-effect-glare-scale {
-            background-color: var(--white);
-        
-            h2 {
-              color: var(--gray-700) !important;
-            }
-          }
-          .carousel-root {
-            .carousel {
-              .control-prev {
-                &.control-arrow {
-                  &:before {
-                    border-right: 8px solid var(--gray-900);
-                  }
-                }
-              }
-              .control-next {
-                &.control-arrow {
-                  &:before {
-                    border-left: 8px solid var(--gray-900);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    .spotlight__shadow {
-      background: radial-gradient(circle, rgba(32, 201, 151, 0.3) 0%, rgba(255, 255, 255, 0) 70%) !important;
-    }
-
-    // PROJECT SECTION
-    .project-card {
-      background-color: var(--white) !important;
-
-      .project-card__content {
-        .project-card__title {
-          color: var(--gray-700) !important;
-        }
-      }
-    }
-
-    // FOOTER SECTION
-    .footer {
-      background-color: var(--gray-100) !important;
-
-      a {
-        &:hover {
-          color: var(--gray-800);
-        }
-      }
-    }
-
-    // FEED => POST CARD SECTION
-    .post__card {
-      background-color: var(--white);
-    }
-
-    // LOGIN
-    .login {
-      .login__form {
-        background-color: var(--white);
-
-        h2 {
-          color: var(--gray-800);
-        }
-
-        label {
-          color: var(--gray-600);
         }
       }
     }
   }
-}
 
-body {
-  height: 100%;
-  width: 100%;
-}
+  // CONTACT BUTTON
+  // used in Landing Page and Contact Section
 
-.main__content {
-  position: relative;
+  .btn__outline__success {
+    &:hover {
+      color: var(--gray-600) !important;
+    }
+
+    &:active {
+      color: var(--white);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  // STACK SECTION
+  .stack {
+    section {
+      .outer__element {
+        .parallax-effect-glare-scale {
+          background-color: var(--white);
+
+          h2 {
+            color: var(--gray-700) !important;
+          }
+        }
+
+        .carousel-root {
+          .carousel {
+            .control-prev {
+              &.control-arrow {
+                &:before {
+                  border-right: 8px solid var(--gray-900);
+                }
+              }
+            }
+
+            .control-next {
+              &.control-arrow {
+                &:before {
+                  border-left: 8px solid var(--gray-900);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .spotlight__shadow {
+    background: radial-gradient(circle, rgba(32, 201, 151, 0.3) 0%, rgba(255, 255, 255, 0) 70%) !important;
+  }
+
+  // PROJECT SECTION
+  .project-card {
+    background-color: var(--white) !important;
+
+    .project-card__content {
+      .project-card__title {
+        color: var(--gray-500) !important;
+      }
+    }
+  }
+
+  // FOOTER SECTION
+  .footer {
+    background-color: var(--gray-100) !important;
+
+    a {
+      &:hover {
+        color: var(--gray-800);
+      }
+    }
+  }
+
+  // FEED => POST CARD SECTION
+  .post__card {
+    background-color: var(--white);
+    .content__container {
+      article {
+        h3 {
+          color: var(--gray-600)
+        }
+      }
+    }
+  }
+
+  // LOGIN
+  .login {
+    .login__form {
+      background-color: var(--white);
+
+      h2 {
+        color: var(--gray-800);
+      }
+
+      label {
+        color: var(--gray-600);
+      }
+    }
+  }
+  
 }
 
 

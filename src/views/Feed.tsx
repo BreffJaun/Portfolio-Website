@@ -15,7 +15,7 @@ import { formatCurrentDate } from "../utils/utils";
 const testPosts = [
   {
     avatar: avatarImage,
-    authorAction: `${"breffjaun"}`,
+    authorAction: `${"😊"}`,
     date: formatCurrentDate(),
     mood: "🌴 Feelin fresh",
     articleTitle: "Welcome to my portfolio!",
@@ -26,7 +26,7 @@ const testPosts = [
   },
   {
     avatar: avatarImage,
-    authorAction: `${"breffjaun"}`,
+    authorAction: `${"🌴"}`,
     date: formatCurrentDate(),
     mood: "🙌 Excited",
     articleTitle: "",
@@ -37,7 +37,7 @@ const testPosts = [
   },
   {
     avatar: avatarImage,
-    authorAction: `${"breffjaun"}`,
+    authorAction: `${"🌴"}`,
     date: formatCurrentDate(),
     mood: "🙌 Excited",
     articleTitle: "",

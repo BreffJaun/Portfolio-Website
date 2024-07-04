@@ -23,6 +23,8 @@ const ThemeButton = () => {
     localStorage.setItem("theme", JSON.stringify(theme));
     document.body.classList.toggle("dark-theme", theme);
     document.body.classList.toggle("light-theme", !theme);
+    document.documentElement.classList.toggle("dark-theme", theme);
+    document.documentElement.classList.toggle("light-theme", !theme);
     const storedClickCount = localStorage.getItem("clickCount");
     if (
       typeof storedClickCount === "string" &&
