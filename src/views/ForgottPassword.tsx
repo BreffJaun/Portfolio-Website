@@ -46,8 +46,8 @@ const ForgottPassword = () => {
   //       });
   //   };
   //   sendData();
-  setError("Kein Account mit dieser E-Mail gefunden");
-  setTimeout(() => setError(""), 8000);
+  // setError("Kein Account mit dieser E-Mail gefunden");
+  // setTimeout(() => setError(""), 8000);
   // };
 
   return (
