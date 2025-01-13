@@ -18,6 +18,10 @@ import CombinedLP from "./views/CombinedLP";
 import Feed from "./views/Feed";
 import Contact from "./views/Contact";
 import Login from "./views/Login";
+import Registration from "./views/Registration";
+import ForgottPassword from "./views/ForgottPassword";
+import SetNewPassword from "./views/SetNewPassword";
+import CustomErrorPage from "./views/CustomErrorPage";
 import { detectDevice } from "./utils/utils";
 
 // C O D E
@@ -62,6 +66,13 @@ function App() {
                   <Route path="/feed" element={<Feed />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/registration" element={<Registration />} />
+                  <Route
+                    path="/forgottpassword"
+                    element={<ForgottPassword />}
+                  />
+                  <Route path="/setnewpassword" element={<SetNewPassword />} />
+                  <Route path="*" element={<CustomErrorPage />} />
                 </Routes>
               </div>
               <Spotlight />

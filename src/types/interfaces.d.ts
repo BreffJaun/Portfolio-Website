@@ -57,3 +57,9 @@ export interface PostCardProps {
 export interface BackToTopBtnProps {
   watchElementSelector: string;
 }
+
+export interface Profile {
+  username: string;
+  email: string;
+  password: string;
+}

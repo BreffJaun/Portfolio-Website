@@ -2,24 +2,41 @@
 import "../styles/login.scss";
 
 // I M P O R T:   P A C K A G E S
-
-// I M P O R T:   F U N C T I O N S
+import { NavLink } from "react-router-dom";
 
 // C O D E
 const Login = () => {
   return (
-    <div className="login">
-      <form className="login__form">
+    <div className="login-container">
+      <form className="login-form">
         <h2>Login</h2>
-        <div className="form__group">
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" required />
+        <div className="form-group">
+          <input
+            type="text"
+            name="username"
+            placeholder="Benutzername"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Passwort"
+            required
+          />
         </div>
-        <div className="form__group">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" required />
+        <div className="form-actions">
+          <button type="submit">Einloggen</button>
         </div>
-        <button type="submit">Login</button>
+        <div className="form-footer">
+          <p>
+            Noch keinen Account?{" "}
+            <NavLink to="/registration">Hier registrieren</NavLink>
+          </p>
+          <p>
+            Passwort vergessen?{" "}
+            <NavLink to="/forgottpassword">Hier klicken</NavLink>
+          </p>
+        </div>
       </form>
     </div>
   );
