@@ -58,7 +58,7 @@ const SetNewPassword = () => {
         <h2 className="form-title">Setze dein Passwort zurück</h2>
 
         {/* <form onSubmit={handleSubmit}> */}
-        <form onSubmit>
+        <form>
           <div className="form-field">
             <input
               type="email"
