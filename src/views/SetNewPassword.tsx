@@ -12,45 +12,45 @@ import { useState } from "react";
 // C O D E
 const SetNewPassword = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState < string > "";
+  const [error, setError] = useState<string>("");
   const INITIAL = {
     password: "",
     confirmPassword: "",
   };
   const [newData, setNewData] = useState(INITIAL);
 
-  const handleInput = (event) => {
-    setNewData({ ...newData, [event.target.name]: event.target.value });
-  };
+  // const handleInput = (event) => {
+  //   setNewData({ ...newData, [event.target.name]: event.target.value });
+  // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (newDatapassword !== newData.confirmPassword) {
-      setError("Die Passwörter stimmen nicht überein!");
-      setTimeout(() => setError(""), 8000);
-      return;
-    }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (newDatapassword !== newData.confirmPassword) {
+  //     setError("Die Passwörter stimmen nicht überein!");
+  //     setTimeout(() => setError(""), 8000);
+  //     return;
+  //   }
 
-    const sendData = async () => {
-      await fetch(`${host}/users/setnewpassword`, {
-        credentials: "include",
-        method: "POST",
-        body: JSON.stringify(newData),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((json) => json.json())
-        .then((data) => {
-          if (data.status === 401) {
-            navigate(`/*`);
-          } else if (data.status === 200) {
-            navigate("/");
-          }
-        });
-    };
-    sendData();
-  };
+  //   const sendData = async () => {
+  //     await fetch(`${host}/users/setnewpassword`, {
+  //       credentials: "include",
+  //       method: "POST",
+  //       body: JSON.stringify(newData),
+  //       headers: {
+  //         "Content-type": "application/json; charset=UTF-8",
+  //       },
+  //     })
+  //       .then((json) => json.json())
+  //       .then((data) => {
+  //         if (data.status === 401) {
+  //           navigate(`/*`);
+  //         } else if (data.status === 200) {
+  //           navigate("/");
+  //         }
+  //       });
+  //   };
+  //   sendData();
+  // };
 
   return (
     <div className="auth-container">

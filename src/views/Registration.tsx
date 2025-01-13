@@ -46,24 +46,24 @@ const Registration = () => {
     }
     setError("");
 
-    const sendRegistrationData = async () => {
-      await fetch(`${host}/users/register`, {
-        method: "POST",
-        body: JSON.stringify(registrationData),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          if (!json.status) {
-            setTimeout(() => navigate("/*"), 4000); // Fallback-Seite
-          } else {
-            setTimeout(() => navigate("/login"), 4000);
-          }
-        });
-    };
-    sendRegistrationData();
+    // const sendRegistrationData = async () => {
+    //   await fetch(`${host}/users/register`, {
+    //     method: "POST",
+    //     body: JSON.stringify(registrationData),
+    //     headers: {
+    //       "Content-type": "application/json; charset=UTF-8",
+    //     },
+    //   })
+    //     .then((response) => response.json())
+    //     .then((json) => {
+    //       if (!json.status) {
+    //         setTimeout(() => navigate("/*"), 4000); // Fallback-Seite
+    //       } else {
+    //         setTimeout(() => navigate("/login"), 4000);
+    //       }
+    //     });
+    // };
+    // sendRegistrationData();
   };
 
   return (

@@ -18,44 +18,45 @@ const ForgottPassword = () => {
   };
   const [email, setEmail] = useState(INITIAL);
 
-  const handleInput = (event) => {
-    setEmail({ ...email, email: event.target.value });
-  };
+  // const handleInput = (event) => {
+  //   setEmail({ ...email, email: event.target.value });
+  // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const sendData = async () => {
-      await fetch(`${host}/users/forgottpassword`, {
-        credentials: "include",
-        method: "POST",
-        body: JSON.stringify(email),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((json) => json.json())
-        .then((data) => {
-          if (data.error) {
-            setError("Kein Account mit dieser E-Mail gefunden");
-            setTimeout(() => setError(""), 8000);
-            return;
-          }
-          if (data.message) {
-            navigate("/");
-          }
-        });
-    };
-    sendData();
-    // setError("Kein Account mit dieser E-Mail gefunden");
-    // setTimeout(() => setError(""), 8000);
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const sendData = async () => {
+  //     await fetch(`${host}/users/forgottpassword`, {
+  //       credentials: "include",
+  //       method: "POST",
+  //       body: JSON.stringify(email),
+  //       headers: {
+  //         "Content-type": "application/json; charset=UTF-8",
+  //       },
+  //     })
+  //       .then((json) => json.json())
+  //       .then((data) => {
+  //         if (data.error) {
+  //           setError("Kein Account mit dieser E-Mail gefunden");
+  //           setTimeout(() => setError(""), 8000);
+  //           return;
+  //         }
+  //         if (data.message) {
+  //           navigate("/");
+  //         }
+  //       });
+  //   };
+  //   sendData();
+  setError("Kein Account mit dieser E-Mail gefunden");
+  setTimeout(() => setError(""), 8000);
+  // };
 
   return (
     <div className="auth-container">
       <div className="form-container">
         <h2 className="form-title">Setze dein Passwort zurück</h2>
 
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}> */}
+        <form>
           <div className="form-field">
             <input
               type="email"
@@ -63,7 +64,7 @@ const ForgottPassword = () => {
               placeholder="Gib deine E-Mail-Adresse ein"
               required
               className="form-input"
-              onChange={handleInput}
+              // onChange={handleInput}
             />
           </div>
           {/* Fehlermeldung für E-Mailabgleich */}
