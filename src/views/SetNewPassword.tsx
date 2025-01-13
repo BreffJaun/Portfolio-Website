@@ -57,7 +57,8 @@ const SetNewPassword = () => {
       <div className="form-container">
         <h2 className="form-title">Setze dein Passwort zurück</h2>
 
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}> */}
+        <form onSubmit>
           <div className="form-field">
             <input
               type="email"
@@ -65,7 +66,7 @@ const SetNewPassword = () => {
               placeholder="Gib deine E-Mail-Adresse ein"
               required
               className="form-input"
-              onChange={handleInput}
+              // onChange={handleInput}
             />
           </div>
           {/* Fehlermeldung für E-Mail Abgleich */}
