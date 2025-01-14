@@ -1,13 +1,12 @@
 // I M P O R T:   F I L E S
-import "../styles/forgottpassword.scss";
-
-// I M P O R T:   T Y P E S
+import "../styles/setnewpassword.scss";
 
 // I M P O R T:   P A C K A G E S
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 // I M P O R T:   F U N C T I O N S
+import { BE_HOST } from "../api/host";
 
 // C O D E
 const SetNewPassword = () => {
@@ -19,70 +18,70 @@ const SetNewPassword = () => {
   };
   const [newData, setNewData] = useState(INITIAL);
 
-  // const handleInput = (event) => {
-  //   setNewData({ ...newData, [event.target.name]: event.target.value });
-  // };
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewData({ ...newData, [event.target.name]: event.target.value });
+  };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   if (newDatapassword !== newData.confirmPassword) {
-  //     setError("Die Passwörter stimmen nicht überein!");
-  //     setTimeout(() => setError(""), 8000);
-  //     return;
-  //   }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (newData.password !== newData.confirmPassword) {
+      setError("Passwörter stimmen nicht überein");
+      setTimeout(() => setError(""), 8000);
+      return;
+    }
+    const sendData = async () => {
+      await fetch(`${BE_HOST}/users/forgottpassword`, {
+        credentials: "include",
+        method: "POST",
+        body: JSON.stringify(newData.password),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setTimeout(() => navigate("/"), 4000);
+        })
+        .catch((err) => {
+          setError(err.message || "Ein unerwarteter Fehler ist aufgetreten");
+          setTimeout(() => setError(""), 4000);
+          console.error(err); // Für Debugging-Zwecke
+        });
+    };
 
-  //   const sendData = async () => {
-  //     await fetch(`${host}/users/setnewpassword`, {
-  //       credentials: "include",
-  //       method: "POST",
-  //       body: JSON.stringify(newData),
-  //       headers: {
-  //         "Content-type": "application/json; charset=UTF-8",
-  //       },
-  //     })
-  //       .then((json) => json.json())
-  //       .then((data) => {
-  //         if (data.status === 401) {
-  //           navigate(`/*`);
-  //         } else if (data.status === 200) {
-  //           navigate("/");
-  //         }
-  //       });
-  //   };
-  //   sendData();
-  // };
+    sendData();
+  };
 
   return (
     <div className="auth-container">
       <div className="form-container">
-        <h2 className="form-title">Setze dein Passwort zurück</h2>
-
-        {/* <form onSubmit={handleSubmit}> */}
-        <form>
+        <h2 className="form-title">Neues Passwort setzen</h2>
+        <form onSubmit={handleSubmit}>
           <div className="form-field">
             <input
-              type="email"
-              name="email"
-              placeholder="Gib deine E-Mail-Adresse ein"
+              type="password"
+              name="password"
+              placeholder="Neues Passwort"
               required
               className="form-input"
-              // onChange={handleInput}
+              onChange={handleInput}
             />
           </div>
-          {/* Fehlermeldung für E-Mail Abgleich */}
+          <div className="form-field">
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Passwort bestätigen"
+              required
+              className="form-input"
+              onChange={handleInput}
+            />
+          </div>
           {error && <p className="error-message">{error}</p>}
           <div className="form-button-container">
             <button type="submit" className="form-button">
-              Reset E-Mail senden
+              Bestätigen
             </button>
-          </div>
-          <div className="form-link">
-            <p>
-              Du erinnerst dich an dein Passwort?{" "}
-              <span>
-                <NavLink to="/login">Zurück zum Login</NavLink>
-              </span>
-            </p>
           </div>
         </form>
       </div>
