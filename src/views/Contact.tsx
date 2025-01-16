@@ -4,7 +4,7 @@ import "../styles/contact.scss";
 // I M P O R T:   P A C K A G E S
 
 // I M P O R T:   F U N C T I O N S
-import Footer from "../components/Footer";
+import Footer from "./Footer";
 
 // C O D E
 const Contact = () => {

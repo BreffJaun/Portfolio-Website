@@ -4,6 +4,7 @@
 import UAParser from "ua-parser-js";
 
 // I M P O R T:   F U N C T I O N S
+import { BE_HOST } from "../api/host";
 
 // C O D E
 
@@ -162,4 +163,27 @@ export const detectDevice = (): string => {
 
   // Wenn das Gerät als Desktop eingestuft wird und nicht ein Surface/Geräte, geben wir "desktop" zurück, sonst "mobile"
   return isDesktop && !isSurfaceOrSimilar ? "desktop" : "mobile";
+};
+
+export const checkLogin = (
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  setIsPending(true);
+  fetch(`${BE_HOST}/users/checklogin`, {
+    credentials: "include",
+  })
+    .then((res) => {
+      if (res.status === 401) {
+        console.log("USER IS NOT LOGGED IN (TOKEN EXPIRED)!");
+        setIsLoggedIn(false); // Setze isLoggedIn auf false
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setIsLoggedIn(false);
+    })
+    .finally(() => {
+      setIsPending(false);
+    });
 };

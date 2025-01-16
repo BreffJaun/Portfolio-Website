@@ -63,3 +63,43 @@ export interface Profile {
   email: string;
   password: string;
 }
+
+export interface User {
+  _id: string;
+  userName: string;
+}
+
+export interface Content {
+  introduction: string;
+  name: string;
+  connectingWords: string;
+  jobTitle: string;
+  description: string;
+}
+
+export interface EditBtnProps {
+  onClick: () => void;
+}
+
+export interface EditLPModalProps {
+  content: {
+    introduction: string;
+    name: string;
+    connectingWords: string;
+    jobTitle: string;
+    description: string;
+  };
+  onClose: () => void;
+  onSubmit: (updatedContent: {
+    introduction: string;
+    name: string;
+    connectingWords: string;
+    jobTitle: string;
+    description: string;
+  }) => void;
+  isModalOpen: boolean;
+}
+
+export interface CloseBtnProps {
+  onClick: () => void;
+}

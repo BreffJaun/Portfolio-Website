@@ -1,0 +1,27 @@
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--teal-light);
+  color: var(--teal);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: var(--teal);
+    color: var(--teal-light);
+  }
+
+  .close-btn-icon {
+    font-size: 1rem;
+  }
+}

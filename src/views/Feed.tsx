@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 
 // I M P O R T:   F U N C T I O N S
-import Footer from "../components/Footer";
+import Footer from "./Footer";
 import PostCard from "../components/PostCard";
 import BackToTopBtn from "../components/BackToTopBtn";
 import { formatCurrentDate } from "../utils/utils";

@@ -8,6 +8,15 @@ import {
   faCakeCandles,
   faLink,
   faArrowUp,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faGithub, faLinkedinIn, faXing, faCakeCandles, faLink, faArrowUp);
+library.add(
+  faGithub,
+  faLinkedinIn,
+  faXing,
+  faCakeCandles,
+  faLink,
+  faArrowUp,
+  faX
+);
