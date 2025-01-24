@@ -2,64 +2,129 @@
 import bw__image from "../../images/breffjaun_bw.png";
 import cd__image from "../../images/breffjaun_cd.png";
 
+// I M P O R T:  T Y P E S
+import { MySelf_Content } from "../../types/interfaces";
+
 // I M P O R T:   P A C K A G E S
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
+import { BE_HOST, URL_MS } from "../../api/host";
+import LoggedInContext from "../../context/LoginContext";
+import PendingContext from "../../context/PendingContext";
+import EditBtn from "../EditBtn";
+import EditMySelfModal from "../EditMySelfModal";
+import { openModal, closeModal, initialContentLoad } from "../../utils/utils";
 
 // C O D E
 const AboutMe = () => {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
+  const [isLoggedIn] = useContext(LoggedInContext);
+  const [isPending] = useContext(PendingContext);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [content, setContent] = useState<MySelf_Content>({
+    headline: "My Self",
+    motto: `"Aus den eigenen und vor allem aus den Fehlern anderer lernen"`,
+    connectingWords: " lautet mein Motto.",
+    description: {
+      paragraph1:
+        "Im Web Development habe ich nicht nur eine neue berufliche    Herausforderung gefunden, sondern auch meine wahre Leidenschaft    entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein    und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es    etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab.    Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes    zum Leben erwachen und tatsächlich etwas bewirken können. Der    IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.",
+      paragraph2:
+        "Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich gesammelt und auch in einer Führungsposition mein Können unter    Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe die nächste Herausforderung im IT-Bereich gewagt.",
+      paragraph3:
+        "Darum bildete ich mich beim Digital Career Institut zum    Web-Developer fort und habe dort nach erfolgreichem Abschluss des    Kurses meine Karriere im Bereich Web Development als Assistant Teacher angefangen.",
+    },
+  });
+
+  useEffect(() => {
+    // initialContentLoad(URL_MS, setContent, navigate);
+  }, []);
+
+  const handleUpdate = (updatedContent: MySelf_Content) => {
+    closeModal(setIsModalOpen);
+    const sendData = async () => {
+      await fetch(`${BE_HOST}/${URL_MS}`, {
+        credentials: "include",
+        method: "PATCH",
+        body: JSON.stringify(content),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 201) {
+            setContent(data.content);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
+    };
+    sendData();
+  };
 
   return (
-    <div className="about__me">
-      <section id="aboutme">
-        <img
-          src={hovered ? cd__image : bw__image}
-          alt="personal portrait"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        />
-        <div>
-          <h1>My Self</h1>
-          <p>
-            <cite>
-              "Aus den eigenen und vor allem aus den Fehlern anderer lernen"
-            </cite>
-            lautet mein Motto.
-          </p>
-          <p>
-            Im Web Development habe ich nicht nur eine neue berufliche
-            Herausforderung gefunden, sondern auch meine wahre Leidenschaft
-            entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein
-            und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es
-            etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab.
-            Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes
-            zum Leben erwachen und tatsächlich etwas bewirken können. Der
-            IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.
-          </p>
-          <p>
-            Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich
-            gesammelt und auch in einer Führungsposition mein Können unter
-            Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe
-            die nächste Herausforderung im IT-Bereich gewagt.
-          </p>
-          <p>
-            Darum bildete ich mich beim{" "}
-            <a href="https://digitalcareerinstitute.org/" target="_blank">
-              Digital Career Institut
-            </a>{" "}
-            zum Web-Developer fort und habe dort nach erfolgreichem Abschluss
-            des Kurses meine Karriere im Bereich Web Development als Assistant
-            Teacher angefangen.
-          </p>
+    <>
+      {isPending ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="about__me">
+          <section id="aboutme">
+            <img
+              src={hovered ? cd__image : bw__image}
+              alt="personal portrait"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            />
+            <div>
+              <h1>{content.headline}</h1>
+              <p>
+                <cite>{content.motto}</cite>
+                <span>{content.connectingWords}</span>
+              </p>
+              <p>{content.description.paragraph1}</p>
+              <p>{content.description.paragraph2}</p>
+              <p className="description__container">
+                {content.description.paragraph3}
+              </p>
+            </div>
+            <EditBtn onClick={() => openModal(setIsModalOpen)} />
+          </section>
+          <div className={`edit-modal-container ${isModalOpen ? "open" : ""}`}>
+            <EditMySelfModal
+              content={content}
+              onClose={() => closeModal(setIsModalOpen)}
+              onSubmit={handleUpdate}
+              isModalOpen={isModalOpen}
+            />
+          </div>
         </div>
-      </section>
-    </div>
+      )}
+    </>
   );
 };
 
 export default AboutMe;
+
+{
+  /* <div title="upload">
+  <label htmlFor="thumbnail">
+    <Camera /> edit image
+  </label>
+  <input
+    id="thumbnail"
+    type="file"
+    name="thumbnail"
+    onChange={handleFile}
+    accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
+    hidden
+  />
+</div>; */
+}
 
 /* 
 "Aus den eigenen und vor allem aus den Fehlern anderer lernen" lautet mein Motto.

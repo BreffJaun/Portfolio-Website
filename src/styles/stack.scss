@@ -3,6 +3,7 @@
   height: 100vh;
   max-width: 100vw;
   z-index: 1;
+  // border: 2px solid red;
   
   section {
     height: 100%;
@@ -24,10 +25,16 @@
       margin-top: 5rem;
     }
 
+    .edit__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // border: 2px solid red;
+    }
+
     p {
       text-align: center;
       line-height: 1.5rem;
-      margin-bottom: 1rem;
     }
 
     .outer__element {

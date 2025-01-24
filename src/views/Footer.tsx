@@ -59,15 +59,15 @@ const Footer = () => {
       </div>
 
       <div className="right__placeholder">
-        {/* {isLoggedIn ? ( */}
-        {/* <a href="" onClick={handleLogoutClick}>
+        {isLoggedIn ? (
+          <a href="" onClick={handleLogoutClick}>
             Logout
           </a>
-        ) : ( */}
-        <a href="" onClick={handleLoginClick}>
-          Login
-        </a>
-        {/* )} */}
+        ) : (
+          <a href="" onClick={handleLoginClick}>
+            Login
+          </a>
+        )}
       </div>
     </div>
   );

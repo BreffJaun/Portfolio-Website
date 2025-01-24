@@ -39,13 +39,13 @@ html.modal-open {
   align-items: center;
   position: relative;
 
-  &.lp__modal {
+  &.mySelf__modal{
     // Scrollbar für Modal
-    max-height: 85vh;
+    max-height: 80vh;
     overflow-y: auto;
     scrollbar-color: var(--teal) transparent; // Chrome, Firefox => Farbe, Hintergrundfarbe (sorgt für abgerundete Ecken bei Scrollbars in einem Modal)
   }
-
+  
   h2 {
     margin-bottom: 1rem;
     color: var(--gray-200);

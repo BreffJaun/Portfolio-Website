@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const LoggedInContext = createContext([false, () => {}] as [
+const LoggedInContext = createContext([true, () => {}] as [
   boolean,
   React.Dispatch<React.SetStateAction<boolean>>
 ]);

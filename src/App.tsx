@@ -34,7 +34,7 @@ function App() {
   const [clickCount, setClickCount] = useState<number>(0);
   const [mobileView, setMobileView] = useState<boolean>(false);
   const [device, setDevice] = useState<string>("");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const [isPending, setIsPending] = useState<boolean>(false);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function App() {
     }
     // console.log("Detected device:", device);
   }, [location]);
-  console.log("isLoggedIn:", isLoggedIn);
+  // console.log("isLoggedIn:", isLoggedIn);
   return (
     <PendingContext.Provider value={[isPending, setIsPending]}>
       <LoggedInContext.Provider value={[isLoggedIn, setIsLoggedIn]}>

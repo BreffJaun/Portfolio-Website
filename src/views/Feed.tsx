@@ -133,3 +133,67 @@ const Feed: React.FC = () => {
 };
 
 export default Feed;
+
+// const [thumbnail, setThumbnail] = useState(undefined);
+// const [thumbnailUrl, setThumbnailUrl] = useState("");
+
+// const handleFile = (event) => {
+//   setThumbnail(event.target.files[0]);
+//   const image = URL.createObjectURL(event.target.files[0]);
+//   setThumbnailUrl(image);
+// };
+
+// useEffect(() => {
+//   document.body.scrollTop = 0;
+//   document.documentElement.scrollTop = 0;
+//   setPending(true);
+//   const fetchProject = async () => {
+//     fetch(`${host}/projects/${id}`, {
+//       credentials: "include",
+//     })
+//       .then((response) => response.json())
+//       .then((json) => {
+//         if (json.status) {
+//           setProject(json.data);
+//           setPending(false);
+//           setCategory(json.data.category);
+//           setTeam(json.data.team);
+//           setThumbnail(json.data.thumbnail);
+//         }
+//       });
+//   };
+//   fetchProject();
+// }, [id]);
+
+// const handleSubmit = (event) => {
+//   event.preventDefault();
+
+//   // Add your own userId to the project, because we need to check if you should could change something in the project.
+
+//   const formData = new FormData();
+//   formData.append("thumbnail", thumbnail);
+//   formData.append("data", JSON.stringify(newProject));
+
+//   const sendProjectData = async () => {
+//     setUploadPending(true);
+//     await fetch(`${host}/projects/${id}`, {
+//       credentials: "include",
+//       method: "PATCH",
+//       body: formData,
+//       // body: JSON.stringify(newProject),
+//     })
+//       .then((json) => json.json())
+//       .then((data) => {
+//         if (data.status) {
+//           toast("Your changes are saved", toastOptions);
+//           setUploadPending(false);
+//           if (!createProjectPending) {
+//             navigate(`/projectdetails/${data.data._id}`);
+//           }
+//         }
+//         if (data.error) {
+//           // setUploadPending(false);
+//           toast(data.error, toastOptions);
+//         }
+//       });
+//   };

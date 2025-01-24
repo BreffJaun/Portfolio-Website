@@ -25,9 +25,10 @@ export interface ThemeClickCountContextType {
 }
 
 export interface StackItem {
+  _id?: string;
   name: string;
-  logo: string;
-  style: string;
+  img?: string;
+  // style: string;
   dimensions?: { width: number; height: number };
   naturalWidth?: number;
   naturalHeight?: number;
@@ -69,7 +70,7 @@ export interface User {
   userName: string;
 }
 
-export interface Content {
+export interface LP_Content {
   introduction: string;
   name: string;
   connectingWords: string;
@@ -77,8 +78,29 @@ export interface Content {
   description: string;
 }
 
+export interface MySelf_Content {
+  headline: string;
+  motto: string;
+  connectingWords: string;
+  description: {
+    paragraph1: string;
+    paragraph2: string;
+    paragraph3: string;
+  };
+}
+
+export interface Stack_Content {
+  headline: string;
+  description: string;
+  stack: StackItem[];
+}
+
 export interface EditBtnProps {
   onClick: () => void;
+}
+
+export interface EditImageBtnProps {
+  // onClick: () => void;
 }
 
 export interface EditLPModalProps {
@@ -97,6 +119,38 @@ export interface EditLPModalProps {
     jobTitle: string;
     description: string;
   }) => void;
+  isModalOpen: boolean;
+}
+
+export interface EditMySelfModalProps {
+  content: {
+    headline: string;
+    motto: string;
+    connectingWords: string;
+    description: {
+      paragraph1: string;
+      paragraph2: string;
+      paragraph3: string;
+    };
+  };
+  onClose: () => void;
+  onSubmit: (updatedContent: {
+    headline: string;
+    motto: string;
+    connectingWords: string;
+    description: {
+      paragraph1: string;
+      paragraph2: string;
+      paragraph3: string;
+    };
+  }) => void;
+  isModalOpen: boolean;
+}
+
+export interface EditStackModalProps {
+  content: Stack_Content;
+  onClose: () => void;
+  onSubmit: () => void;
   isModalOpen: boolean;
 }
 

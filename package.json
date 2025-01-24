@@ -31,7 +31,9 @@
     "@types/sass": "^1.45.0",
     "@vitejs/plugin-react": "^3.0.0",
     "sass": "^1.74.1",
+    "sass-loader": "^16.0.4",
     "typescript": "^4.9.3",
-    "vite": "^4.0.0"
+    "vite": "^6.0.7",
+    "webpack": "^5.97.1"
   }
 }

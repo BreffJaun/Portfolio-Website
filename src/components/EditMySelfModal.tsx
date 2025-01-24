@@ -1,8 +1,8 @@
 // I M P O R T:   F I L E S
-import "../styles/editLPModal.scss";
+import "../styles/editMySelfModal.scss";
 
 // I M P O R T:  T Y P E S
-import { EditLPModalProps } from "../types/interfaces";
+import { EditMySelfModalProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import CloseBtn from "./CloseBtn";
 
 // C O D E
-const EditLPModal: React.FC<EditLPModalProps> = ({
+const EditMSModal: React.FC<EditMySelfModalProps> = ({
   content,
   onClose,
   onSubmit,
@@ -44,25 +44,25 @@ const EditLPModal: React.FC<EditLPModalProps> = ({
   };
 
   return (
-    <div className="edit-modal-content lp__modal">
+    <div className="edit-modal-content mySelf__modal">
       <CloseBtn onClick={onClose} />
       <form onSubmit={handleSubmit}>
-        <h2>Edit content</h2>
+        <h2>Edit content:</h2>
         <div className="form-group">
-          <label>Introduction:</label>
+          <label>Headline:</label>
           <input
             type="text"
-            name="introduction"
-            value={formData.introduction}
+            name="headline"
+            value={formData.headline}
             onChange={handleChange}
           />
         </div>
         <div className="form-group">
-          <label>Name:</label>
+          <label>Motto:</label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="motto"
+            value={formData.motto}
             onChange={handleChange}
           />
         </div>
@@ -76,19 +76,26 @@ const EditLPModal: React.FC<EditLPModalProps> = ({
           />
         </div>
         <div className="form-group">
-          <label>Job Title:</label>
-          <input
-            type="text"
-            name="jobTitle"
-            value={formData.jobTitle}
+          <label>Description Paragraph 1:</label>
+          <textarea
+            name="paragraph1"
+            value={formData.description.paragraph1}
             onChange={handleChange}
           />
         </div>
         <div className="form-group">
-          <label>Description:</label>
+          <label>Description Paragraph 2:</label>
           <textarea
-            name="description"
-            value={formData.description}
+            name="paragraph2"
+            value={formData.description.paragraph2}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Description Paragraph 3:</label>
+          <textarea
+            name="paragraph3"
+            value={formData.description.paragraph3}
             onChange={handleChange}
           />
         </div>
@@ -100,4 +107,4 @@ const EditLPModal: React.FC<EditLPModalProps> = ({
   );
 };
 
-export default EditLPModal;
+export default EditMSModal;

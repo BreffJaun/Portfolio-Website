@@ -12,8 +12,20 @@ import App from "./App";
 // C O D E
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <App />
     </BrowserRouter>
   </React.StrictMode>
 );
+
+/* 
+React.startTransition:
+    Vor v7: State-Updates wurden synchron verarbeitet.
+    Ab v7: React Router verwendet React.startTransition, um Hintergrundupdates zu optimieren, was UI-Blockaden reduziert.
+
+Relative Splat Routes:
+    Vor v7: Eine Splat-Route (*) verwendet relative Pfade, um Subrouten zu matchen, was manchmal verwirrend war.
+    Ab v7: Splat-Routen verhalten sich konsistenter und klarer. Durch das Aktivieren des Flags kannst du schon jetzt die neue Logik testen.
+*/
