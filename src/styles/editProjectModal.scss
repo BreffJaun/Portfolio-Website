@@ -6,10 +6,11 @@
   }
 }
 
-.stack-list {
+.project-list {
+  width: 100%;
   margin-bottom: 1rem;
 
-  .stack-items {
+  .project-items {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,8 +24,8 @@
     overflow-y: auto;
     scrollbar-color: var(--teal) transparent;
 
-    .stack-item {
-      width: 100px;
+    .project-item {
+      width: 220px;
       height: 50px;
       margin: 0.5rem;
       display: flex;
@@ -45,12 +46,12 @@
       }
 
       span {
-        margin-left: 0.1rem;
+        // margin-left: 0.1rem;
         color: var(--gray-600);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 100%;
+        // width: 100%;
       }
 
       &.highlighted {
@@ -75,7 +76,6 @@
   gap: 20px;
   // border: 2px solid red;
   
-
   .edit-section,
   .add-section {
     border: 1px solid var(--gray-200);
@@ -93,14 +93,32 @@
       margin-bottom: 1rem;
     }
     .form-group {
-      margin-bottom: 10px;
+      // margin-bottom: 10px;
 
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        max-width: fit-content;
+      .label-container {
+        display: flex;
+        justify-content: space-between;
+        
+        label {
+          font-size: 1rem;
+        }
+
+        .char-counter {
+          font-size: 0.9rem;
+          color: var(--gray-500);
+
+          &.near-limit {
+            color: var(--red-light);
+            font-weight: bold;
+          }
+
+          &.warning {
+            color: var(--red);
+            font-weight: bold;
+          }
+        }
       }
+      
 
       .thumbnail__label{
         display: flex;
@@ -120,12 +138,17 @@
         align-items: center;
         width:auto;
         height: 150px;
-        margin-bottom: 5px;
+        margin-bottom: 1rem;
         background-color: var(--gray-600);
         border: 1px solid var(--gray-200);
         border-radius: 8px;
 
-        
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          display: block;
+        }
       }
 
       input {
@@ -153,7 +176,7 @@
         border-radius: 4px;
         background-color: var(--teal);
         color: #fff;
-        font-size: 1rem;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: background-color 0.3s;
   
@@ -175,7 +198,7 @@
         border-radius: 4px;
         background-color: var(--red);
         color: #fff;
-        font-size: 1rem;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: background-color 0.3s;
 

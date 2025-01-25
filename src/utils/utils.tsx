@@ -224,3 +224,17 @@ export const getImageDimensions = (file: File) => {
     img.src = imageUrl;
   });
 };
+
+export const isValidLink = (value: string): boolean => {
+  const urlPattern = new RegExp(
+    "^(https?:\\/\\/)?" + // Optional http oder https
+      "((([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,})|" + // Domain-Name
+      "localhost|" + // Lokaler Host
+      "\\d{1,3}(\\.\\d{1,3}){3})" + // IP-Adresse
+      "(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*" + // Port und Pfade
+      "(\\?[;&a-zA-Z0-9%_.~+=-]*)?" + // Query-Parameter
+      "(\\#[-a-zA-Z0-9_]*)?$", // Fragment-Identifikator
+    "i"
+  );
+  return urlPattern.test(value);
+};

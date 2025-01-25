@@ -7,3 +7,6 @@ export const URL_MS = "content/myself"; // ContentMyself
 export const URL_ST = "content/stack"; // ContentStack
 export const URL_ST_D = "content/stack/description"; // ContentStack
 export const URL_ST_L = "content/stack/languages"; // ContentStack
+export const URL_P = "content/projects"; // Projects
+export const URL_P_D = "content/projects"; // Projects Description
+export const URL_P_L = "content/projects/list"; // Projects List

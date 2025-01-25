@@ -13,6 +13,17 @@
     overflow-x: hidden;
     // border: 1px solid orange;
 
+    .edit__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // border: 2px solid red;
+
+      .edit__description {
+        margin-bottom: 0;
+      }
+    }
+
     &>* {
       margin: 3rem;
     }

@@ -27,7 +27,7 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s, color 0.3s;
-    z-index: 999;
+    z-index: 998;
 
     &:hover {
       background-color: var(--teal);

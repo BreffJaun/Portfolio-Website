@@ -2,7 +2,7 @@
 import "../../src/styles/projectCard.scss";
 
 // I M P O R T:   T Y P E S
-import { ProjectCardProps } from "../types/interfaces";
+import { Project_Item } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 
@@ -10,8 +10,9 @@ import { ProjectCardProps } from "../types/interfaces";
 
 // C O D E
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  image,
+const ProjectCard: React.FC<Project_Item> = ({
+  _id,
+  img,
   title,
   link,
   description,
@@ -20,7 +21,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <div className="project-card">
       <div className="project-card__image-container">
-        <img src={image} alt={title} className="project-card__image" />
+        <img src={img} alt={title} className="project-card__image" />
       </div>
       <div className="project-card__content">
         <h3 className="project-card__title">

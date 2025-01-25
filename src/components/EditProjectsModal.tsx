@@ -1,11 +1,11 @@
 // I M P O R T:   F I L E S
-import "../styles/editStackModal.scss";
+import "../styles/editProjectModal.scss";
 
 // I M P O R T:  T Y P E S
 import {
-  EditStackModalProps,
-  StackItem,
-  Stack_Content,
+  EditProjectsModalProps,
+  Project_Item,
+  Projects_Content,
 } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
@@ -13,14 +13,14 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
-import { BE_HOST, URL_ST_D, URL_ST_L } from "../api/host";
-import { getImageDimensions } from "../utils/utils";
+import { BE_HOST, URL_P, URL_P_D, URL_P_L } from "../api/host";
+import { getImageDimensions, isValidLink } from "../utils/utils";
 import PendingContext from "../context/PendingContext";
 import CloseBtn from "./CloseBtn";
 import EditImageBtn from "./EditImageBtn";
 
 // C O D E
-const EditStackModal: React.FC<EditStackModalProps> = ({
+const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   content,
   onClose,
   onSubmit,
@@ -29,10 +29,16 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
   const navigate = useNavigate();
   const saveCardButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isPending, setIsPending] = useContext(PendingContext);
-  const [modalData, setModalData] = useState<Stack_Content>(content);
-  const [selectedItem, setSelectedItem] = useState<StackItem | null>(null);
-  const [newData, setNewData] = useState<StackItem | null>(null);
-  const [newItem, setNewItem] = useState<StackItem>({ name: "", img: "" });
+  const [modalData, setModalData] = useState<Projects_Content>(content);
+  const [selectedItem, setSelectedItem] = useState<Project_Item | null>(null);
+  const [newData, setNewData] = useState<Project_Item | null>(null);
+  const [newItem, setNewItem] = useState<Project_Item>({
+    title: "",
+    img: "",
+    description: "",
+    tags: [],
+    link: "",
+  });
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [thumbnailDimensions, setThumbnailDimensions] = useState({
@@ -61,8 +67,8 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     };
   }, [isModalOpen]);
 
-  // ** UPDATE STACK ** //
-  // UPDATE STACK INFO //
+  // ** UPDATE PROJECTS ** //
+  // UPDATE PROJECT INFO //
   const handleInfoChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -73,7 +79,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const sendData = async () => {
-      await fetch(`${BE_HOST}/${URL_ST_D}`, {
+      await fetch(`${BE_HOST}/${URL_P_D}`, {
         credentials: "include",
         method: "PATCH",
         body: JSON.stringify({
@@ -98,10 +104,34 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     sendData();
   };
 
-  // UPDATE STACK ITEM //
+  // UPDATE PROJECT ITEM //
   // TEXT INPUT
-  const handleSelectedNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectedInfoChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
+    if (!selectedItem) return; // Sicherheit
+    if (name === "order") {
+      const checkOrder = modalData.projects.find(
+        (item) => item.order === +value
+      );
+      if (checkOrder) {
+        alert(
+          `Order number ${value} already exists. Please choose another one`
+        );
+        return;
+      }
+      setNewData(() => ({ ...selectedItem, [name]: +value }));
+      return;
+    }
+
+    if (name === "link") {
+      if (!isValidLink(value)) {
+        alert("The entered value is not a valid link. Please correct it.");
+        return;
+      }
+    }
+
     setNewData(() => ({ ...selectedItem, [name]: value }));
   };
 
@@ -118,14 +148,6 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     if (file) {
       setThumbnail(file);
       setThumbnailUrl(URL.createObjectURL(file));
-
-      // Get images scales and set them
-      try {
-        const dimensions = await getImageDimensions(file);
-        setThumbnailDimensions(dimensions);
-      } catch (error) {
-        console.error(error);
-      }
     }
   };
 
@@ -140,7 +162,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     const sendProjectData = async () => {
       // Echter fetch
       // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_ST_L}/${selectedItem._id}`, {
+      // await fetch(`${BE_HOST}/${URL_P_L}/${selectedItem._id}`, {
       //   credentials: "include",
       //   method: "PATCH",
       //   body: formData,
@@ -178,7 +200,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     sendProjectData();
   };
 
-  // DELETE STACK ITEM //
+  // DELETE PROJECT ITEM //
   const deleteSelectedItem = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -218,7 +240,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
 
   // ================================ //
 
-  // ADD NEW ITEM //
+  // ADD NEW PROJECT ITEM //
   const handleNewCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewItem((prev) => ({ ...prev, [name]: value }));
@@ -321,36 +343,38 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
         </button>
       </form>
       <hr />
-      {/* Current Stack List */}
-      <div className="stack-list">
-        <h2>Current Stack List:</h2>
-        <div className="stack-items">
-          {modalData.stack.map((item) => (
-            // Für Testing
-            <div
-              key={item.name}
-              className={`stack-item ${
-                selectedItem?.name === item.name ? "highlighted" : ""
-              }`}
-              onClick={() => setSelectedItem(item)}
-              title={item.name}
-            >
-              <img src={item.img} alt={item.name} />
-              <span>{item.name}</span>
-            </div>
-            // Für echten fetch
-            // <div
-            //   key={item._id}
-            //   className={`stack-item ${
-            //     selectedItem?._id === item._id ? "highlighted" : ""
-            //   }`}
-            //   onClick={() => setSelectedItem(item)}
-            //   title={item.name}
-            // >
-            //   <img src={item.img} alt={item.name} />
-            //   <span>{item.name}</span>
-            // </div>
-          ))}
+      {/* Current Projects List */}
+      <div className="project-list">
+        <h2>Current Projects List:</h2>
+        <div className="project-items">
+          {modalData.projects
+            .sort((a, b) => a.order - b.order)
+            .map((item) => (
+              // Für Testing
+              <div
+                key={item.title}
+                className={`project-item ${
+                  selectedItem?.title === item.title ? "highlighted" : ""
+                }`}
+                onClick={() => setSelectedItem(item)}
+                title={item.title}
+              >
+                {/* <img src={item.img} alt={item.title} /> */}
+                <span>{item.title}</span>
+              </div>
+              // Für echten fetch
+              // <div
+              //   key={item._id}
+              //   className={`project-item ${
+              //     selectedItem?._id === item._id ? "highlighted" : ""
+              //   }`}
+              //   onClick={() => setSelectedItem(item)}
+              //   title={item.title}
+              // >
+              //   <img src={item.img} alt={item.title} />
+              //   <span>{item.title}</span>
+              // </div>
+            ))}
         </div>
       </div>
 
@@ -361,12 +385,27 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
           {selectedItem ? (
             <div className="edit__or__delete__card">
               <div className="form-group">
-                <label>Name:</label>
+                <div className="label-container">
+                  <label htmlFor="title">Name:</label>
+                  <span
+                    className={`char-counter ${
+                      (newData?.title || selectedItem.title).length > 29
+                        ? "warning"
+                        : ""
+                    }`}
+                    aria-live="polite"
+                  >{`${
+                    (newData?.title || selectedItem.title).length
+                  }/35 Zeichen`}</span>
+                </div>
                 <input
+                  id="title"
                   type="text"
-                  name="name"
-                  value={newData?.name || selectedItem.name}
-                  onChange={handleSelectedNameChange}
+                  name="title"
+                  value={newData?.title || selectedItem.title}
+                  onChange={handleSelectedInfoChange}
+                  maxLength={35}
+                  aria-describedby="char-counter"
                 />
               </div>
               <div className="form-group">
@@ -380,19 +419,84 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                   id="thumbnail"
                   name="thumbnail"
                   onChange={handleSelectedFileChange}
-                  accept=".png, .gif, .svg"
+                  accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
                   hidden
                 />
                 <div className="thumbnail__preview">
                   <img
                     src={thumbnailUrl || selectedItem.img}
-                    alt={thumbnail ? thumbnail.name : selectedItem.name}
+                    alt={thumbnail ? thumbnail.name : selectedItem.title}
                     width={
                       thumbnailDimensions.width || selectedItem.scaledWidth
                     }
                     height={
                       thumbnailDimensions.height || selectedItem.scaledHeight
                     }
+                  />
+                </div>
+                {/* <div className="form-group">
+                  <label>Description:</label>
+                  <textarea
+                    name="description"
+                    value={newData?.description || selectedItem.description}
+                    onChange={handleSelectedInfoChange}
+                    maxLength={175}
+                  />
+                </div> */}
+                <div className="form-group">
+                  <div className="label-container">
+                    <label htmlFor="description">Description:</label>
+                    <span
+                      className={`char-counter ${
+                        (newData?.description || selectedItem.description)
+                          .length >= 155
+                          ? "near-limit"
+                          : ""
+                      } ${
+                        (newData?.description || selectedItem.description)
+                          .length >= 175
+                          ? "warning"
+                          : ""
+                      }`}
+                      aria-live="polite"
+                    >{`${
+                      (newData?.description || selectedItem.description).length
+                    }/175 Zeichen`}</span>
+                  </div>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={newData?.description || selectedItem.description}
+                    onChange={handleSelectedInfoChange}
+                    maxLength={175}
+                    aria-describedby="char-counter-description"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Link:</label>
+                  <input
+                    type="text"
+                    name="link"
+                    value={newData?.link || selectedItem.link}
+                    onChange={handleSelectedInfoChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Tags:</label>
+                  <input
+                    type="text"
+                    name="tags"
+                    value={newData?.tags || selectedItem.tags.join(", ")}
+                    onChange={handleSelectedInfoChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Order:</label>
+                  <input
+                    type="text"
+                    name="order"
+                    value={newData?.order || selectedItem.order}
+                    onChange={handleSelectedInfoChange}
                   />
                 </div>
               </div>
@@ -403,10 +507,10 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                   disabled={!(newData || thumbnail)}
                   ref={saveCardButtonRef}
                 >
-                  Save Card
+                  Save Project
                 </button>
                 <button onClick={deleteSelectedItem} className="btn-delete">
-                  Delete Card
+                  Delete Project
                 </button>
               </div>
             </div>
@@ -424,7 +528,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
               <input
                 type="text"
                 name="name"
-                value={newItem?.name}
+                value={newItem?.title}
                 placeholder="/"
                 onChange={handleNewCardName}
               />
@@ -458,7 +562,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                 className="btn-add"
                 disabled={!(newItem && thumbnailNewCard)}
               >
-                Add Card
+                Add Project
               </button>
             </div>
           </div>
@@ -468,4 +572,4 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
   );
 };
 
-export default EditStackModal;
+export default EditProjectsModal;

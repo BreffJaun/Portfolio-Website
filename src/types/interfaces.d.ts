@@ -36,12 +36,16 @@ export interface StackItem {
   scaledHeight?: number;
 }
 
-export interface ProjectCardProps {
-  image: string;
+export interface Project_Item {
+  _id?: string;
+  img?: string;
+  order?: number;
   title: string;
   link: string;
   description: string;
   tags: string[];
+  scaledWidth?: number;
+  scaledHeight?: number;
 }
 
 export interface PostCardProps {
@@ -93,6 +97,12 @@ export interface Stack_Content {
   headline: string;
   description: string;
   stack: StackItem[];
+}
+
+export interface Projects_Content {
+  headline: string;
+  description: string;
+  projects: ProjectCardProps[];
 }
 
 export interface EditBtnProps {
@@ -149,6 +159,13 @@ export interface EditMySelfModalProps {
 
 export interface EditStackModalProps {
   content: Stack_Content;
+  onClose: () => void;
+  onSubmit: () => void;
+  isModalOpen: boolean;
+}
+
+export interface EditProjectsModalProps {
+  content: Projects_Content;
   onClose: () => void;
   onSubmit: () => void;
   isModalOpen: boolean;
