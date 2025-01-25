@@ -100,7 +100,7 @@ export interface EditBtnProps {
 }
 
 export interface EditImageBtnProps {
-  // onClick: () => void;
+  onClick: () => void;
 }
 
 export interface EditLPModalProps {

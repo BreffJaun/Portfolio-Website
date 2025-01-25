@@ -19,15 +19,13 @@ const EditBtn: React.FC<EditBtnProps> = ({ onClick }) => {
   const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [isPending, setIsPending] = useContext(PendingContext);
 
-  return (
-    isLoggedIn && (
-      <div className="description__container">
-        <div className="edit__btn" onClick={onClick}>
-          <FontAwesomeIcon icon={faPenToSquare} />
-        </div>
+  return isLoggedIn ? (
+    <div className="description__container">
+      <div className="edit__btn" onClick={onClick}>
+        <FontAwesomeIcon icon={faPenToSquare} />
       </div>
-    )
-  );
+    </div>
+  ) : null;
 };
 
 export default EditBtn;
