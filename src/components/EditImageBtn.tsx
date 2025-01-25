@@ -2,7 +2,7 @@
 import "../styles/editBtn.scss";
 
 // I M P O R T:  T Y P E S
-import { EditImageBtnProps } from "../types/interfaces";
+// import { EditImageBtnProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { useState, useContext } from "react";
@@ -14,7 +14,7 @@ import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
 
 // C O D E
-const EditImageBtn: React.FC<EditImageBtnProps> = ({ onClick }) => {
+const EditImageBtn = () => {
   const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [isPending, setIsPending] = useContext(PendingContext);
 

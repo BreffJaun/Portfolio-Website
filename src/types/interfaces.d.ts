@@ -99,9 +99,9 @@ export interface EditBtnProps {
   onClick: () => void;
 }
 
-export interface EditImageBtnProps {
-  onClick: () => void;
-}
+// export interface EditImageBtnProps {
+//   onClick: () => void;
+// }
 
 export interface EditLPModalProps {
   content: {
