@@ -148,6 +148,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
       //   .then((res) => res.json())
       //   .then((data) => {
       //     if (data.status === 201) {
+      //       setSelectedItem(null);
       //       setIsPending(false);
       //       onSubmit();
       //     }
@@ -171,7 +172,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
           console.log(`${key}:`, value);
         }
       }
-
+      setSelectedItem(null);
       onSubmit();
     };
     sendProjectData();
@@ -198,6 +199,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     //   .then((res) => res.json())
     //   .then((data) => {
     //     if (data.status === 201) {
+    //       setSelectedItem(null);
     //       setIsPending(false);
     //       onSubmit();
     //     }
@@ -211,6 +213,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     // Testing
     onSubmit();
     console.log("Data to delete:", selectedItem);
+    setSelectedItem(null);
   };
 
   // ================================ //
