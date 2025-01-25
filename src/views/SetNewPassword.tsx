@@ -1,5 +1,5 @@
 // I M P O R T:   F I L E S
-import "../styles/setnewpassword.scss";
+import "../styles/setNewPassword.scss";
 
 // I M P O R T:   P A C K A G E S
 import { useNavigate } from "react-router-dom";
