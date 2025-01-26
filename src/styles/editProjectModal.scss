@@ -74,7 +74,6 @@
   flex: 1 1 45%;
   width: 100%;
   gap: 20px;
-  // border: 2px solid red;
   
   .edit-section,
   .add-section {
@@ -93,7 +92,7 @@
       margin-bottom: 1rem;
     }
     .form-group {
-      // margin-bottom: 10px;
+      margin-bottom: 0 !important;
 
       .label-container {
         display: flex;
@@ -136,7 +135,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width:auto;
+        width: auto;
         height: 150px;
         margin-bottom: 1rem;
         background-color: var(--gray-600);
@@ -221,7 +220,7 @@
         border-radius: 4px;
         background-color: var(--blue);
         color: #fff;
-        font-size: 1rem;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: background-color 0.3s;
   

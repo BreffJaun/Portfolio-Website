@@ -370,15 +370,15 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="thumbnail" className="thumbnail__label">
+                <label htmlFor="stackThumbnail" className="thumbnail__label">
                   Image:
                   <EditImageBtn />
                 </label>
                 <input
                   className="edit__card"
                   type="file"
-                  id="thumbnail"
-                  name="thumbnail"
+                  id="stackThumbnail"
+                  name="stackThumbnail"
                   onChange={handleSelectedFileChange}
                   accept=".png, .gif, .svg"
                   hidden
@@ -430,15 +430,18 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
               />
             </div>
             <div className="form-group">
-              <label htmlFor="thumbnailNewCard" className="thumbnail__label">
+              <label
+                htmlFor="stackThumbnailNewCard"
+                className="thumbnail__label"
+              >
                 Image:
                 <EditImageBtn />
               </label>
               <input
                 className="edit__card"
                 type="file"
-                id="thumbnailNewCard"
-                name="thumbnailNewCard"
+                id="stackThumbnailNewCard"
+                name="stackThumbnailNewCard"
                 onChange={handleNewCardFile}
                 accept=".png, .gif, .svg"
                 hidden

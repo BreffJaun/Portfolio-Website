@@ -1,19 +1,15 @@
 .description__container {
   display: flex;
-  /* Flexbox für horizontales Layout */
   align-items: flex-end;
   align-self: flex-end;
-  /* Vertikal zentrieren */
   gap: 8px;
-  /* Abstand zwischen Text und Button */
   
   span {
     flex: 1;
   }
   
   .edit__btn {
-    // border: 2px solid red;
-    flex-shrink: 0; /* Verhindert, dass der Button skaliert wird */
+    flex-shrink: 0;
     background-color: var(--teal-light);
     color: var(--teal);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);

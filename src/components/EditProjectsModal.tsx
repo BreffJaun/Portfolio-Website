@@ -41,18 +41,18 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   });
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
-  const [thumbnailDimensions, setThumbnailDimensions] = useState({
-    width: "",
-    height: "",
-  });
+  // const [thumbnailDimensions, setThumbnailDimensions] = useState({
+  //   width: "",
+  //   height: "",
+  // });
   const [thumbnailNewCard, setThumbnailNewCard] = useState<File | undefined>(
     undefined
   );
   const [thumbnailUrlNewCard, setThumbnailUrlNewCard] = useState("");
-  const [thumbnailDimensionsNewCard, setThumbnailDimensionsNewCard] = useState({
-    width: "",
-    height: "",
-  });
+  // const [thumbnailDimensionsNewCard, setThumbnailDimensionsNewCard] = useState({
+  //   width: "",
+  //   height: "",
+  // });
 
   useEffect(() => {
     setModalData(content);
@@ -241,8 +241,31 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   // ================================ //
 
   // ADD NEW PROJECT ITEM //
-  const handleNewCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNewCardInfo = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
+    if (!selectedItem) return; // Sicherheit
+    if (name === "order") {
+      const checkOrder = modalData.projects.find(
+        (item) => item.order === +value
+      );
+      if (checkOrder) {
+        alert(
+          `Order number ${value} already exists. Please choose another one`
+        );
+        return;
+      }
+      setNewItem((prev) => ({ ...prev, [name]: +value }));
+      return;
+    }
+
+    if (name === "link") {
+      if (!isValidLink(value)) {
+        alert("The entered value is not a valid link. Please correct it.");
+        return;
+      }
+    }
     setNewItem((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -258,14 +281,6 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     if (file) {
       setThumbnailNewCard(file);
       setThumbnailUrlNewCard(URL.createObjectURL(file));
-
-      // Get images scales and set them
-      try {
-        const dimensions = await getImageDimensions(file);
-        setThumbnailDimensionsNewCard(dimensions);
-      } catch (error) {
-        console.error(error);
-      }
     }
   };
 
@@ -279,7 +294,7 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     const sendProjectData = async () => {
       // Echter fetch
       // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_ST_L}`, {
+      // await fetch(`${BE_HOST}/${URL_P_L}`, {
       //   credentials: "include",
       //   method: "POST",
       //   body: formData,
@@ -386,7 +401,7 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
             <div className="edit__or__delete__card">
               <div className="form-group">
                 <div className="label-container">
-                  <label htmlFor="title">Name:</label>
+                  <label htmlFor="title">Title:</label>
                   <span
                     className={`char-counter ${
                       (newData?.title || selectedItem.title).length > 29
@@ -400,8 +415,8 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
                 </div>
                 <input
                   id="title"
-                  type="text"
                   name="title"
+                  type="text"
                   value={newData?.title || selectedItem.title}
                   onChange={handleSelectedInfoChange}
                   maxLength={35}
@@ -409,15 +424,15 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="thumbnail" className="thumbnail__label">
+                <label htmlFor="projectThumbnail" className="thumbnail__label">
                   Image:
                   <EditImageBtn />
                 </label>
                 <input
                   className="edit__card"
                   type="file"
-                  id="thumbnail"
-                  name="thumbnail"
+                  id="projectThumbnail"
+                  name="projectThumbnail"
                   onChange={handleSelectedFileChange}
                   accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
                   hidden
@@ -426,23 +441,8 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
                   <img
                     src={thumbnailUrl || selectedItem.img}
                     alt={thumbnail ? thumbnail.name : selectedItem.title}
-                    width={
-                      thumbnailDimensions.width || selectedItem.scaledWidth
-                    }
-                    height={
-                      thumbnailDimensions.height || selectedItem.scaledHeight
-                    }
                   />
                 </div>
-                {/* <div className="form-group">
-                  <label>Description:</label>
-                  <textarea
-                    name="description"
-                    value={newData?.description || selectedItem.description}
-                    onChange={handleSelectedInfoChange}
-                    maxLength={175}
-                  />
-                </div> */}
                 <div className="form-group">
                   <div className="label-container">
                     <label htmlFor="description">Description:</label>
@@ -524,37 +524,95 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
           <h3>Add Card:</h3>
           <div className="edit__or__delete__card">
             <div className="form-group">
-              <label>Name:</label>
+              <div className="label-container">
+                <label htmlFor="titleNewCard">Title:</label>
+                <span
+                  className={`char-counter ${
+                    newItem?.title.length > 29 ? "warning" : ""
+                  }`}
+                  aria-live="polite"
+                >{`${newItem?.title.length}/35 Zeichen`}</span>
+              </div>
               <input
+                id="titleNewCard"
                 type="text"
-                name="name"
+                name="title"
                 value={newItem?.title}
                 placeholder="/"
-                onChange={handleNewCardName}
+                onChange={handleNewCardInfo}
+                maxLength={35}
+                aria-describedby="char-counter"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="thumbnailNewCard" className="thumbnail__label">
+              <label
+                htmlFor="projectThumbnailNewCard"
+                className="thumbnail__label"
+              >
                 Image:
                 <EditImageBtn />
               </label>
               <input
-                className="edit__card"
+                className="add__card"
                 type="file"
-                id="thumbnailNewCard"
-                name="thumbnailNewCard"
+                id="projectThumbnailNewCard"
+                name="projectThumbnailNewCard"
                 onChange={handleNewCardFile}
-                accept=".png, .gif, .svg"
+                accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
                 hidden
               />
               <div className="thumbnail__preview">
-                <img
-                  src={thumbnailUrlNewCard}
-                  alt={thumbnailNewCard?.name}
-                  width={thumbnailDimensionsNewCard.width}
-                  height={thumbnailDimensionsNewCard.height}
-                />
+                <img src={thumbnailUrlNewCard} alt={thumbnailNewCard?.name} />
               </div>
+            </div>
+            <div className="form-group">
+              <div className="label-container">
+                <label htmlFor="newProjectDescription">Description:</label>
+                <span
+                  className={`char-counter ${
+                    newItem?.description.length >= 155 ? "near-limit" : ""
+                  } ${newItem?.description.length >= 175 ? "warning" : ""}`}
+                  aria-live="polite"
+                >{`${newItem?.description.length}/175 Zeichen`}</span>
+              </div>
+              <textarea
+                id="newProjectDescription"
+                name="description"
+                value={newItem?.description}
+                onChange={handleNewCardInfo}
+                maxLength={175}
+                aria-describedby="char-counter-description"
+              />
+            </div>
+            <div className="form-group">
+              <label>Link:</label>
+              <input
+                type="text"
+                name="link"
+                value={newItem?.link || ""}
+                onChange={handleNewCardInfo}
+                placeholder="https://..."
+              />
+            </div>
+            <div className="form-group">
+              <label>Tags:</label>
+              <input
+                type="text"
+                name="tags"
+                value={newItem?.tags}
+                onChange={handleNewCardInfo}
+                placeholder="tag1, tag2, tag3"
+              />
+            </div>
+            <div className="form-group">
+              <label>Order:</label>
+              <input
+                type="text"
+                name="order"
+                value={newItem?.order || ""}
+                onChange={handleNewCardInfo}
+                placeholder={(modalData.projects.length + 1).toString()}
+              />
             </div>
             <div className="btn__group__single">
               <button
