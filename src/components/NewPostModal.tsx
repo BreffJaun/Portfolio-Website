@@ -1,9 +1,10 @@
 // I M P O R T:   F I L E S
-import "../styles/editProjectsModal.scss";
+import "../styles/createPostModal.scss";
 
 // I M P O R T:  T Y P E S
 import {
-  EditProjectsModalProps,
+  PostCardProps,
+  NewPostCardProps,
   Project_Item,
   Projects_Content,
 } from "../types/interfaces";
@@ -13,26 +14,23 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
-import { BE_HOST, URL_P, URL_P_D, URL_P_L } from "../api/host";
-import { getImageDimensions, isValidLink } from "../utils/utils";
+import { BE_HOST, URL_F, URL_F_CP, URL_F_EP } from "../api/host";
+import { isValidLink } from "../utils/utils";
 import PendingContext from "../context/PendingContext";
 import CloseBtn from "./CloseBtn";
 import EditImageBtn from "./EditImageBtn";
 
 // C O D E
-const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
-  content,
+const NewPostModal: React.FC<NewPostCardProps> = ({
   onClose,
   onSubmit,
-  isModalOpen,
+  activeModal,
 }) => {
   const navigate = useNavigate();
-  const saveCardButtonRef = useRef<HTMLButtonElement | null>(null);
+
   const [isPending, setIsPending] = useContext(PendingContext);
-  const [modalData, setModalData] = useState<Projects_Content>(content);
-  const [selectedItem, setSelectedItem] = useState<Project_Item | null>(null);
-  const [newData, setNewData] = useState<Project_Item | null>(null);
-  const [newItem, setNewItem] = useState<Project_Item>({
+  const [modalData, setModalData] = useState<Projects_Content>();
+  const [newItem, setNewItem] = useState<PostCardProps>({
     title: "",
     img: "",
     description: "",
@@ -41,18 +39,11 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   });
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
-  // const [thumbnailDimensions, setThumbnailDimensions] = useState({
-  //   width: "",
-  //   height: "",
-  // });
+
   const [thumbnailNewCard, setThumbnailNewCard] = useState<File | undefined>(
     undefined
   );
   const [thumbnailUrlNewCard, setThumbnailUrlNewCard] = useState("");
-  // const [thumbnailDimensionsNewCard, setThumbnailDimensionsNewCard] = useState({
-  //   width: "",
-  //   height: "",
-  // });
 
   useEffect(() => {
     setModalData(content);
@@ -65,9 +56,9 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     return () => {
       document.documentElement.classList.remove("modal-open");
     };
-  }, [isModalOpen]);
+  }, [activeModal]);
 
-  // ** UPDATE PROJECTS ** //
+  // ** UPDATE POSTS ** //
   // UPDATE PROJECT INFO //
   const handleInfoChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -79,12 +70,12 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const sendData = async () => {
-      await fetch(`${BE_HOST}/${URL_P_D}`, {
+      await fetch(`${BE_HOST}/${URL_F_EP}`, {
         credentials: "include",
         method: "PATCH",
         body: JSON.stringify({
-          headline: modalData.headline,
-          description: modalData.description,
+          // headline: modalData.headline,
+          // description: modalData.description,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -630,4 +621,4 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   );
 };
 
-export default EditProjectsModal;
+export default NewPostModal;

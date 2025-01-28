@@ -75,9 +75,9 @@ const Projects = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Echter Fetch
-  // useEffect(() => {
-  //   initialContentLoad(URL_P, setContent, navigate);
-  // }, []);
+  useEffect(() => {
+    // initialContentLoad(URL_P, setContent, navigate);
+  }, []);
 
   // Dummy-Daten
   useEffect(() => {
@@ -133,9 +133,13 @@ const Projects = () => {
 export default Projects;
 
 // {
-//   image: imagePlaceholder,
-//   title: "Repo title",
-//   repoLink: "",
-//   description: "",
-//   tags: ["", "", ""],
+//   avatar: avatarImage,
+//   authorAction: `${"😊"}`,
+//   date: formatCurrentDate(),
+//   mood: "🌴 Feelin fresh",
+//   articleTitle: "Welcome to my portfolio!",
+//   articleContent:
+//     "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+//   articleImageSrc: avatarImage,
+//   articleLink: "",
 // },

@@ -2,58 +2,133 @@
 import "../styles/feed.scss";
 import avatarImage from "../images/breffjaun_profile_img.jpg";
 
+// I M P O R T:  T Y P E S
+import { Feed_Content, PostCardProps } from "../types/interfaces";
+
 // I M P O R T:   P A C K A G E S
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
+import { BE_HOST, URL_F, URL_F_CP, URL_F_EP } from "../api/host";
 import Footer from "./Footer";
 import PostCard from "../components/PostCard";
 import BackToTopBtn from "../components/BackToTopBtn";
-import { formatCurrentDate } from "../utils/utils";
-
-const testPosts = [
-  {
-    avatar: avatarImage,
-    authorAction: `${"😊"}`,
-    date: formatCurrentDate(),
-    mood: "🌴 Feelin fresh",
-    articleTitle: "Welcome to my portfolio!",
-    articleContent:
-      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
-    articleImageSrc: avatarImage,
-    articleLink: "",
-  },
-  {
-    avatar: avatarImage,
-    authorAction: `${"🌴"}`,
-    date: formatCurrentDate(),
-    mood: "🙌 Excited",
-    articleTitle: "",
-    articleContent:
-      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
-    articleImageSrc: avatarImage,
-    articleLink: "test",
-  },
-  {
-    avatar: avatarImage,
-    authorAction: `${"🌴"}`,
-    date: formatCurrentDate(),
-    mood: "🙌 Excited",
-    articleTitle: "",
-    articleContent:
-      "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
-    articleImageSrc: avatarImage,
-    articleLink: "",
-  },
-];
-// console.log(testPosts[0]);
+import EditBtn from "../components/EditBtn";
+import CreateBtn from "../components/CreateBtn";
+import EditPostsModal from "../components/EditPostModal";
+import NewPostModal from "../components/NewPostModal";
+import EditFeedInfoModal from "../components/EditFeedInfoModal";
+import LoggedInContext from "../context/LoginContext";
+import PendingContext from "../context/PendingContext";
+import {
+  formatCurrentDate,
+  initialContentLoad,
+  openSpecificModal,
+  closeSpecificModal,
+} from "../utils/utils";
 
 // C O D E
 const Feed: React.FC = () => {
+  const navigate = useNavigate();
+  const [isLoggedIn] = useContext(LoggedInContext);
+  const [isPending] = useContext(PendingContext);
+  const [activeModal, setActiveModal] = useState<
+    "editInfo" | "editPost" | "newPost" | null
+  >(null);
+  const testPosts = [
+    {
+      avatar: avatarImage,
+      authorAction: `${"😊"}`,
+      date: formatCurrentDate(),
+      mood: "🌴 Feelin fresh",
+      articleTitle: "Welcome to my portfolio!",
+      articleContent:
+        "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      articleImageSrc: avatarImage,
+      articleLink: "",
+    },
+    {
+      avatar: avatarImage,
+      authorAction: `${"🌴"}`,
+      date: formatCurrentDate(),
+      mood: "🙌 Excited",
+      articleTitle: "",
+      articleContent:
+        "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      articleImageSrc: avatarImage,
+      articleLink: "test",
+    },
+    {
+      avatar: avatarImage,
+      authorAction: `${"🌴"}`,
+      date: formatCurrentDate(),
+      mood: "🙌 Excited",
+      articleTitle: "",
+      articleContent:
+        "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      articleImageSrc: avatarImage,
+      articleLink: "",
+    },
+  ];
+  const [content, setContent] = useState<Feed_Content>({
+    ghLink: "https://github.com/BreffJaun",
+    fullName: "Jeff Braun",
+    statement: "In ❤️ with programming.",
+    jobTitle: "Fullstack Web Developer",
+    about: ", Assistant Teacher for Web Development and a lot more.",
+    posts: [],
+  });
+
+  // Echter Fetch
   useEffect(() => {
     window.scrollTo(0, 0);
+    // initialContentLoad(URL_F, setContent, navigate);
   }, []);
+
+  // Dummy-Daten
+  useEffect(() => {
+    setContent({ ...content, posts: testPosts });
+  }, []);
+
+  // UPDATE COMPLETE FEED
+  const handleUpdate = () => {
+    closeSpecificModal(setActiveModal);
+    // initialContentLoad(URL_F, setContent, navigate);
+  };
+
+  // ===========================================
+
+  // UPDATE FEED INFO
+  const handleFeedInfoUpdate = (updatedContent: Feed_Content) => {
+    closeSpecificModal(setActiveModal);
+    const sendData = async () => {
+      await fetch(`${BE_HOST}/${URL_F}`, {
+        credentials: "include",
+        method: "PATCH",
+        body: JSON.stringify(updatedContent),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 201) {
+            setContent(data.content);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
+    };
+    sendData();
+  };
+
+  // CREATE NEW POST
+  const handleNewPost = (newContent: PostCardProps) => {};
+
   return (
     <div className="feed">
       <section id="feed">
@@ -62,47 +137,87 @@ const Feed: React.FC = () => {
         </div>
         <div className="infobar__container">
           <div className="positioning__container">
-            <a href="https://github.com/BreffJaun" target="_blank">
+            <a href={content.ghLink} target="_blank">
               <button>
                 Follow{" "}
                 <FontAwesomeIcon icon={["fab", "github"]} id="gh__icon" />
               </button>
             </a>
 
-            <h1>Jeff Braun</h1>
-            <p>In &nbsp;❤️ &nbsp;with programming.</p>
+            <h1>{content.fullName}</h1>
+            <p>{content.statement}</p>
             <p>
-              <span>Fullstack Web Developer</span>, Assistant Teacher for Web
-              Development and a lot more.
+              <span>{content.jobTitle}</span>
+              {content.about}
             </p>
             <div className="link__container">
-              <a
-                href="https://www.linkedin.com/in/jeff-braun-0959091a4/"
-                target="_blank"
-              >
-                <FontAwesomeIcon
-                  icon={["fab", "linkedin-in"]}
-                  className="socialmedia__icons"
-                />
-                LinkedIn
-              </a>
-              <a
-                href="https://www.xing.com/profile/Jeff_Braun2/web_profiles?expandNeffi=true"
-                target="_blank"
-              >
-                <FontAwesomeIcon
-                  icon={["fab", "xing"]}
-                  className="socialmedia__icons"
-                />{" "}
-                Xing
-              </a>
-              <a className="bd__icon">
-                <FontAwesomeIcon
-                  icon={["fas", "cake-candles"]}
-                  className="socialmedia__icons"
-                />{" "}
-                April 24th
-              </a>
+              <div className="link__button__container">
+                <a
+                  href="https://www.linkedin.com/in/jeff-braun-0959091a4/"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon
+                    icon={["fab", "linkedin-in"]}
+                    className="socialmedia__icons"
+                  />
+                  LinkedIn
+                </a>
+                <a
+                  href="https://www.xing.com/profile/Jeff_Braun2/web_profiles?expandNeffi=true"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon
+                    icon={["fab", "xing"]}
+                    className="socialmedia__icons"
+                  />{" "}
+                  Xing
+                </a>
+                <a className="bd__icon">
+                  <FontAwesomeIcon
+                    icon={["fas", "cake-candles"]}
+                    className="socialmedia__icons"
+                  />{" "}
+                  April 24th
+                </a>
+              </div>
+              {isLoggedIn && (
+                <div className="modal__button__container">
+                  <EditBtn
+                    onClick={() =>
+                      openSpecificModal(setActiveModal, "editInfo")
+                    }
+                  />
+                  <CreateBtn
+                    onClick={() => openSpecificModal(setActiveModal, "newPost")}
+                  />
+                </div>
+              )}
+            </div>
+            {/* MODALS */}
+            {/* EDIT INFO */}
+            <div
+              className={`edit-modal-container ${
+                activeModal === "editInfo" ? "open" : ""
+              }`}
+            >
+              <EditFeedInfoModal
+                content={content}
+                onClose={() => closeSpecificModal(setActiveModal)}
+                onSubmit={handleFeedInfoUpdate}
+                activeModal={activeModal}
+              />
+            </div>
+            {/* NEW POST */}
+            <div
+              className={`edit-modal-container ${
+                activeModal === "newPost" ? "open" : ""
+              }`}
+            >
+              <NewPostModal
+                onClose={() => closeSpecificModal(setActiveModal)}
+                onSubmit={handleNewPost}
+                activeModal={activeModal}
+              />
             </div>
             <div className="horizontal__border"></div>
           </div>
@@ -133,67 +248,3 @@ const Feed: React.FC = () => {
 };
 
 export default Feed;
-
-// const [thumbnail, setThumbnail] = useState(undefined);
-// const [thumbnailUrl, setThumbnailUrl] = useState("");
-
-// const handleFile = (event) => {
-//   setThumbnail(event.target.files[0]);
-//   const image = URL.createObjectURL(event.target.files[0]);
-//   setThumbnailUrl(image);
-// };
-
-// useEffect(() => {
-//   document.body.scrollTop = 0;
-//   document.documentElement.scrollTop = 0;
-//   setPending(true);
-//   const fetchProject = async () => {
-//     fetch(`${host}/projects/${id}`, {
-//       credentials: "include",
-//     })
-//       .then((response) => response.json())
-//       .then((json) => {
-//         if (json.status) {
-//           setProject(json.data);
-//           setPending(false);
-//           setCategory(json.data.category);
-//           setTeam(json.data.team);
-//           setThumbnail(json.data.thumbnail);
-//         }
-//       });
-//   };
-//   fetchProject();
-// }, [id]);
-
-// const handleSubmit = (event) => {
-//   event.preventDefault();
-
-//   // Add your own userId to the project, because we need to check if you should could change something in the project.
-
-//   const formData = new FormData();
-//   formData.append("thumbnail", thumbnail);
-//   formData.append("data", JSON.stringify(newProject));
-
-//   const sendProjectData = async () => {
-//     setUploadPending(true);
-//     await fetch(`${host}/projects/${id}`, {
-//       credentials: "include",
-//       method: "PATCH",
-//       body: formData,
-//       // body: JSON.stringify(newProject),
-//     })
-//       .then((json) => json.json())
-//       .then((data) => {
-//         if (data.status) {
-//           toast("Your changes are saved", toastOptions);
-//           setUploadPending(false);
-//           if (!createProjectPending) {
-//             navigate(`/projectdetails/${data.data._id}`);
-//           }
-//         }
-//         if (data.error) {
-//           // setUploadPending(false);
-//           toast(data.error, toastOptions);
-//         }
-//       });
-//   };

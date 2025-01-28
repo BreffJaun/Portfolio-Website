@@ -42,7 +42,7 @@ const LandingPage: React.FC = () => {
       await fetch(`${BE_HOST}/${URL_CLP}`, {
         credentials: "include",
         method: "PATCH",
-        body: JSON.stringify(content),
+        body: JSON.stringify(updatedContent),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -73,7 +73,7 @@ const LandingPage: React.FC = () => {
               {content.name} <span>{content.connectingWords}</span>
             </h1>
             <h2>{content.jobTitle}</h2>
-            <p className="description__container">{content.description}</p>
+            <p>{content.description}</p>
             <EditBtn onClick={() => openModal(setIsModalOpen)} />
             <a
               type="button"

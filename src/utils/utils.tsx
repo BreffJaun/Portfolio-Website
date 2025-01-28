@@ -191,6 +191,24 @@ export const closeModal = (
   closeIt(false);
 };
 
+// modalUtils.ts
+export const openSpecificModal = (
+  setModal: React.Dispatch<
+    React.SetStateAction<"editInfo" | "editPost" | "newPost" | null>
+  >,
+  modal: "editInfo" | "editPost" | "newPost"
+) => {
+  setModal(modal);
+};
+
+export const closeSpecificModal = (
+  setModal: React.Dispatch<
+    React.SetStateAction<"editInfo" | "editPost" | "newPost" | null>
+  >
+) => {
+  setModal(null);
+};
+
 export const initialContentLoad = (
   url: string,
   contentFunc: (data: any) => void,

@@ -12,6 +12,7 @@ import MobileViewContext from "./context/MobileViewContext";
 import DeviceContext from "./context/DeviceContext";
 import LoggedInContext from "./context/LoginContext";
 import PendingContext from "./context/PendingContext";
+import UserContext from "./context/UserContext";
 
 // I M P O R T:   F U N C T I O N S
 import Spotlight from "./components/Spotlight";
@@ -24,6 +25,7 @@ import Registration from "./views/Registration";
 import ForgottPassword from "./views/ForgottPassword";
 import SetNewPassword from "./views/SetNewPassword";
 import CustomErrorPage from "./views/CustomErrorPage";
+import UserInformation from "./views/UserInformation";
 import { detectDevice } from "./utils/utils";
 import { checkLogin } from "./utils/utils";
 
@@ -36,6 +38,7 @@ function App() {
   const [device, setDevice] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [user, setUser] = useState<any>({}); // any type
 
   useEffect(() => {
     checkLogin(setIsLoggedIn, setIsPending);
@@ -63,37 +66,45 @@ function App() {
   }, [location]);
   // console.log("isLoggedIn:", isLoggedIn);
   return (
-    <PendingContext.Provider value={[isPending, setIsPending]}>
-      <LoggedInContext.Provider value={[isLoggedIn, setIsLoggedIn]}>
-        <DeviceContext.Provider value={[device, setDevice]}>
-          <MobileViewContext.Provider value={[mobileView, setMobileView]}>
-            <ThemeClickCountContext.Provider
-              value={[clickCount, setClickCount]}
-            >
-              <ThemeContext.Provider value={[theme, setTheme]}>
-                <div className="App">
-                  <Header />
-                  <div className="main__content">
-                    <Routes>
-                      <Route path="/" element={<CombinedLP />} />
-                      <Route path="/feed" element={<Feed />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/registration" element={<Registration />} />
-                      <Route
-                        path="/forgottpassword"
-                        element={<ForgottPassword />}
-                      />
-                      <Route
-                        path="/setnewpassword"
-                        element={<SetNewPassword />}
-                      />
-                      <Route path="*" element={<CustomErrorPage />} />
-                    </Routes>
+    <UserContext.Provider value={[user, setUser]}>
+      <PendingContext.Provider value={[isPending, setIsPending]}>
+        <LoggedInContext.Provider value={[isLoggedIn, setIsLoggedIn]}>
+          <DeviceContext.Provider value={[device, setDevice]}>
+            <MobileViewContext.Provider value={[mobileView, setMobileView]}>
+              <ThemeClickCountContext.Provider
+                value={[clickCount, setClickCount]}
+              >
+                <ThemeContext.Provider value={[theme, setTheme]}>
+                  <div className="App">
+                    <Header />
+                    <div className="main__content">
+                      <Routes>
+                        <Route path="/" element={<CombinedLP />} />
+                        <Route path="/feed" element={<Feed />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route
+                          path="/registration"
+                          element={<Registration />}
+                        />
+                        <Route
+                          path="/forgottpassword"
+                          element={<ForgottPassword />}
+                        />
+                        <Route
+                          path="/setnewpassword"
+                          element={<SetNewPassword />}
+                        />
+                        <Route
+                          path="/userinformation"
+                          element={<UserInformation />}
+                        />
+                        <Route path="*" element={<CustomErrorPage />} />
+                      </Routes>
+                    </div>
+                    <Spotlight />
                   </div>
-                  <Spotlight />
-                </div>
-                {/* <div className="App">
+                  {/* <div className="App">
               {isDeviceReady ? (
                 <>
                   <Header />
@@ -111,12 +122,13 @@ function App() {
                 <div>Loading...</div>
               )}
             </div> */}
-              </ThemeContext.Provider>
-            </ThemeClickCountContext.Provider>
-          </MobileViewContext.Provider>
-        </DeviceContext.Provider>
-      </LoggedInContext.Provider>
-    </PendingContext.Provider>
+                </ThemeContext.Provider>
+              </ThemeClickCountContext.Provider>
+            </MobileViewContext.Provider>
+          </DeviceContext.Provider>
+        </LoggedInContext.Provider>
+      </PendingContext.Provider>
+    </UserContext.Provider>
   );
 }
 

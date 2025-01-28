@@ -1,3 +1,142 @@
+// html.modal-open {
+//   overflow: hidden;
+// }
+
+// .edit-modal-container {
+//   width: 100%;
+//   margin-top: 5rem;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: rgba(0, 0, 0, 0.7);
+//   z-index: 999;
+//   pointer-events: none;
+//   overflow: hidden;
+//   opacity: 0;
+//   transition: opacity 0.3s ease, transform 0.3s ease;
+
+//   &.open {
+//     opacity: 1;
+//     pointer-events: all;
+//     transform: scale(1);
+//   }
+// }
+
+// .edit-modal-content {
+//   background-color: var(--gray-800);
+//   padding: 2rem;
+//   border-radius: 8px;
+//   width: 100%;
+//   max-width: 800px;
+//   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   position: relative;
+
+//   &.mySelf__modal{
+//     // Scrollbar für Modal
+//     max-height: 80vh;
+//     overflow-y: auto;
+//     scrollbar-color: var(--teal) transparent; // Chrome, Firefox => Farbe, Hintergrundfarbe (sorgt für abgerundete Ecken bei Scrollbars in einem Modal)
+//   }
+  
+//   h2 {
+//     margin-bottom: 1rem;
+//     color: var(--gray-200);
+//     text-align: center;
+//     font-size: 1.5rem;
+//   }
+
+//   form {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+
+//   .form-group {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     margin-bottom: 1rem;
+
+//     label {
+//       color: var(--gray-200);
+//       margin-bottom: 0.5rem;
+//     }
+
+//     input,
+//     textarea {
+//       width: 100%;
+//       padding: 0.75rem;
+//       border: 1px solid #ccc;
+//       border-radius: 4px;
+//       background-color: var(--gray-700);
+//       color: var(--gray-200);
+//       font-size: 1rem;
+//       margin-bottom: 1rem;
+
+//       &:focus {
+//         outline: none;
+//         border-color: var(--teal);
+//       }
+
+//       &::placeholder {
+//         color: var(--gray-500);
+//       }
+//     }
+
+//     textarea {
+//       min-height: 150px;
+//       resize: vertical;
+//     }
+//   }
+
+//   .btn-submit {
+//     padding: 0.75rem 1.5rem;
+//     border: none;
+//     border-radius: 4px;
+//     background-color: var(--teal);
+//     color: #fff;
+//     font-size: 1rem;
+//     cursor: pointer;
+//     transition: background-color 0.3s;
+
+//     &:hover {
+//       background-color: var(--teal-light);
+//       color: var(--gray-800);
+//     }
+
+//     &:disabled {
+//       opacity: 0.5;
+//       cursor: not-allowed;
+//     }
+//   }
+
+//   .modal-close {
+//     position: absolute;
+//     top: 10px;
+//     right: 10px;
+//     background: none;
+//     border: none;
+//     font-size: 1.5rem;
+//     color: var(--gray-200);
+//     cursor: pointer;
+//     transition: transform 0.3s ease;
+
+//     &:hover {
+//       transform: scale(1.2);
+//       /* Vergrößerung beim Hover */
+//     }
+//   }
+// }
+
 .registration {
   display: flex;
   justify-content: center;
@@ -15,7 +154,7 @@
     flex-direction: column;
     align-items: center;
 
-    .form-group{
+    .form-group {
       position: relative;
       border: 2px solid white;
       border-radius: 50%;
@@ -34,6 +173,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
         img {
           width: 100%;
           height: 100%;
@@ -41,6 +181,7 @@
           border-radius: 50%;
         }
       }
+
       .avatar__label {
         // border: 2px solid red;
         border-radius: 50%;
@@ -57,7 +198,7 @@
         cursor: pointer;
 
         .edit__btn {
-          margin: 0!important;
+          margin: 0 !important;
         }
       }
     }
@@ -145,7 +286,12 @@
         background-color: var(--teal-light);
         color: var(--gray-800);
       }
-    }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+}
 
     .central {
       text-align: center;

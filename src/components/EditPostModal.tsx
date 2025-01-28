@@ -1,5 +1,5 @@
 // I M P O R T:   F I L E S
-import "../styles/editProjectsModal.scss";
+import "../styles/editProjectModal.scss";
 
 // I M P O R T:  T Y P E S
 import {
@@ -20,7 +20,7 @@ import CloseBtn from "./CloseBtn";
 import EditImageBtn from "./EditImageBtn";
 
 // C O D E
-const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
+const EditPostsModal: React.FC<EditPostsModalProps> = ({
   content,
   onClose,
   onSubmit,
@@ -630,4 +630,4 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   );
 };
 
-export default EditProjectsModal;
+export default EditPostsModal;

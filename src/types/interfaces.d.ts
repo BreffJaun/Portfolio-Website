@@ -64,14 +64,18 @@ export interface BackToTopBtnProps {
 }
 
 export interface Profile {
-  username: string;
+  userName: string;
   email: string;
+  avatar: string;
   password: string;
 }
 
 export interface User {
   _id: string;
+  email: string;
   userName: string;
+  avatar: string;
+  password?: string;
 }
 
 export interface LP_Content {
@@ -103,6 +107,15 @@ export interface Projects_Content {
   headline: string;
   description: string;
   projects: ProjectCardProps[];
+}
+
+export interface Feed_Content {
+  ghLink: string;
+  fullName: string;
+  statement: string;
+  jobTitle: string;
+  about: string;
+  posts: PostCardProps[];
 }
 
 export interface EditBtnProps {
@@ -171,6 +184,23 @@ export interface EditProjectsModalProps {
   isModalOpen: boolean;
 }
 
+export interface EditFeedModalProps {
+  content: Feed_Content;
+  onClose: () => void;
+  onSubmit: (updatedContent: Feed_Content) => void;
+  activeModal: string | null;
+}
+
+export interface NewPostCardProps {
+  onClose: () => void;
+  onSubmit: (newContent: PostCardProps) => void;
+  activeModal: string | null;
+}
+
 export interface CloseBtnProps {
+  onClick: () => void;
+}
+
+export interface CreateBtnProps {
   onClick: () => void;
 }

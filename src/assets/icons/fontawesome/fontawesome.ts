@@ -11,6 +11,7 @@ import {
   faArrowUp,
   faX,
   faI,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 
