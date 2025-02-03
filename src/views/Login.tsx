@@ -8,6 +8,7 @@ import { useState, useEffect, useContext } from "react";
 // I M P O R T:   F U N C T I O N S
 import { BE_HOST } from "../api/host";
 import { checkLogin } from "../utils/utils";
+import Footer from "./Footer";
 import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
 
@@ -58,40 +59,43 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div className="form-group">
-          <input
-            type="text"
-            name="username"
-            placeholder="Benutzername"
-            required
-            onChange={handleInput}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Passwort"
-            required
-            onChange={handleInput}
-          />
-        </div>
-        <div className="form-actions">
-          <button type="submit">Einloggen</button>
-        </div>
-        <div className="form-footer">
-          <p>
-            Noch keinen Account?{" "}
-            <NavLink to="/registration">Hier registrieren</NavLink>
-          </p>
-          <p>
-            Passwort vergessen?{" "}
-            <NavLink to="/forgottpassword">Hier klicken</NavLink>
-          </p>
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h2>Login</h2>
+          <div className="form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Benutzername"
+              required
+              onChange={handleInput}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Passwort"
+              required
+              onChange={handleInput}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="submit">Einloggen</button>
+          </div>
+          <div className="form-footer">
+            <p>
+              Account erstellen?{" "}
+              <NavLink to="/registration">Hier klicken</NavLink>
+            </p>
+            <p>
+              Passwort vergessen?{" "}
+              <NavLink to="/forgottpassword">Hier klicken</NavLink>
+            </p>
+          </div>
+        </form>
+      </div>
+      <Footer />
+    </>
   );
 };
 

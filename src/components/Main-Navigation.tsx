@@ -1,4 +1,5 @@
 // I M P O R T:   F I L E S
+import default_avatar from "../images/icon_avatar.png";
 
 // I M P O R T:  T Y P E S
 import { MainNavProps } from "../types/interfaces";
@@ -11,6 +12,8 @@ import { useEffect, useState, useContext } from "react";
 import SubNavigation from "./Sub-Navigation";
 import { scrollToSection } from "../utils/utils";
 import MobileViewContext from "../context/MobileViewContext";
+import LoggedInContext from "../context/LoginContext";
+import UserContext from "../context/UserContext";
 
 // C O D E
 const MainNavigation: React.FC<MainNavProps> = ({
@@ -20,9 +23,19 @@ const MainNavigation: React.FC<MainNavProps> = ({
   handleAboutLinkClick,
   aboutLinkClicked,
 }) => {
+  const [isLoggedIn] = useContext(LoggedInContext);
+  const [user] = useContext(UserContext);
   const [showSubNavigation, setShowSubNavigation] = useState<boolean>(false);
   const [showTransition, setShowTransition] = useState<boolean>(false);
   const [mobileView, setMobileView] = useContext(MobileViewContext);
+
+  const fakeUser = {
+    _id: "1",
+    userName: "breffjaun",
+    email: "breffjaun@test.de",
+    avatar: default_avatar,
+    password: "12345678",
+  };
 
   useEffect(() => {
     const checkMobileView = () => {
@@ -67,7 +80,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
   return (
     <nav>
       <ul>
-        <li>
+        <li className="usual__navigation">
           <NavLink
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
@@ -90,7 +103,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
             <SubNavigation hideMobileNav={hideMobileNav} />
           </li>
         )}
-        <li>
+        <li className="usual__navigation">
           <NavLink
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
@@ -101,7 +114,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
             Feed
           </NavLink>
         </li>
-        <li>
+        <li className="usual__navigation">
           <NavLink
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "active" : ""
@@ -115,20 +128,35 @@ const MainNavigation: React.FC<MainNavProps> = ({
             Contact
           </NavLink>
         </li>
-        {/* <li>
-          <NavLink
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-            to="/login"
-            onClick={() => {
-              handleOnClick();
-              scrollToSection("contact");
-            }}
-          >
-            Login
-          </NavLink>
-        </li> */}
+        {isLoggedIn ? (
+          <li className="user__avatar">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+              to="/userinformation"
+              onClick={() => {
+                handleOnClick();
+              }}
+            >
+              <img src={user?.avatar || fakeUser.avatar} alt={user?.userName} />
+            </NavLink>
+          </li>
+        ) : (
+          <li>
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+              to="/login"
+              onClick={() => {
+                handleOnClick();
+              }}
+            >
+              Login
+            </NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );

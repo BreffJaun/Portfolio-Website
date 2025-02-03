@@ -34,7 +34,6 @@ const Footer = () => {
 
   return (
     <div className="footer">
-      <div className="left__placeholder"></div>
       <div className="credits__container">
         <p>
           Designed & Built by{" "}
@@ -56,18 +55,6 @@ const Footer = () => {
             grossesbewirken
           </a>
         </p>
-      </div>
-
-      <div className="right__placeholder">
-        {isLoggedIn ? (
-          <a href="" onClick={handleLogoutClick}>
-            Logout
-          </a>
-        ) : (
-          <a href="" onClick={handleLoginClick}>
-            Login
-          </a>
-        )}
       </div>
     </div>
   );

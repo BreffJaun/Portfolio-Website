@@ -45,44 +45,79 @@ header {
         margin: 0;
         list-style-type: none;
   
-        li {
+        li.usual__navigation {
           margin: 0 10px;
+
+          a {
+            text-decoration: none;
+            color: var(--teal);
+            display: block;
+            padding: 5px 0;
+            font-size: 1.5rem;
+            position: relative;
+        
+            &:hover {
+              color: var(--white);
+            }
+        
+            &.active {
+              color: var(--white);
+        
+              &::after {
+                width: 100%;
+              }
+            }
+        
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -0.5px;
+              left: 0;
+              width: 0;
+              height: 2px;
+              background-color: var(--teal);
+              transition: width 0.3s ease;
+            }
+          }
+        
+          @media (max-width: 767px) {
+            display: none;
+          }
+        }
+
+        li.user__avatar {
+          cursor: pointer;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          border: 2px solid transparent;
+          transition: border-color 0.3s ease;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+
+          a {
+            border-radius: 50%;
+            border: 2px solid transparent;
+            &:hover {
+              border: 2px solid var(--white);
+              transition: border-color 0.3s ease;
+            }
+          
+            &.active {
+              border: 2px solid var(--teal);
+              transition: border-color 0.3s ease;
+            }
+          }          
         }
       }
-    }
-
-    a {
-      text-decoration: none;
-      color: var(--teal);
-      display: block;
-      padding: 5px 0;
-      font-size: 1.5rem;
-      position: relative;
-
-      &:hover {
-        color: var(--white);
-      }
-
-      &.active {
-        color: var(--white);
-        &::after {
-          width: 100%;
-        }
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -0.5px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: var(--teal);
-        transition: width 0.3s ease;
-      }
-    }    
-    @media (max-width: 767px) {
-      display: none;
     }
   }
 

@@ -97,7 +97,7 @@ const Registration = () => {
           setTimeout(() => navigate("/*"), 1000);
         });
     };
-    sendRegistrationData();
+    // sendRegistrationData();
   };
 
   return (
