@@ -16,26 +16,32 @@
       width: 80%;
       max-width: 1000px;
       height: 200px;
-      background-image: url(../assets/logos/breffjaun_feed_bg_anthrazit.jpeg);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      position: relative;
+      position: relative;      
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center ;
+      }
 
       .avatar__img__container {
         width: 150px;
         height: 150px;
         border: 5px solid var(--white);
         border-radius: 50%;
-        background-image: url(../images/breffjaun_profile_img.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: top;
         position: absolute;
         bottom: 0;
-        // transform: translate(-50%, 50%);
         transform: translateY(50%);
         margin-left: 5rem;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
 
         @media (max-width: 1024px) {
           margin-left: 3rem;
@@ -46,10 +52,6 @@
           height: 125px;
           margin-left: 2rem;
         }
-      }
-
-      @media (min-width: 1024px) {
-        background-image: url(../assets/logos/breffjaun_feed_bg_anthrazit_ws.jpeg);
       }
 
       @media (max-width: 768px) {
@@ -93,6 +95,7 @@
             padding: 5px 10px;
             margin: 1rem;
             background-color: var(--teal-light);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             color: var(--teal);
             border-radius: 50px;
             border: none;

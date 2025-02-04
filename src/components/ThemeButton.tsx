@@ -42,7 +42,6 @@ const ThemeButton = () => {
         setTheme(true);
       }, 2000);
       setTimeoutId(id);
-
       return () => clearTimeout(id);
     }
   }, [theme]);

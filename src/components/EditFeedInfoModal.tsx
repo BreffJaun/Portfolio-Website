@@ -1,14 +1,15 @@
 // I M P O R T:   F I L E S
-import "../styles/editMySelfModal.scss";
+import "../styles/editFeedInfoModal.scss";
 
 // I M P O R T:  T Y P E S
-import { EditFeedModalProps } from "../types/interfaces";
+import { EditFeedModalProps, Feed_Content } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { useState, useEffect } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import CloseBtn from "./CloseBtn";
+import EditImageBtn from "./EditImageBtn";
 
 // C O D E
 const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
@@ -17,7 +18,13 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
   onSubmit,
   activeModal,
 }) => {
-  const [formData, setFormData] = useState(content);
+  const [newData, setNewData] = useState(content);
+  const [newProfileImg, setNewProfileImg] = useState<File | undefined>(
+    undefined
+  );
+  const [newProfileImgUrl, setNewProfileImgUrl] = useState("");
+  const [newTitleImg, setNewTitleImg] = useState<File | undefined>(undefined);
+  const [newTitleImgUrl, setNewTitleImgUrl] = useState("");
 
   useEffect(() => {
     if (activeModal === "editInfo") {
@@ -31,30 +38,119 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
     };
   }, [activeModal]);
 
-  const handleChange = (
+  const handleInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setNewData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleFileChange =
+    (
+      urlSetter: React.Dispatch<React.SetStateAction<string>>,
+      imageSetter: React.Dispatch<React.SetStateAction<File | undefined>>
+    ) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      // Clean up
+      imageSetter(undefined);
+      urlSetter("");
+
+      // Get file
+      const file = event.target.files?.[0];
+      if (file) {
+        imageSetter(file);
+        urlSetter(URL.createObjectURL(file));
+      }
+    };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    const formData = new FormData();
+    const updatedContent: Feed_Content = {
+      feed_title_img: "",
+      feed_profile_img: "",
+      ghLink: newData.ghLink || "",
+      fullName: newData.fullName || "",
+      statement: newData.statement || "",
+      jobTitle: newData.jobTitle || "",
+      about: newData.about || "",
+      posts: undefined,
+    };
+    if (newProfileImg) formData.append("feed_profile_img", newProfileImg);
+    if (newTitleImg) formData.append("feed_title_img", newTitleImg);
+
+    (Object.keys(newData) as Array<keyof Feed_Content>).forEach((key) => {
+      if (key !== "posts" && newData[key] !== content[key]) {
+        updatedContent[key] = newData[key];
+      }
+    });
+
+    onSubmit(updatedContent);
   };
 
   return (
-    <div className="edit-modal-content mySelf__modal">
+    <div className="edit-modal-content feed__info__modal">
       <CloseBtn onClick={onClose} />
       <form onSubmit={handleSubmit}>
         <h2>Edit content:</h2>
+        <div className="edit__images__container">
+          <div className="form-group title__image__container">
+            <label htmlFor="feed__title__image" className="feed__title__label">
+              Feed title image:
+              <EditImageBtn />
+            </label>
+            <input
+              className="edit__card"
+              type="file"
+              id="feed__title__image"
+              name="feed__title__image"
+              onChange={handleFileChange(setNewTitleImgUrl, setNewTitleImg)}
+              accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
+              hidden
+            />
+            <div className="feed__title__preview">
+              <img
+                // src={newTitleImgUrl}
+                src={newTitleImgUrl || content.feed_title_img}
+                alt="feed title image"
+              />
+            </div>
+          </div>
+          <div className="form-group profile__image__container">
+            <label
+              htmlFor="feed__profile__image"
+              className="feed__profile__label"
+            >
+              Feed profile image:
+              <EditImageBtn />
+            </label>
+            <input
+              className="edit__card"
+              type="file"
+              id="feed__profile__image"
+              name="feed__profile__image"
+              onChange={handleFileChange(setNewProfileImgUrl, setNewProfileImg)}
+              accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
+              hidden
+            />
+            <div className="feed__profile__preview">
+              <img
+                // src={newTitleImgUrl}
+                src={newProfileImgUrl || content.feed_profile_img}
+                alt="feed title image"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="form-group">
           <label>GitHub Link:</label>
           <input
             type="text"
             name="ghLink"
-            value={formData.ghLink}
-            onChange={handleChange}
+            value={newData.ghLink}
+            onChange={handleInput}
           />
         </div>
         <div className="form-group">
@@ -62,8 +158,8 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
           <input
             type="text"
             name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
+            value={newData.fullName}
+            onChange={handleInput}
           />
         </div>
         <div className="form-group">
@@ -71,8 +167,8 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
           <input
             type="text"
             name="statement"
-            value={formData.statement}
-            onChange={handleChange}
+            value={newData.statement}
+            onChange={handleInput}
           />
         </div>
         <div className="form-group">
@@ -80,17 +176,13 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
           <input
             type="text"
             name="jobTitle"
-            value={formData.jobTitle}
-            onChange={handleChange}
+            value={newData.jobTitle}
+            onChange={handleInput}
           />
         </div>
         <div className="form-group">
           <label>About:</label>
-          <textarea
-            name="about"
-            value={formData.about}
-            onChange={handleChange}
-          />
+          <textarea name="about" value={newData.about} onChange={handleInput} />
         </div>
         <button type="submit" className="btn btn-submit">
           Save changes

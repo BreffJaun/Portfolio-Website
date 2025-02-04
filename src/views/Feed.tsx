@@ -1,6 +1,8 @@
 // I M P O R T:   F I L E S
 import "../styles/feed.scss";
 import avatarImage from "../images/breffjaun_profile_img.jpg";
+import feed_profile_img from "../images/breffjaun_profile_img.jpg";
+import feed_title_img from "../../src/assets/logos/breffjaun_feed_bg_anthrazit.jpeg";
 
 // I M P O R T:  T Y P E S
 import { Feed_Content, PostCardProps } from "../types/interfaces";
@@ -18,7 +20,7 @@ import BackToTopBtn from "../components/BackToTopBtn";
 import EditBtn from "../components/EditBtn";
 import CreateBtn from "../components/CreateBtn";
 import EditPostsModal from "../components/EditPostModal";
-import NewPostModal from "../components/NewPostModal";
+// import NewPostModal from "../components/NewPostModal";
 import EditFeedInfoModal from "../components/EditFeedInfoModal";
 import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
@@ -39,6 +41,7 @@ const Feed: React.FC = () => {
   >(null);
   const testPosts = [
     {
+      // avatar: user?.avatar,
       avatar: avatarImage,
       authorAction: `${"😊"}`,
       date: formatCurrentDate(),
@@ -50,6 +53,7 @@ const Feed: React.FC = () => {
       articleLink: "",
     },
     {
+      // avatar: user?.avatar,
       avatar: avatarImage,
       authorAction: `${"🌴"}`,
       date: formatCurrentDate(),
@@ -61,6 +65,7 @@ const Feed: React.FC = () => {
       articleLink: "test",
     },
     {
+      // avatar: user?.avatar,
       avatar: avatarImage,
       authorAction: `${"🌴"}`,
       date: formatCurrentDate(),
@@ -73,12 +78,14 @@ const Feed: React.FC = () => {
     },
   ];
   const [content, setContent] = useState<Feed_Content>({
+    feed_title_img: feed_title_img,
+    feed_profile_img: feed_profile_img,
     ghLink: "https://github.com/BreffJaun",
     fullName: "Jeff Braun",
     statement: "In ❤️ with programming.",
     jobTitle: "Fullstack Web Developer",
     about: ", Assistant Teacher for Web Development and a lot more.",
-    posts: [],
+    posts: testPosts,
   });
 
   // Echter Fetch
@@ -133,7 +140,10 @@ const Feed: React.FC = () => {
     <div className="feed">
       <section id="feed">
         <div className="bg__img__container">
-          <div className="avatar__img__container"></div>
+          <img src={feed_title_img} alt="feed title image" />
+          <div className="avatar__img__container">
+            <img src={feed_profile_img} alt="feed profile image" />
+          </div>
         </div>
         <div className="infobar__container">
           <div className="positioning__container">
@@ -208,7 +218,7 @@ const Feed: React.FC = () => {
               />
             </div>
             {/* NEW POST */}
-            <div
+            {/* <div
               className={`edit-modal-container ${
                 activeModal === "newPost" ? "open" : ""
               }`}
@@ -218,7 +228,7 @@ const Feed: React.FC = () => {
                 onSubmit={handleNewPost}
                 activeModal={activeModal}
               />
-            </div>
+            </div> */}
             <div className="horizontal__border"></div>
           </div>
         </div>

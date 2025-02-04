@@ -61,9 +61,9 @@ const UserInformation = () => {
     // console.log(newData.profile.password !== "");
     // console.log(newData.confirmPassword !== "");
     return (
-      newData.profile.userName !== user.userName ||
-      newData.profile.email !== user.email ||
-      newData.profile.avatar !== user.avatar ||
+      newData.profile.userName !== user?.userName ||
+      newData.profile.email !== user?.email ||
+      newData.profile.avatar !== user?.avatar ||
       newData.profile.password !== "" ||
       newData.confirmPassword !== ""
     );
@@ -71,10 +71,6 @@ const UserInformation = () => {
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (name === "email" && !emailRegex.test(value)) {
-      alert("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
-    }
     setNewData((prevData) => ({
       ...prevData,
       profile: {
@@ -103,16 +99,21 @@ const UserInformation = () => {
     event.preventDefault();
     const { userName, password, email } = newData.profile;
     const { confirmPassword } = newData;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!userName || newData.profile.userName.length < 1) {
+    if (!userName || userName.length < 1) {
       setError("Bitte geben Sie einen Benutzernamen ein!");
-    } else if (!email || newData.profile.email.length < 1) {
+    } else if (!email || email.length < 1) {
       setError("Bitte geben Sie eine E-Mail-Adresse ein!");
+    } else if (!emailRegex.test(email)) {
+      setError("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
     } else if (password !== confirmPassword) {
       setError("Die Passwörter stimmen nicht überein!");
     } else {
       setError("");
     }
+
+    if (error) return;
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(newData));

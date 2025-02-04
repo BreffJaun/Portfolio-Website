@@ -110,12 +110,14 @@ export interface Projects_Content {
 }
 
 export interface Feed_Content {
+  feed_title_img: string;
+  feed_profile_img: string;
   ghLink: string;
   fullName: string;
   statement: string;
   jobTitle: string;
   about: string;
-  posts: PostCardProps[];
+  posts?: PostCardProps[];
 }
 
 export interface EditBtnProps {

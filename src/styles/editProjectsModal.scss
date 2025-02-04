@@ -1,8 +1,8 @@
 .edit-modal-content  {
   &.stack__modal {
-      max-height: 80vh;
-      overflow-y: auto;
-      scrollbar-color: var(--teal) transparent;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-color: var(--teal) transparent;
   }
 }
 
