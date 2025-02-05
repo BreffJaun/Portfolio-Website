@@ -39,37 +39,104 @@ const Feed: React.FC = () => {
   const [activeModal, setActiveModal] = useState<
     "editInfo" | "editPost" | "newPost" | null
   >(null);
+  const fakeUser = {
+    _id: "1",
+    userName: "breffjaun",
+    email: "breffjaun@test.de",
+    avatar: avatarImage,
+    password: "12345678",
+  };
   const testPosts = [
     {
-      // avatar: user?.avatar,
+      postId: "896544",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
       avatar: avatarImage,
-      authorAction: `${"😊"}`,
+      // avatar: user?.avatar,
+      authorAction: ``,
       date: formatCurrentDate(),
-      mood: "🌴 Feelin fresh",
-      articleTitle: "Welcome to my portfolio!",
-      articleContent:
-        "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      vibe: "",
+      articleTitle: "",
+      articleContent: `This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
+          This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
+          This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with 
+          This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
+        you. I hope you like th END OF THE FUCKING TEXT
+        `,
       articleImageSrc: avatarImage,
       articleLink: "",
     },
     {
-      // avatar: user?.avatar,
+      postId: "453454",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
       avatar: avatarImage,
-      authorAction: `${"🌴"}`,
+      // avatar: user?.avatar,
+      authorAction: ``,
       date: formatCurrentDate(),
-      mood: "🙌 Excited",
+      vibe: "",
       articleTitle: "",
       articleContent:
-        "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+        "This is my FOURTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      articleImageSrc: "",
+      articleLink: "",
+    },
+    {
+      postId: "866",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
+      avatar: avatarImage,
+      // avatar: user?.avatar,
+      authorAction: `😊`,
+      date: formatCurrentDate(),
+      vibe: "🌴 Feelin fresh",
+      articleTitle: "Welcome to my portfolio!",
+      articleContent:
+        "This is my THIRD post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
+      articleImageSrc: avatarImage,
+      articleLink: "",
+    },
+    {
+      postId: "1255424",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
+      avatar: avatarImage,
+      // avatar: user?.avatar,
+      authorAction: `${"🌴"}`,
+      date: formatCurrentDate(),
+      vibe: "🙌 Excited",
+      articleTitle: "",
+      articleContent:
+        "This is my SECOND post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
       articleImageSrc: avatarImage,
       articleLink: "test",
     },
     {
-      // avatar: user?.avatar,
+      postId: "7542458",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
       avatar: avatarImage,
+      // avatar: user?.avatar,
       authorAction: `${"🌴"}`,
       date: formatCurrentDate(),
-      mood: "🙌 Excited",
+      vibe: "🙌 Excited",
       articleTitle: "",
       articleContent:
         "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
@@ -237,11 +304,13 @@ const Feed: React.FC = () => {
             {/* <div className="horizontal__border"></div> */}
             {testPosts.map((post, i) => (
               <PostCard
-                key={i}
+                key={post.postId}
+                authorId={post.authorId}
+                authorName={post.authorName}
                 avatar={post.avatar}
                 authorAction={post.authorAction}
                 date={post.date}
-                mood={post.mood}
+                vibe={post.vibe}
                 articleTitle={post.articleTitle}
                 articleContent={post.articleContent}
                 articleImageSrc={post.articleImageSrc}

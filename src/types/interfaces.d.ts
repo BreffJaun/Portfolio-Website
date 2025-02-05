@@ -49,12 +49,15 @@ export interface Project_Item {
 }
 
 export interface PostCardProps {
+  postId?: string;
   avatar?: string;
+  authorId?: string;
+  authorName?: string;
   authorAction?: string;
   date?: string;
-  mood?: string;
+  vibe?: string;
   articleTitle?: string;
-  articleContent?: string;
+  articleContent: string;
   articleImageSrc?: string;
   articleLink?: string;
 }
