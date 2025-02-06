@@ -37,6 +37,7 @@ function App() {
   const [mobileView, setMobileView] = useState<boolean>(false);
   const [device, setDevice] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [user, setUser] = useState<any>({}); // any type
 

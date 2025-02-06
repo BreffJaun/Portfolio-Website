@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 // I M P O R T:   F U N C T I O N S
 import { BE_HOST, URL_F, URL_F_CP, URL_F_EP } from "../api/host";
 import { isValidLink } from "../utils/utils";
+import UserContext from "../context/UserContext";
 import PendingContext from "../context/PendingContext";
 import CloseBtn from "./CloseBtn";
 import EditImageBtn from "./EditImageBtn";
@@ -27,27 +28,21 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
   activeModal,
 }) => {
   const navigate = useNavigate();
-
+  const [user] = useContext(UserContext);
   const [isPending, setIsPending] = useContext(PendingContext);
-  const [modalData, setModalData] = useState<Projects_Content>();
-  const [newItem, setNewItem] = useState<PostCardProps>({
+  const [newPost, setNewPost] = useState<PostCardProps>({
     title: "",
     img: "",
     description: "",
     tags: [],
     link: "",
   });
+  const [error, setError] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
 
-  const [thumbnailNewCard, setThumbnailNewCard] = useState<File | undefined>(
-    undefined
-  );
-  const [thumbnailUrlNewCard, setThumbnailUrlNewCard] = useState("");
-
   useEffect(() => {
-    setModalData(content);
-    if (isModalOpen) {
+    if (activeModal === "newPost") {
       document.documentElement.classList.add("modal-open");
     } else {
       document.documentElement.classList.remove("modal-open");
@@ -58,76 +53,17 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
     };
   }, [activeModal]);
 
-  // ** UPDATE POSTS ** //
-  // UPDATE PROJECT INFO //
-  const handleInfoChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ================================ //
+
+  // ADD NEW POST ITEM //
+  const handleNewPostInfo = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    setModalData((prev) => ({ ...prev, [name]: value }));
+    setNewPost((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleInfoSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const sendData = async () => {
-      await fetch(`${BE_HOST}/${URL_F_EP}`, {
-        credentials: "include",
-        method: "PATCH",
-        body: JSON.stringify({
-          // headline: modalData.headline,
-          // description: modalData.description,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            onSubmit();
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setTimeout(() => navigate("/*"), 2000);
-        });
-    };
-    sendData();
-  };
-
-  // UPDATE PROJECT ITEM //
-  // TEXT INPUT
-  const handleSelectedInfoChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    if (!selectedItem) return; // Sicherheit
-    if (name === "order") {
-      const checkOrder = modalData.projects.find(
-        (item) => item.order === +value
-      );
-      if (checkOrder) {
-        alert(
-          `Order number ${value} already exists. Please choose another one`
-        );
-        return;
-      }
-      setNewData(() => ({ ...selectedItem, [name]: +value }));
-      return;
-    }
-
-    if (name === "link") {
-      if (!isValidLink(value)) {
-        alert("The entered value is not a valid link. Please correct it.");
-        return;
-      }
-    }
-
-    setNewData(() => ({ ...selectedItem, [name]: value }));
-  };
-
-  // IMAGE FILE
-  const handleSelectedFileChange = async (
+  const handleNewCardFile = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     // Clean up
@@ -142,141 +78,26 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
     }
   };
 
-  // SAVE BOOTH => FETCH
-  const submitChangedItem = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const addNewPost = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (!selectedItem) return;
+    // const { userName, password, email } = newData.profile;
+    // const { confirmPassword } = newData;
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    const formData = new FormData();
-    if (newData) formData.append("data", JSON.stringify(newData));
-    if (thumbnail) formData.append("thumbnail", thumbnail);
-    const sendProjectData = async () => {
-      // Echter fetch
-      // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_P_L}/${selectedItem._id}`, {
-      //   credentials: "include",
-      //   method: "PATCH",
-      //   body: formData,
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status === 201) {
-      //       setSelectedItem(null);
-      //       setIsPending(false);
-      //       onSubmit();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsPending(false);
-      //     console.error("Error:", error);
-      //     setTimeout(() => navigate("/*"), 2000);
-      //   });
+    // if (!userName || userName.length < 1) {
+    //   setError("Bitte geben Sie einen Benutzernamen ein!");
+    // } else if (!email || email.length < 1) {
+    //   setError("Bitte geben Sie eine E-Mail-Adresse ein!");
+    // } else if (!emailRegex.test(email)) {
+    //   setError("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
+    // } else if (password !== confirmPassword) {
+    //   setError("Die Passwörter stimmen nicht überein!");
+    // } else {
+    //   setError("");
+    // }
 
-      // Testing
-      console.log("Data to send:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`${key}:`, {
-            name: value.name,
-            size: value.size,
-            type: value.type,
-          });
-        } else {
-          console.log(`${key}:`, value);
-        }
-      }
-      setSelectedItem(null);
-      onSubmit();
-    };
-    sendProjectData();
-  };
+    // if (error) return;
 
-  // DELETE PROJECT ITEM //
-  const deleteSelectedItem = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    if (!selectedItem) return;
-    // Echter fetch
-    // setIsPending(true);
-    // await fetch(`${BE_HOST}/${URL_ST_L}/${selectedItem._id}`, {
-    //   credentials: "include",
-    //   method: "DELETE",
-    //   // body: JSON.stringify({
-    //   //   stackId: selectedItem._id,
-    //   // }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status === 201) {
-    //       setSelectedItem(null);
-    //       setIsPending(false);
-    //       onSubmit();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsPending(false);
-    //     console.error("Error:", error);
-    //     setTimeout(() => navigate("/*"), 2000);
-    //   });
-
-    // Testing
-    onSubmit();
-    console.log("Data to delete:", selectedItem);
-    setSelectedItem(null);
-  };
-
-  // ================================ //
-
-  // ADD NEW PROJECT ITEM //
-  const handleNewCardInfo = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    if (!selectedItem) return; // Sicherheit
-    if (name === "order") {
-      const checkOrder = modalData.projects.find(
-        (item) => item.order === +value
-      );
-      if (checkOrder) {
-        alert(
-          `Order number ${value} already exists. Please choose another one`
-        );
-        return;
-      }
-      setNewItem((prev) => ({ ...prev, [name]: +value }));
-      return;
-    }
-
-    if (name === "link") {
-      if (!isValidLink(value)) {
-        alert("The entered value is not a valid link. Please correct it.");
-        return;
-      }
-    }
-    setNewItem((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleNewCardFile = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    // Clean up
-    setThumbnailNewCard(undefined);
-    setThumbnailUrlNewCard("");
-
-    // Get file
-    const file = event.target.files?.[0];
-    if (file) {
-      setThumbnailNewCard(file);
-      setThumbnailUrlNewCard(URL.createObjectURL(file));
-    }
-  };
-
-  const addNewItem = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
     if (!newItem) return;
 
     const formData = new FormData();
@@ -324,15 +145,15 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
   return (
     <div className={`edit-modal-content stack__modal`}>
       <CloseBtn onClick={onClose} />
-      <h2>Edit content:</h2>
-      <form onSubmit={handleInfoSubmit}>
+      <h2>Create a post:</h2>
+      <form onSubmit={addNewPost}>
         <div className="form-group">
-          <label>Headline:</label>
+          <label>Author's mood emoji:</label>
           <input
             type="text"
-            name="headline"
-            value={modalData.headline}
-            onChange={handleInfoChange}
+            name="authorAction"
+            value={newPost.authorAction}
+            onChange={handleNewPostInfo}
           />
         </div>
         <div className="form-group">
@@ -605,6 +426,8 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
                 placeholder={(modalData.projects.length + 1).toString()}
               />
             </div>
+            {/* Fehlermeldung */}
+            {error && <p className="error-message">{error}</p>}
             <div className="btn__group__single">
               <button
                 onClick={addNewItem}

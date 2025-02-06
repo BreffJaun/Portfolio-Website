@@ -76,6 +76,8 @@ const MainNavigation: React.FC<MainNavProps> = ({
       setShowSubNavigation(true);
     }
   };
+  console.log("mobileView", mobileView);
+  console.log("showSubNavigation", showSubNavigation);
 
   return (
     <nav>
@@ -143,7 +145,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
             </NavLink>
           </li>
         ) : (
-          <li>
+          <li className="usual__navigation">
             <NavLink
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""

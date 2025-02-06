@@ -20,7 +20,7 @@ import BackToTopBtn from "../components/BackToTopBtn";
 import EditBtn from "../components/EditBtn";
 import CreateBtn from "../components/CreateBtn";
 import EditPostsModal from "../components/EditPostModal";
-// import NewPostModal from "../components/NewPostModal";
+import NewPostModal from "../components/NewPostModal";
 import EditFeedInfoModal from "../components/EditFeedInfoModal";
 import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
@@ -48,6 +48,23 @@ const Feed: React.FC = () => {
   };
   const testPosts = [
     {
+      postId: "168115",
+      authorId: fakeUser._id,
+      authorName: fakeUser.userName,
+      avatar: avatarImage,
+      // avatar: user?.avatar,
+      authorAction: ``,
+      date: formatCurrentDate(),
+      vibe: "",
+      articleTitle: "",
+      articleContent: `This is my SIXTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😎 
+      
+      A new Hope 🚀
+      `,
+      articleImageSrc: "",
+      articleLink: "",
+    },
+    {
       postId: "896544",
       authorId: fakeUser._id,
       authorName: fakeUser.userName,
@@ -58,17 +75,19 @@ const Feed: React.FC = () => {
       vibe: "",
       articleTitle: "",
       articleContent: `This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 
-        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+        This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 TEST
         
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
           This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
+
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
           This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
@@ -76,6 +95,7 @@ const Feed: React.FC = () => {
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with 
           This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊
+
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like th
         This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊 This is my FIFTH post on my portfolio. I'm so excited to share my projects with
         you. I hope you like th END OF THE FUCKING TEXT

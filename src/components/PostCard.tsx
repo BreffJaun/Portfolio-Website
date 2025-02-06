@@ -27,8 +27,6 @@ const PostCard: React.FC<PostCardProps> = ({
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const maxContentLength = 300;
-
-  // const toggleExpand = () => setExpanded((prev) => !prev);
   const toggleExpand = () => setExpanded(!expanded);
 
   useEffect(() => {
@@ -62,20 +60,10 @@ const PostCard: React.FC<PostCardProps> = ({
           {vibe && <p className="mood__pill">{vibe}</p>}
         </div>
         <article>
-          {/* ======================================== */}
           {articleTitle && <h3>{articleTitle}</h3>}
-
-          {/* FUNKTIONIERT ! ! !  */}
-          {/* <div className={`article__content ${expanded ? "expanded" : ""}`}>
-            {expanded
-              ? articleContent
-              : `${articleContent.slice(0, maxContentLength)}${
-                  articleContent.length > maxContentLength ? "..." : ""
-                }`}
-          </div> */}
           <div
             className={`article__content ${expanded ? "expanded" : ""}`}
-            ref={contentRef} // Referenz hinzufügen
+            ref={contentRef}
           >
             {expanded
               ? articleContent
@@ -83,14 +71,11 @@ const PostCard: React.FC<PostCardProps> = ({
                   articleContent.length > maxContentLength ? "..." : ""
                 }`}
           </div>
-
           {articleContent.length > maxContentLength && (
             <button className="toggle-button" onClick={toggleExpand}>
               {expanded ? "Weniger anzeigen" : "Mehr anzeigen"}
             </button>
           )}
-
-          {/* ======================================== */}
           {articleImageSrc && <img src={articleImageSrc} alt="Article" />}
           {articleLink && (
             <div className="article__link">
