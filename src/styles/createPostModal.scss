@@ -61,19 +61,61 @@
   }
 }
 
-div.emoji-picker {
+// div.emoji-picker {
+//   position: absolute;
+//   top: 160px;
+//   left: 2rem;
+//   z-index: 1000;
+//   border: 1px solid var(--teal);
+//   border-radius: 8px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+//   // input {
+//   //   &::placeholder {
+//   //     padding-left: 40px;
+//   //   }
+//   // }
+// }
+
+.emoji-picker {
   position: absolute;
   top: 160px;
   left: 2rem;
   z-index: 1000;
-  // background: white;
-  // background: var(--body-color) !important;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--teal);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  input {
+    padding-left: 35px !important; 
+  }
+
+  // Lupe zentrieren
+  .epr-icn-search {
+    position: absolute;
+    left: 10px; 
+    top: 50%;
+    transform: translateY(-110%); 
+    width: 16px; 
+    height: 16px; 
+  }
+
+  // Clear Button
+  .epr-icn-clear-search {
+    position: absolute;
+    transform: translateY(-40%); 
+  }
+
+  // Skin Tones Button
+  .epr-skin-tones {
+    position: absolute;
+    transform: translateY(-15%);
+  }
+
+  // Placeholder Text
+  input::placeholder {
+    // padding-left: 10px; 
+    color: var(--gray-300); 
+  }
 }
 
-// .emoji-picker,
-// .emoji-picker * {
-//   background: var(--body-color) !important;
-// }

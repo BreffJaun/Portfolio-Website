@@ -194,8 +194,7 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
             <div className="emoji-picker">
               <EmojiPicker
                 onEmojiClick={handleEmojiClick}
-                Theme={`${theme ? "dark" : "light"}`}
-                // className={`${theme ? "dark-theme" : "light-theme"}`}
+                theme={`${theme ? "dark" : "light"}`}
               />
             </div>
           )}
