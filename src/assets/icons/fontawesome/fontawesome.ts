@@ -13,7 +13,7 @@ import {
   faI,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { faImage } from "@fortawesome/free-regular-svg-icons";
+import { faImage, faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faGithub,
@@ -23,5 +23,6 @@ library.add(
   faLink,
   faArrowUp,
   faX,
-  faImage
+  faImage,
+  faFaceSmile
 );

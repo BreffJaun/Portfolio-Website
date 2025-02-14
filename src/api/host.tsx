@@ -11,5 +11,13 @@ export const URL_P = "content/projects"; // Projects
 export const URL_P_D = "content/projects"; // Projects Description
 export const URL_P_L = "content/projects/list"; // Projects List
 export const URL_F = "content/feed"; // Feed Info
-export const URL_F_CP = "content/feed/post"; // Projects Tags
-export const URL_F_EP = "content/feed/post/"; // Projects Tags
+export const URL_F_CP = "content/feed/post"; // Create Post
+export const URL_F_EP = "content/feed/post/"; // Edit Post
+export const URL_F_DP = "content/feed/post/"; // Delete Post
+
+// authorAction,
+// vibe,
+// articleTitle,
+// articleContent,
+// articleImageSrc,
+// articleLink,

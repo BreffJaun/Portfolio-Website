@@ -17,6 +17,7 @@
     "@types/gsap": "^3.0.0",
     "@types/react-router-dom": "^5.3.3",
     "@types/ua-parser-js": "^0.7.39",
+    "emoji-picker-react": "^4.12.0",
     "gsap": "^3.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

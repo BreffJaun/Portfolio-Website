@@ -198,7 +198,6 @@ export interface EditFeedModalProps {
 
 export interface NewPostCardProps {
   onClose: () => void;
-  onSubmit: (newContent: PostCardProps) => void;
   activeModal: string | null;
 }
 

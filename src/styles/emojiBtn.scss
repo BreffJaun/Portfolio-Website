@@ -1,0 +1,53 @@
+
+.emoji__label {
+  // border: 1px solid red;
+  max-width: fit-content;
+  display: flex;
+  align-items: center;
+
+  .emoji-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+
+    .description__container {
+      display: flex;
+      align-items: flex-end;
+      align-self: flex-end;
+      gap: 8px;
+
+      span {
+        flex: 1;
+      }
+
+      .emoji__btn {
+        flex-shrink: 0;
+        background-color: var(--teal-light) !important;
+        color: var(--teal) !important;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        // margin: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s, color 0.3s;
+        z-index: 998;
+        font-size: 1.5rem;
+
+        &:hover {
+          background-color: var(--teal) !important;
+          color: var(--teal-light) !important;
+        }
+      }
+    }
+  }
+}
+
+
+
+

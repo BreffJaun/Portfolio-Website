@@ -221,7 +221,7 @@ const Feed: React.FC = () => {
   };
 
   // CREATE NEW POST
-  const handleNewPost = (newContent: PostCardProps) => {};
+  // const handleNewPost = (newContent: PostCardProps) => {};
 
   return (
     <div className="feed">
@@ -305,17 +305,16 @@ const Feed: React.FC = () => {
               />
             </div>
             {/* NEW POST */}
-            {/* <div
+            <div
               className={`edit-modal-container ${
                 activeModal === "newPost" ? "open" : ""
               }`}
             >
               <NewPostModal
                 onClose={() => closeSpecificModal(setActiveModal)}
-                onSubmit={handleNewPost}
                 activeModal={activeModal}
               />
-            </div> */}
+            </div>
             <div className="horizontal__border"></div>
           </div>
         </div>
