@@ -60,6 +60,7 @@ export interface PostCardProps {
   articleContent: string;
   articleImageSrc?: string;
   articleLink?: string;
+  [key: string]: string;
 }
 
 export interface BackToTopBtnProps {

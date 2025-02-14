@@ -61,25 +61,9 @@
   }
 }
 
-// div.emoji-picker {
-//   position: absolute;
-//   top: 160px;
-//   left: 2rem;
-//   z-index: 1000;
-//   border: 1px solid var(--teal);
-//   border-radius: 8px;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-//   // input {
-//   //   &::placeholder {
-//   //     padding-left: 40px;
-//   //   }
-//   // }
-// }
-
 .emoji-picker {
   position: absolute;
-  top: 160px;
+  // top: 160px;
   left: 2rem;
   z-index: 1000;
   border: 1px solid var(--teal);
@@ -117,5 +101,21 @@
     // padding-left: 10px; 
     color: var(--gray-300); 
   }
+}
+
+.authorAction__label {
+  top: 160px;
+}
+
+.vibe__label {
+  top: 272px;
+}
+
+.articleTitle__label {
+  top: 384px;
+}
+
+.articleContent__label {
+  top: 456px;
 }
 

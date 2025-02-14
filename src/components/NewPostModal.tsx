@@ -48,6 +48,7 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
   const [error, setError] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const [activeEmojiField, setActiveEmojiField] = useState<string | null>(null);
 
   useEffect(() => {
     if (activeModal === "newPost") {
@@ -66,11 +67,18 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
 
   // EMOJI PICKER //
   const handleEmojiClick = (emojiObject: { emoji: string }) => {
-    setNewPost((prev) => ({
-      ...prev,
-      authorAction: prev.authorAction + emojiObject.emoji,
-    }));
+    if (activeEmojiField) {
+      setNewPost((prev) => ({
+        ...prev,
+        [activeEmojiField]: prev[activeEmojiField] + emojiObject.emoji,
+      }));
+    }
     setShowEmojiPicker(false);
+  };
+
+  const toggleEmojiPicker = (field: string) => {
+    setActiveEmojiField(field);
+    setShowEmojiPicker((prev) => !prev);
   };
 
   // ADD NEW POST ITEM //
@@ -106,18 +114,12 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
       articleImageSrc,
       articleLink,
     } = newPost;
+    // console.log("HALLO", newPost);
 
-    // if (!userName || userName.length < 1) {
-    //   setError("Bitte geben Sie einen Benutzernamen ein!");
-    // } else if (!email || email.length < 1) {
-    //   setError("Bitte geben Sie eine E-Mail-Adresse ein!");
-    // } else if (!emailRegex.test(email)) {
-    //   setError("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
-    // } else if (password !== confirmPassword) {
-    //   setError("Die Passwörter stimmen nicht überein!");
-    // } else {
-    //   setError("");
-    // }
+    if (articleLink && !isValidLink(articleLink)) {
+      setError("Bitte geben Sie einen gültigen Link ein!");
+      return;
+    }
 
     if (error) return;
 
@@ -138,7 +140,7 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
       //   .then((data) => {
       //     if (data.status === 201) {
       //       setIsPending(false);
-      //       onSubmit();
+      //       onClose();
       //     }
       //   })
       //   .catch((error) => {
@@ -160,7 +162,7 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
           console.log(`${key}:`, value);
         }
       }
-      // onSubmit();
+      onClose();
     };
     sendProjectData();
   };
@@ -170,15 +172,15 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
       <CloseBtn onClick={onClose} />
       <h2>Create a post:</h2>
       <form onSubmit={addNewPost}>
+        {/* AUTHORACTION */}
         <div className="form-group">
-          <label className="emoji__label">
+          <label className="emoji__label ">
             Your current mood emoji (optional):
             <button
               type="button"
               className="emoji-btn"
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              onClick={() => toggleEmojiPicker("authorAction")}
             >
-              {/* 😀 */}
               <EmojiBtn />
             </button>
           </label>
@@ -190,36 +192,82 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
               onChange={handleNewPostInfo}
             />
           </div>
-          {showEmojiPicker && (
-            <div className="emoji-picker">
+          {showEmojiPicker && activeEmojiField === "authorAction" && (
+            <div className="emoji-picker authorAction__label">
               <EmojiPicker
                 onEmojiClick={handleEmojiClick}
-                theme={`${theme ? "dark" : "light"}`}
+                theme={theme ? Theme.DARK : Theme.LIGHT}
               />
             </div>
           )}
         </div>
+        {/* VIBE */}
+        <div className="form-group">
+          <label className="emoji__label">
+            Your current vibe (optional):
+            <button
+              type="button"
+              className="emoji-btn"
+              onClick={() => toggleEmojiPicker("vibe")}
+            >
+              <EmojiBtn />
+            </button>
+          </label>
+          <input
+            type="text"
+            name="vibe"
+            value={newPost.vibe}
+            onChange={handleNewPostInfo}
+          />
+          {showEmojiPicker && activeEmojiField === "vibe" && (
+            <div className="emoji-picker vibe__label">
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme={theme ? Theme.DARK : Theme.LIGHT}
+              />
+            </div>
+          )}
+        </div>
+        {/* Article Title */}
+        <div className="form-group">
+          <label className="emoji__label">
+            Post title (optional):
+            <button
+              type="button"
+              className="emoji-btn"
+              onClick={() => toggleEmojiPicker("articleTitle")}
+            >
+              <EmojiBtn />
+            </button>
+          </label>
+          <input
+            type="text"
+            name="articleTitle"
+            value={newPost.articleTitle}
+            onChange={handleNewPostInfo}
+          />
+          {showEmojiPicker && activeEmojiField === "articleTitle" && (
+            <div className="emoji-picker articleTitle__label">
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme={theme ? Theme.DARK : Theme.LIGHT}
+              />
+            </div>
+          )}
+        </div>
+        {/* Article Content */}
+        <div className="form-group">
+          <label className="emoji__label">
+            Post Content:
+            <button
+              type="button"
+              className="emoji-btn"
+              onClick={() => toggleEmojiPicker("articleContent")}
+            >
+              <EmojiBtn />
+            </button>
+          </label>
 
-        <div className="form-group">
-          <label>Your current vibe (optional): </label>
-          <input
-            type="text"
-            name="vibe"
-            value={newPost.vibe}
-            onChange={handleNewPostInfo}
-          />
-        </div>
-        <div className="form-group">
-          <label>Post title (optional): </label>
-          <input
-            type="text"
-            name="vibe"
-            value={newPost.vibe}
-            onChange={handleNewPostInfo}
-          />
-        </div>
-        <div className="form-group">
-          <label>Post Content:</label>
           <textarea
             name="articleContent"
             value={newPost?.articleContent}
@@ -227,8 +275,17 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
             maxLength={3000}
             aria-describedby="char-counter-description"
           />
+          {showEmojiPicker && activeEmojiField === "articleContent" && (
+            <div className="emoji-picker articleContent__label">
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme={theme ? Theme.DARK : Theme.LIGHT}
+              />
+            </div>
+          )}
         </div>
         <div className="horizontal__border"></div>
+        {/* Article Image */}
         <div className="form-group thumbnail__group">
           <label htmlFor="articleImageSrc" className="thumbnail__label">
             Image (optional):
@@ -258,15 +315,18 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
           </div>
         </div>
         <div className="horizontal__border"></div>
+        {/* Article Link */}
         <div className="form-group">
           <label>Post Link:</label>
           <input
             type="text"
-            name="artcileLink"
+            name="articleLink"
             value={newPost?.articleLink}
             onChange={handleNewPostInfo}
           />
         </div>
+        {/* Fehlermeldungs Nachricht */}
+        {error && <p className="error-message">{error}</p>}
         <button type="submit" className="btn btn-submit">
           Save changes
         </button>
