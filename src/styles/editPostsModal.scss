@@ -1,0 +1,172 @@
+.thumbnail__label {
+  display: flex;
+  align-items: center;
+  width: fit-content
+}
+
+.thumbnail__group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.empty__post__thumbnail__preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  max-height: 300px;
+  margin-bottom: 1rem;
+  background-color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  span {
+    color: var(--gray-300);
+  }
+}
+
+.full__post__thumbnail__preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  max-height: 300px;
+  margin-bottom: 1rem;
+  background-color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  span {
+    color: var(--gray-300);
+  }
+}
+
+.emoji-picker {
+  position: absolute;
+  // top: 160px;
+  left: 2rem;
+  z-index: 1000;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  input {
+    padding-left: 35px !important; 
+  }
+
+  // Lupe zentrieren
+  .epr-icn-search {
+    position: absolute;
+    left: 10px; 
+    top: 50%;
+    transform: translateY(-110%); 
+    width: 16px; 
+    height: 16px; 
+  }
+
+  // Clear Button
+  .epr-icn-clear-search {
+    position: absolute;
+    transform: translateY(-40%); 
+  }
+
+  // Skin Tones Button
+  .epr-skin-tones {
+    position: absolute;
+    transform: translateY(-15%);
+  }
+
+  // Placeholder Text
+  input::placeholder {
+    // padding-left: 10px; 
+    color: var(--gray-300); 
+  }
+}
+
+.authorAction__label {
+  top: 160px;
+}
+
+.vibe__label {
+  top: 272px;
+}
+
+.articleTitle__label {
+  top: 384px;
+}
+
+.articleContent__label {
+  top: 456px;
+}
+
+.edit-modal-content {
+  .btn__group {
+    // border: 2px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+  
+      .btn-submit {
+        // padding: 0.75rem 1.5rem;
+        width: 47.5%;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--teal);
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: var(--teal-light);
+          color: var(--gray-800);
+        }
+  
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+  
+      }
+  
+      .btn-delete {
+        width: 47.5%;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--red);
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: var(--red-light);
+          color: var(--gray-800);
+        }
+  
+      }
+    }
+}
+

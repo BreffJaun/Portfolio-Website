@@ -9,10 +9,15 @@ import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // I M P O R T:   F U N C T I O N S
+import { openModal, closeModal } from "../utils/utils";
+import EditBtn from "../components/EditBtn";
+import EditPostsModal from "../components/EditPostsModal";
 
 // C O D E
 
 const PostCard: React.FC<PostCardProps> = ({
+  // key,
+  postId,
   avatar,
   authorId,
   authorName,
@@ -24,10 +29,24 @@ const PostCard: React.FC<PostCardProps> = ({
   articleImageSrc,
   articleLink,
 }) => {
+  const content = {
+    postId: postId,
+    avatar: avatar,
+    authorId: authorId,
+    authorName: authorName,
+    authorAction: authorAction,
+    date: date,
+    vibe: vibe,
+    articleTitle: articleTitle,
+    articleContent: articleContent,
+    articleImageSrc: articleImageSrc,
+    articleLink: articleLink,
+  };
   const [expanded, setExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const maxContentLength = 300;
   const toggleExpand = () => setExpanded(!expanded);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -85,6 +104,16 @@ const PostCard: React.FC<PostCardProps> = ({
             </div>
           )}
         </article>
+      </div>
+      <div>
+        <EditBtn onClick={() => openModal(setIsModalOpen)} />
+      </div>
+      <div className={`edit-modal-container ${isModalOpen ? "open" : ""}`}>
+        <EditPostsModal
+          content={content}
+          onClose={() => closeModal(setIsModalOpen)}
+          isModalOpen={isModalOpen}
+        />
       </div>
     </div>
   );

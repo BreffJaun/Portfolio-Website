@@ -19,7 +19,7 @@ import PostCard from "../components/PostCard";
 import BackToTopBtn from "../components/BackToTopBtn";
 import EditBtn from "../components/EditBtn";
 import CreateBtn from "../components/CreateBtn";
-import EditPostsModal from "../components/EditPostModal";
+// import EditPostsModal from "../components/EditPostsModal";
 import NewPostModal from "../components/NewPostModal";
 import EditFeedInfoModal from "../components/EditFeedInfoModal";
 import LoggedInContext from "../context/LoginContext";
@@ -53,16 +53,16 @@ const Feed: React.FC = () => {
       authorName: fakeUser.userName,
       avatar: avatarImage,
       // avatar: user?.avatar,
-      authorAction: ``,
+      authorAction: `😁`,
       date: formatCurrentDate(),
-      vibe: "",
-      articleTitle: "",
+      vibe: "In ❤️ with coding",
+      articleTitle: "Test title",
       articleContent: `This is my SIXTH post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😎 
       
       A new Hope 🚀
       `,
       articleImageSrc: "",
-      articleLink: "",
+      articleLink: "https://lobra.onrender.com/",
     },
     {
       postId: "896544",
@@ -324,6 +324,7 @@ const Feed: React.FC = () => {
             {testPosts.map((post, i) => (
               <PostCard
                 key={post.postId}
+                postId={post.postId}
                 authorId={post.authorId}
                 authorName={post.authorName}
                 avatar={post.avatar}

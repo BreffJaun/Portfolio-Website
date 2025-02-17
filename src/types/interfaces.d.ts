@@ -60,7 +60,7 @@ export interface PostCardProps {
   articleContent: string;
   articleImageSrc?: string;
   articleLink?: string;
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 
 export interface BackToTopBtnProps {
@@ -198,8 +198,10 @@ export interface EditFeedModalProps {
 }
 
 export interface NewPostCardProps {
+  content?: PostCardProps;
   onClose: () => void;
-  activeModal: string | null;
+  activeModal?: string | null;
+  isModalOpen?: boolean;
 }
 
 export interface CloseBtnProps {
