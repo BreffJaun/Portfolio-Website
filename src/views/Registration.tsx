@@ -10,7 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 // I M P O R T:   F U N C T I O N S
-import { BE_HOST } from "../api/host";
+import { BE_HOST, URL_R } from "../api/host";
 import EditImageBtn from "../components/EditImageBtn";
 
 // C O D E
@@ -81,7 +81,7 @@ const Registration = () => {
     }
 
     const sendRegistrationData = async () => {
-      await fetch(`${BE_HOST}/users/register`, {
+      await fetch(`${BE_HOST}/${URL_R}`, {
         credentials: "include",
         method: "POST",
         body: formData,
