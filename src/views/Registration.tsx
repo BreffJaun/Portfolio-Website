@@ -7,7 +7,7 @@ import { Profile } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import { BE_HOST, URL_R } from "../api/host";
@@ -31,6 +31,10 @@ const Registration = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    console.log(registrationData);
+  }, [registrationData]);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRegistrationData({
@@ -88,16 +92,18 @@ const Registration = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.status === 201) {
+          if (data.status) {
+            console.log(data);
             setTimeout(() => navigate("/login"), 1000);
           }
         })
         .catch((err) => {
+          console.log("FRONTEND HELLO");
           console.error(err);
           setTimeout(() => navigate("/*"), 1000);
         });
     };
-    // sendRegistrationData();
+    sendRegistrationData();
   };
 
   return (
@@ -129,7 +135,7 @@ const Registration = () => {
           <label>Username:</label>
           <input
             type="text"
-            name="username"
+            name="userName"
             placeholder="Username"
             required
             onChange={handleInput}
