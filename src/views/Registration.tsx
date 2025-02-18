@@ -32,18 +32,26 @@ const Registration = () => {
   });
   const [error, setError] = useState<string>("");
 
-  useEffect(() => {
-    console.log(registrationData);
-  }, [registrationData]);
+  // useEffect(() => {
+  //   console.log(registrationData);
+  // }, [registrationData]);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegistrationData({
-      ...registrationData,
-      profile: {
-        ...registrationData.profile,
-        [event.target.name]: event.target.value,
-      },
-    });
+    const { name, value } = event.target;
+    if (name === "confirmPassword") {
+      setRegistrationData({
+        ...registrationData,
+        confirmPassword: value,
+      });
+    } else {
+      setRegistrationData({
+        ...registrationData,
+        profile: {
+          ...registrationData.profile,
+          [name]: value,
+        },
+      });
+    }
   };
 
   const handleFileChange = async (
@@ -70,14 +78,17 @@ const Registration = () => {
       setError("Bitte geben Sie einen Benutzernamen ein!");
     } else if (!email) {
       setError("Bitte geben Sie eine E-Mail-Adresse ein!");
-    } else if (password !== confirmPassword) {
+    } else if (password.trim() !== confirmPassword.trim()) {
       setError("Die Passwörter stimmen nicht überein!");
     } else {
       setError("");
     }
 
     const formData = new FormData();
-    formData.append("data", JSON.stringify(registrationData));
+    // formData.append("data", JSON.stringify(registrationData));
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("userName", userName);
     if (avatar) {
       formData.append("avatar", avatar);
     } else {
@@ -90,17 +101,21 @@ const Registration = () => {
         method: "POST",
         body: formData,
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status) {
-            console.log(data);
-            setTimeout(() => navigate("/login"), 1000);
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log(data);
+          setTimeout(() => navigate("/login"), 1000);
         })
         .catch((err) => {
-          console.log("FRONTEND HELLO");
           console.error(err);
-          setTimeout(() => navigate("/*"), 1000);
+          setTimeout(() => navigate("*"), 1000);
         });
     };
     sendRegistrationData();
