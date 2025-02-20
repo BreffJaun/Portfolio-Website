@@ -72,6 +72,7 @@ export interface Profile {
   email: string;
   avatar: string;
   password: string;
+  isVerified: boolean;
 }
 
 export interface User {

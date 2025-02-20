@@ -27,6 +27,7 @@ const Registration = () => {
       email: "",
       avatar: "",
       password: "",
+      isVerified: false,
     },
     confirmPassword: "",
   });
@@ -76,10 +77,13 @@ const Registration = () => {
 
     if (!userName) {
       setError("Bitte geben Sie einen Benutzernamen ein!");
+      return;
     } else if (!email) {
       setError("Bitte geben Sie eine E-Mail-Adresse ein!");
+      return;
     } else if (password.trim() !== confirmPassword.trim()) {
       setError("Die Passwörter stimmen nicht überein!");
+      return;
     } else {
       setError("");
     }
@@ -89,6 +93,7 @@ const Registration = () => {
     formData.append("email", email);
     formData.append("password", password);
     formData.append("userName", userName);
+    formData.append("isVerified", "false");
     if (avatar) {
       formData.append("avatar", avatar);
     } else {
