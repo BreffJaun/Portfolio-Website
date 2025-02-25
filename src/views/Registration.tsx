@@ -115,7 +115,6 @@ const Registration = () => {
           return res.json();
         })
         .then((data) => {
-          // console.log(data);
           setTimeout(() => navigate("/login"), 1000);
         })
         .catch((err) => {

@@ -29,13 +29,13 @@ const MainNavigation: React.FC<MainNavProps> = ({
   const [showTransition, setShowTransition] = useState<boolean>(false);
   const [mobileView, setMobileView] = useContext(MobileViewContext);
 
-  const fakeUser = {
-    _id: "1",
-    userName: "breffjaun",
-    email: "breffjaun@test.de",
-    avatar: default_avatar,
-    password: "12345678",
-  };
+  // const fakeUser = {
+  //   _id: "1",
+  //   userName: "breffjaun",
+  //   email: "breffjaun@test.de",
+  //   avatar: default_avatar,
+  //   password: "12345678",
+  // };
 
   useEffect(() => {
     const checkMobileView = () => {
@@ -139,7 +139,7 @@ const MainNavigation: React.FC<MainNavProps> = ({
                 handleOnClick();
               }}
             >
-              <img src={user?.avatar || fakeUser.avatar} alt={user?.userName} />
+              <img src={user?.avatar} alt={user?.userName} />
             </NavLink>
           </li>
         ) : (

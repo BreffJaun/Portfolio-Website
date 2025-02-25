@@ -1,4 +1,4 @@
-.registration {
+.userInformation-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    // border: 2px solid red;
 
     .form-group {
       position: relative;
@@ -133,44 +134,72 @@
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
 
-    button {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 4px;
-      background-color: var(--teal);
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    .btn__group {
+      // border: 2px solid red;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
 
-      &:hover {
-        background-color: var(--teal-light);
-        color: var(--gray-800);
-      }
+      .btn-submit {
+        padding: 0.75rem 1.5rem;
+        width: 47.5%;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--teal);
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-}
-
-    .central {
-      text-align: center;
-
-      p {
-        margin: 1rem 0;
-        color: var(--gray-400);
-
-        a {
-          color: var(--teal);
-          text-decoration: none;
-          transition: color 0.3s;
-
-          &:hover {
-            color: var(--teal-light);
-          }
+        &:hover {
+          background-color: var(--teal-light);
+          color: var(--gray-800);
         }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+      }
+
+      .btn-delete {
+        width: 47.5%;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--red);
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: var(--red-light);
+          color: var(--gray-800);
+        }
+
       }
     }
+
+    // .central {
+    //   text-align: center;
+
+    //   p {
+    //     margin: 1rem 0;
+    //     color: var(--gray-400);
+
+    //     a {
+    //       color: var(--teal);
+    //       text-decoration: none;
+    //       transition: color 0.3s;
+
+    //       &:hover {
+    //         color: var(--teal-light);
+    //       }
+    //     }
+    //   }
+    // }
   }
 }

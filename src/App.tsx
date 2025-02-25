@@ -42,7 +42,7 @@ function App() {
   const [user, setUser] = useState<any>({}); // any type
 
   useEffect(() => {
-    checkLogin(setIsLoggedIn, setIsPending);
+    checkLogin(setIsLoggedIn, setIsPending, setUser);
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function App() {
     }
     // console.log("Detected device:", device);
   }, [location]);
-  // console.log("isLoggedIn:", isLoggedIn);
+  console.log("isLoggedIn:", isLoggedIn);
   return (
     <UserContext.Provider value={[user, setUser]}>
       <PendingContext.Provider value={[isPending, setIsPending]}>

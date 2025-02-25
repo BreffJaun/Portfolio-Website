@@ -11,12 +11,14 @@ import { checkLogin } from "../utils/utils";
 import Footer from "./Footer";
 import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
+import UserContext from "../context/UserContext";
 
 // C O D E
 const Login = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [isPending, setIsPending] = useContext(PendingContext);
+  const [user, setUser] = useContext(UserContext);
   const [loginData, setLoginData] = useState({});
 
   useEffect(() => {
@@ -44,15 +46,22 @@ const Login = () => {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            setIsLoggedIn(true);
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
+        })
+        .then((data) => {
+          setIsLoggedIn(true);
+          setUser(data.user);
+          setTimeout(() => navigate("/"), 1000);
         })
         .catch((error) => {
           console.error("Error:", error);
-          setTimeout(() => navigate("/*"), 4000);
+          setTimeout(() => navigate("/*"), 1000);
         });
     };
     sendData();
@@ -66,10 +75,10 @@ const Login = () => {
           <div className="form-group">
             <input
               type="text"
-              name="username"
-              placeholder="Benutzername"
+              name="email"
+              placeholder="E-Mail"
               required
-              autoComplete="username"
+              autoComplete="email"
               onChange={handleInput}
             />
             <input

@@ -19,28 +19,20 @@ import PendingContext from "../context/PendingContext";
 // C O D E
 const UserInformation = () => {
   const navigate = useNavigate();
-  const [isLoggedIn] = useContext(LoggedInContext);
+  const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [user, setUser] = useContext(UserContext);
   const [avatar, setAvatar] = useState<File | undefined>(undefined);
   const [avatarUrl, setAvatarUrl] = useState("");
-  // const fakeUser = {
-  //   _id: "1",
-  //   userName: "breffjaun",
-  //   email: "breffjaun@test.de",
-  //   avatar: default_avatar,
-  //   password: "12345678",
-  // };
   const [newData, setNewData] = useState<{
     profile: User;
     confirmPassword: string;
   }>({
     profile: {
-      // ...fakeUser,
-      _id: "",
-      userName: "",
-      email: "",
-      avatar: "",
+      _id: user?._id || "",
+      userName: user?.userName || "",
+      email: user?.email || "",
+      avatar: user?.avatar || "",
       password: "",
     },
     confirmPassword: "",
@@ -55,11 +47,13 @@ const UserInformation = () => {
   }, []);
 
   const hasChanges = () => {
-    // console.log(newData.profile.userName !== fakeUser.userName);
-    // console.log(newData.profile.email !== fakeUser.email);
-    // console.log(newData.profile.avatar !== fakeUser.avatar);
+    // console.log(newData.profile.userName !== user?.userName);
+    // console.log(newData.profile.email !== user?.email);
+    // console.log(newData.profile.avatar !== user?.avatar);
     // console.log(newData.profile.password !== "");
     // console.log(newData.confirmPassword !== "");
+    // console.log("New Data:", newData);
+    // console.log("Current User:", user);
     return (
       newData.profile.userName !== user?.userName ||
       newData.profile.email !== user?.email ||
@@ -123,7 +117,7 @@ const UserInformation = () => {
       formData.append("avatar", default_avatar);
     }
     console.log(error);
-    console.log("EXECUTED");
+    // console.log("EXECUTED");
     const sendNewData = async () => {
       await fetch(`${BE_HOST}/users/${user?._id}`, {
         credentials: "include",
@@ -141,11 +135,35 @@ const UserInformation = () => {
           setTimeout(() => navigate("/*"), 1000);
         });
     };
-    // sendNewData();
+    sendNewData();
+  };
+
+  const handleLogout = async () => {
+    await fetch(`${BE_HOST}/users/logout`, {
+      credentials: "include",
+      method: "GET",
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Logout fehlgeschlagen");
+        }
+      })
+      .then((data) => {
+        setUser(undefined);
+        setIsLoggedIn(false);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.error("Fehler beim Logout:", err);
+        setError("Logout fehlgeschlagen. Bitte versuchen Sie es erneut.");
+        navigate("/*");
+      });
   };
 
   return (
-    <div className="registration">
+    <div className="userInformation-container">
       <form onSubmit={handleSubmit}>
         <h2>Manage your account</h2>
 
@@ -170,12 +188,12 @@ const UserInformation = () => {
           <label>Username:</label>
           <input
             type="text"
-            name="username"
+            name="userName"
             placeholder="Username"
             required
-            // value={newData.profile.userName || fakeUser?.userName}
-            value={newData.profile.userName || user?.userName}
+            value={newData.profile.userName}
             onChange={handleInput}
+            autoComplete="username"
           />
           <label>E-Mail:</label>
           <input
@@ -183,9 +201,9 @@ const UserInformation = () => {
             name="email"
             placeholder="E-Mail"
             required
-            // value={newData.profile.email || fakeUser?.email}
-            value={newData.profile.email || user?.email}
+            value={newData.profile.email}
             onChange={handleInput}
+            autoComplete="email"
           />
         </div>
         <div className="col">
@@ -197,6 +215,7 @@ const UserInformation = () => {
             placeholder="Current Passwort"
             required
             onChange={handleInput}
+            autoComplete="current-password"
           />
           <label>New password:</label>
           <input
@@ -206,13 +225,23 @@ const UserInformation = () => {
             placeholder="New password"
             required
             onChange={handleInput}
+            autoComplete="new-password"
           />
         </div>
         {/* Fehlermeldung */}
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" disabled={!hasChanges()} className="btn-submit">
-          Save changes
-        </button>
+        <div className="btn__group">
+          <button
+            onClick={handleSubmit}
+            className="btn-submit"
+            disabled={!hasChanges()}
+          >
+            Save Changes
+          </button>
+          <button onClick={handleLogout} className="btn-delete">
+            Logout
+          </button>
+        </div>
       </form>
     </div>
   );

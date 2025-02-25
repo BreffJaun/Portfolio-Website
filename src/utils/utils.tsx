@@ -158,25 +158,34 @@ export const detectDevice = (): string => {
 
 export const checkLogin = (
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsPending: React.Dispatch<React.SetStateAction<boolean>>
+  setIsPending: React.Dispatch<React.SetStateAction<boolean>>,
+  setUser: React.Dispatch<React.SetStateAction<any>>
 ) => {
-  // setIsPending(true);
-  // fetch(`${BE_HOST}/users/checklogin`, {
-  //   credentials: "include",
-  // })
-  //   .then((res) => {
-  //     if (res.status === 401) {
-  //       console.log("USER IS NOT LOGGED IN (TOKEN EXPIRED)!");
-  //       setIsLoggedIn(false); // Setze isLoggedIn auf false
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error:", error);
-  //     setIsLoggedIn(false);
-  //   })
-  //   .finally(() => {
-  //     setIsPending(false);
-  //   });
+  setIsPending(true);
+  fetch(`${BE_HOST}/users/checklogin`, {
+    credentials: "include",
+  })
+    .then((res) => {
+      if (!res.ok) {
+        if (res.status === 401) {
+          console.log("USER IS NOT LOGGED IN (TOKEN EXPIRED)!");
+        }
+        throw new Error("Not logged in");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      setIsLoggedIn(true);
+      setUser(data.user);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setIsLoggedIn(false);
+      setUser(undefined);
+    })
+    .finally(() => {
+      setIsPending(false);
+    });
 };
 
 export const openModal = (
