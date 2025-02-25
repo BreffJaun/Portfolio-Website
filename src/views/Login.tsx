@@ -69,6 +69,7 @@ const Login = () => {
               name="username"
               placeholder="Benutzername"
               required
+              autoComplete="username"
               onChange={handleInput}
             />
             <input
@@ -76,6 +77,7 @@ const Login = () => {
               name="password"
               placeholder="Passwort"
               required
+              autoComplete="current-password"
               onChange={handleInput}
             />
           </div>

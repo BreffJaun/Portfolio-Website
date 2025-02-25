@@ -152,40 +152,48 @@ const Registration = () => {
           />
         </div>
         <div className="col">
-          <label>Username:</label>
+          <label htmlFor="userName">Username:</label>
           <input
             type="text"
+            id="userName"
             name="userName"
             placeholder="Username"
             required
+            autoComplete="username"
             onChange={handleInput}
           />
-          <label>E-Mail:</label>
+          <label htmlFor="email">E-Mail:</label>
           <input
             type="email"
+            id="email"
             name="email"
             placeholder="E-Mail"
             required
+            autoComplete="email"
             onChange={handleInput}
           />
         </div>
         <div className="col">
-          <label>Password:</label>
+          <label htmlFor="password">Password:</label>
           <input
             title="Mind. 8 Zeichen, mindestens 1 Kleinbuchstabe, 1 Großbuchstabe, 1 Sonderzeichen und 1 Zahl"
             type="password"
+            id="password"
             name="password"
             placeholder="Password"
             required
+            autoComplete="new-password"
             onChange={handleInput}
           />
-          <label>Confirm password:</label>
+          <label htmlFor="confirmPassword">Confirm password:</label>
           <input
             title="confirmPassword"
             type="password"
+            id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm password"
             required
+            autoComplete="new-password"
             onChange={handleInput}
           />
         </div>
