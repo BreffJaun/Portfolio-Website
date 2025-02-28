@@ -3,9 +3,11 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  
 
   .login-form {
     background-color: var(--gray-800);
+    // background-color: var(--white);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);

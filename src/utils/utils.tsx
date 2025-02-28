@@ -168,9 +168,10 @@ export const checkLogin = (
     .then((res) => {
       if (!res.ok) {
         if (res.status === 401) {
-          console.log("USER IS NOT LOGGED IN (TOKEN EXPIRED)!");
+          throw new Error(
+            "Not logged in => USER IS NOT LOGGED IN (TOKEN EXPIRED)!"
+          );
         }
-        throw new Error("Not logged in");
       }
       return res.json();
     })

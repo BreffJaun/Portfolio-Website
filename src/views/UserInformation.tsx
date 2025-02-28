@@ -8,37 +8,33 @@ import { User } from "../types/interfaces";
 // I M P O R T:   P A C K A G E S
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
+import UserContext from "../context/UserContext";
+import LoggedInContext from "../context/LoginContext";
+import PendingContext from "../context/PendingContext";
 
 // I M P O R T:   F U N C T I O N S
 import { BE_HOST } from "../api/host";
 import EditImageBtn from "../components/EditImageBtn";
-import UserContext from "../context/UserContext";
-import LoggedInContext from "../context/LoginContext";
-import PendingContext from "../context/PendingContext";
+import { checkLogin } from "../utils/utils";
 
 // C O D E
 const UserInformation = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
-  const [isPending] = useContext(PendingContext);
+  const [isPending, setIsPending] = useContext(PendingContext);
   const [user, setUser] = useContext(UserContext);
   const [avatar, setAvatar] = useState<File | undefined>(undefined);
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [newData, setNewData] = useState<{
-    profile: User;
-    confirmPassword: string;
-  }>({
-    profile: {
-      _id: user?._id || "",
-      userName: user?.userName || "",
-      email: user?.email || "",
-      avatar: user?.avatar || "",
-      password: "",
-    },
-    confirmPassword: "",
+  const [newData, setNewData] = useState<User>({
+    _id: user?._id || "",
+    userName: user?.userName || "",
+    email: user?.email || "",
+    avatar: user?.avatar || "",
+    password: "",
+    newPassword: "",
   });
-
   const [error, setError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -46,32 +42,30 @@ const UserInformation = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   console.log(newData);
+  // }, [newData]);
+
   const hasChanges = () => {
-    // console.log(newData.profile.userName !== user?.userName);
-    // console.log(newData.profile.email !== user?.email);
-    // console.log(newData.profile.avatar !== user?.avatar);
-    // console.log(newData.profile.password !== "");
-    // console.log(newData.confirmPassword !== "");
+    // console.log(newData.userName !== user?.userName);
+    // console.log(newData.email !== user?.email);
+    // console.log(newData.avatar !== user?.avatar);
+    // console.log(newData.password !== "");
+    // console.log(newData.newPassword !== "");
     // console.log("New Data:", newData);
     // console.log("Current User:", user);
     return (
-      newData.profile.userName !== user?.userName ||
-      newData.profile.email !== user?.email ||
-      newData.profile.avatar !== user?.avatar ||
-      newData.profile.password !== "" ||
-      newData.confirmPassword !== ""
+      newData.userName !== user?.userName ||
+      newData.email !== user?.email ||
+      avatar !== undefined ||
+      newData.password !== "" ||
+      newData.newPassword !== ""
     );
   };
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setNewData((prevData) => ({
-      ...prevData,
-      profile: {
-        ...prevData.profile,
-        [name]: value,
-      },
-    }));
+    setNewData((prevData: User) => ({ ...prevData, [name]: value }));
   };
 
   const handleFileChange = async (
@@ -91,51 +85,58 @@ const UserInformation = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { userName, password, email } = newData.profile;
-    const { confirmPassword } = newData;
+    const { userName, email, password, newPassword } = newData;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!userName || userName.length < 1) {
       setError("Bitte geben Sie einen Benutzernamen ein!");
+      return;
     } else if (!email || email.length < 1) {
       setError("Bitte geben Sie eine E-Mail-Adresse ein!");
+      return;
     } else if (!emailRegex.test(email)) {
       setError("Bitte geben Sie eine gültige E-Mail-Adresse ein!");
-    } else if (password !== confirmPassword) {
-      setError("Die Passwörter stimmen nicht überein!");
+      return;
     } else {
       setError("");
     }
 
-    if (error) return;
-
     const formData = new FormData();
-    formData.append("data", JSON.stringify(newData));
+    formData.append("email", email);
+    formData.append("userName", userName);
+    if (password) formData.append("password", password);
+    if (newPassword) formData.append("newPassword", newPassword);
     if (avatar) {
       formData.append("avatar", avatar);
-    } else {
-      formData.append("avatar", default_avatar);
     }
-    console.log(error);
-    // console.log("EXECUTED");
+
     const sendNewData = async () => {
       await fetch(`${BE_HOST}/users/${user?._id}`, {
         credentials: "include",
-        method: "POST",
+        method: "PATCH",
         body: formData,
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            setTimeout(() => navigate("/login"), 1000);
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
+        })
+        .then((data) => {
+          setSuccessMessage("Daten erfolgreich geändert!");
+          setTimeout(() => {
+            setSuccessMessage("");
+            window.location.href = "/userinformation?redirect=true";
+          }, 4000);
         })
         .catch((err) => {
           console.error(err);
           setTimeout(() => navigate("/*"), 1000);
         });
     };
-    sendNewData();
+    await sendNewData();
   };
 
   const handleLogout = async () => {
@@ -166,7 +167,8 @@ const UserInformation = () => {
     <div className="userInformation-container">
       <form onSubmit={handleSubmit}>
         <h2>Manage your account</h2>
-
+        {/* Erfolgsmeldung */}
+        {successMessage && <p className="success-message">{successMessage}</p>}
         <div className="form-group">
           <div className="avatar__preview">
             <img src={avatarUrl || user?.avatar} alt="avatar" />
@@ -191,7 +193,7 @@ const UserInformation = () => {
             name="userName"
             placeholder="Username"
             required
-            value={newData.profile.userName}
+            value={newData.userName}
             onChange={handleInput}
             autoComplete="username"
           />
@@ -201,7 +203,7 @@ const UserInformation = () => {
             name="email"
             placeholder="E-Mail"
             required
-            value={newData.profile.email}
+            value={newData.email}
             onChange={handleInput}
             autoComplete="email"
           />

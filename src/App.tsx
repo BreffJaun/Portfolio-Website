@@ -65,7 +65,7 @@ function App() {
     }
     // console.log("Detected device:", device);
   }, [location]);
-  console.log("isLoggedIn:", isLoggedIn);
+  // console.log("isLoggedIn:", isLoggedIn);
   return (
     <UserContext.Provider value={[user, setUser]}>
       <PendingContext.Provider value={[isPending, setIsPending]}>

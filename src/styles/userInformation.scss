@@ -16,6 +16,17 @@
     align-items: center;
     // border: 2px solid red;
 
+    .success-message {
+      color: var(--teal);
+      font-size: 0.875rem;
+      margin: 0.5rem;
+      text-align: center;
+      background-color: var(--gray-700);
+      padding: 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
     .form-group {
       position: relative;
       border: 2px solid white;
@@ -133,6 +144,8 @@
       border-radius: 4px;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
     }
+
+
 
     .btn__group {
       // border: 2px solid red;

@@ -12,6 +12,7 @@ import Footer from "./Footer";
 import LoggedInContext from "../context/LoginContext";
 import PendingContext from "../context/PendingContext";
 import UserContext from "../context/UserContext";
+import ThemeContext from "../context/ThemeContext";
 
 // C O D E
 const Login = () => {
@@ -19,6 +20,7 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [isPending, setIsPending] = useContext(PendingContext);
   const [user, setUser] = useContext(UserContext);
+  const [theme] = useContext(ThemeContext);
   const [loginData, setLoginData] = useState({});
 
   useEffect(() => {

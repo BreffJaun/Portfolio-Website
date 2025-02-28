@@ -81,6 +81,7 @@ export interface User {
   userName: string;
   avatar: string;
   password?: string;
+  newPassword?: string;
 }
 
 export interface LP_Content {
