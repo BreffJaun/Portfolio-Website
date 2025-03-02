@@ -36,7 +36,7 @@ const ForgottPassword = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const sendData = async () => {
-      await fetch(`${BE_HOST}/users/forgottpassword`, {
+      await fetch(`${BE_HOST}/users/forgotpassword`, {
         credentials: "include",
         method: "POST",
         body: JSON.stringify(email),
@@ -48,13 +48,12 @@ const ForgottPassword = () => {
         .then((data) => {
           if (data.message) {
             setMessage(data.message);
-            setTimeout(() => setError(""), 4000);
-            navigate("/");
+            setTimeout(() => navigate("/"), 8000);
           }
         })
         .catch((err) => {
           setError("Kein Account mit dieser E-Mail gefunden");
-          setTimeout(() => setError(""), 8000);
+          setTimeout(() => navigate("/"), 8000);
           return;
         });
     };

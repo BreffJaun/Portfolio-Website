@@ -39,25 +39,29 @@ const SetNewPassword = () => {
       return;
     }
     const sendData = async () => {
-      await fetch(`${BE_HOST}/users/forgottpassword`, {
+      await fetch(`${BE_HOST}/users/setnewpassword`, {
         credentials: "include",
         method: "POST",
-        body: JSON.stringify(newData.password),
+        body: JSON.stringify(newData),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Password update failed.");
+          }
+          return res.json();
+        })
         .then(() => {
-          setTimeout(() => navigate("/"), 4000);
+          setTimeout(() => navigate("/"), 2000);
         })
         .catch((err) => {
           setError(err.message || "Ein unerwarteter Fehler ist aufgetreten");
           setTimeout(() => setError(""), 4000);
-          console.error(err); // Für Debugging-Zwecke
+          console.error(err);
         });
     };
-
     sendData();
   };
 

@@ -94,6 +94,7 @@ const Registration = () => {
     formData.append("password", password);
     formData.append("userName", userName);
     formData.append("isVerified", "false");
+    formData.append("isVerifiedTCP", "false");
     if (avatar) {
       formData.append("avatar", avatar);
     } else {
