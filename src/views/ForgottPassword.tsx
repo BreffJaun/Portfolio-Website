@@ -5,20 +5,29 @@ import "../styles/forgottpassword.scss";
 
 // I M P O R T:   P A C K A G E S
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import { BE_HOST } from "../api/host";
+import LoggedInContext from "../context/LoginContext";
 
 // C O D E
 const ForgottPassword = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useContext(LoggedInContext);
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const INITIAL = {
     email: "",
   };
   const [email, setEmail] = useState(INITIAL);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+      window.scrollTo(0, 0);
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail({ ...email, email: event.target.value });
