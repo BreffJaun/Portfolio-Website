@@ -24,16 +24,15 @@ const LandingPage: React.FC = () => {
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [content, setContent] = useState<LP_Content>({
-    introduction: "Hallo, ich bin",
-    name: "Jeff Braun",
-    connectingWords: "und ich bin ein",
-    jobTitle: "Fullstack-Web-Developer",
-    description:
-      "aus Meppen in Niedersachsen, DE. Ich bemühe mich Einfachheit und Effektivität auf meine Projekte zu übertragen. Programme und Code müssen für mich so benutzerfreundlich wie möglich gestaltet und unnötige Designelemente sowie überflüssiger Code vermieden werden.",
-  }); // Bei bestehenden Backend, hier den initialen State auf null setzen
+    introduction: "",
+    name: "",
+    connectingWords: "",
+    jobTitle: "",
+    description: "",
+  });
 
   useEffect(() => {
-    // initialContentLoad(URL_CLP, setContent, navigate);
+    initialContentLoad(URL_CLP, setContent, navigate);
   }, []);
 
   const handleUpdate = (updatedContent: LP_Content) => {
@@ -47,15 +46,24 @@ const LandingPage: React.FC = () => {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            setContent(data.content);
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
         })
-        .catch((error) => {
-          console.error("Error:", error);
-          setTimeout(() => navigate("/*"), 2000);
+        .then((data) => {
+          console.log("ERFOLGREICH", data);
+          setContent(data.content);
+          // setTimeout(() => {
+          //   window.location.href = "/userinformation?redirect=true";
+          // }, 4000);
+        })
+        .catch((err) => {
+          console.error(err);
+          setTimeout(() => navigate("/*"), 1000);
         });
     };
     sendData();

@@ -229,7 +229,8 @@ export const initialContentLoad = (
   })
     .then((res) => res.json())
     .then((data) => {
-      contentFunc(data);
+      console.log("Data:", data);
+      contentFunc(data.content);
     })
     .catch((error) => {
       console.error("Error:", error);
