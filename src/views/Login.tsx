@@ -59,6 +59,7 @@ const Login = () => {
         .then((data) => {
           setIsLoggedIn(true);
           setUser(data.user);
+          // window.location.reload();
           setTimeout(() => navigate("/"), 1000);
         })
         .catch((error) => {

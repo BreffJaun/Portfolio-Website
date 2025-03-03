@@ -23,13 +23,7 @@ const LandingPage: React.FC = () => {
   const [isLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<LP_Content>({
-    introduction: "",
-    name: "",
-    connectingWords: "",
-    jobTitle: "",
-    description: "",
-  });
+  const [content, setContent] = useState<LP_Content | null>(null);
 
   useEffect(() => {
     initialContentLoad(URL_CLP, setContent, navigate);
@@ -71,7 +65,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <>
-      {isPending ? (
+      {isPending || !content ? (
         <div>Loading...</div>
       ) : (
         <div className="landing__page">
