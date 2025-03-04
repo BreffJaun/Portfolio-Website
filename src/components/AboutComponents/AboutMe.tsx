@@ -24,22 +24,23 @@ const AboutMe = () => {
   const [isLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<MySelf_Content>({
-    headline: "My Self",
-    motto: `"Aus den eigenen und vor allem aus den Fehlern anderer lernen"`,
-    connectingWords: " lautet mein Motto.",
-    description: {
-      paragraph1:
-        "Im Web Development habe ich nicht nur eine neue berufliche    Herausforderung gefunden, sondern auch meine wahre Leidenschaft    entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein    und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es    etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab.    Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes    zum Leben erwachen und tatsächlich etwas bewirken können. Der    IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.",
-      paragraph2:
-        "Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich gesammelt und auch in einer Führungsposition mein Können unter    Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe die nächste Herausforderung im IT-Bereich gewagt.",
-      paragraph3:
-        "Darum bildete ich mich beim Digital Career Institut zum    Web-Developer fort und habe dort nach erfolgreichem Abschluss des    Kurses meine Karriere im Bereich Web Development als Assistant Teacher angefangen.",
-    },
-  });
+  // const [content, setContent] = useState<MySelf_Content>({
+  //   headline: "My Self",
+  //   motto: `"Aus den eigenen und vor allem aus den Fehlern anderer lernen"`,
+  //   connectingWords: " lautet mein Motto.",
+  //   description: {
+  //     paragraph1:
+  //       "Im Web Development habe ich nicht nur eine neue berufliche    Herausforderung gefunden, sondern auch meine wahre Leidenschaft    entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein    und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es    etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab.    Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes    zum Leben erwachen und tatsächlich etwas bewirken können. Der    IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.",
+  //     paragraph2:
+  //       "Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich gesammelt und auch in einer Führungsposition mein Können unter    Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe die nächste Herausforderung im IT-Bereich gewagt.",
+  //     paragraph3:
+  //       "Darum bildete ich mich beim Digital Career Institut zum    Web-Developer fort und habe dort nach erfolgreichem Abschluss des    Kurses meine Karriere im Bereich Web Development als Assistant Teacher angefangen.",
+  //   },
+  // });
+  const [content, setContent] = useState<MySelf_Content | null>(null);
 
   useEffect(() => {
-    // initialContentLoad(URL_MS, setContent, navigate);
+    initialContentLoad(URL_MS, setContent, navigate);
   }, []);
 
   const handleUpdate = (updatedContent: MySelf_Content) => {
@@ -48,20 +49,25 @@ const AboutMe = () => {
       await fetch(`${BE_HOST}/${URL_MS}`, {
         credentials: "include",
         method: "PATCH",
-        body: JSON.stringify(content),
+        body: JSON.stringify(updatedContent),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            setContent(data.content);
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
         })
-        .catch((error) => {
-          console.error("Error:", error);
-          setTimeout(() => navigate("/*"), 2000);
+        .then((data) => {
+          setContent(data.content);
+        })
+        .catch((err) => {
+          console.error(err);
+          setTimeout(() => navigate("/*"), 1000);
         });
     };
     sendData();
@@ -69,7 +75,7 @@ const AboutMe = () => {
 
   return (
     <>
-      {isPending ? (
+      {isPending || !content ? (
         <div>Loading...</div>
       ) : (
         <div className="about__me">
@@ -109,32 +115,3 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
-
-{
-  /* <div title="upload">
-  <label htmlFor="thumbnail">
-    <Camera /> edit image
-  </label>
-  <input
-    id="thumbnail"
-    type="file"
-    name="thumbnail"
-    onChange={handleFile}
-    accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
-    hidden
-  />
-</div>; */
-}
-
-/* 
-"Aus den eigenen und vor allem aus den Fehlern anderer lernen" lautet mein Motto.
-
-Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich gesammelt und auch in einer Führungsposition mein Können unter Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe die nächste Herausforderung im IT-Bereich gewagt. 
-
-Darum bildete ich mich beim Digital Career Institut zum Web-Developer fort und habe dort nach erfolgreichem Abschluss des Kurses meine Karriere im Bereich Web Development als Assistant Teacher angefangen. 
-
-Im Web Development habe ich nicht nur eine neue berufliche Herausforderung gefunden, sondern auch meine wahre Leidenschaft entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab. Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes zum Leben erwachen und tatsächlich etwas bewirken können. Der IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.
-
-Im Web Development habe ich nicht nur eine neue berufliche Herausforderung gefunden, sondern auch meine wahre Leidenschaft entdeckt. Es ist ein ständiges Spiel aus Kreativität und Problemlösung, das mich täglich begeistert. Der IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.
-
-*/

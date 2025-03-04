@@ -39,7 +39,6 @@ const EditLPModal: React.FC<EditLPModalProps> = ({
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("formData", formData);
     e.preventDefault();
     onSubmit(formData);
   };

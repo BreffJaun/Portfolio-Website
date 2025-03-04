@@ -49,11 +49,7 @@ const LandingPage: React.FC = () => {
           return res.json();
         })
         .then((data) => {
-          console.log("ERFOLGREICH", data);
           setContent(data.content);
-          // setTimeout(() => {
-          //   window.location.href = "/userinformation?redirect=true";
-          // }, 4000);
         })
         .catch((err) => {
           console.error(err);
