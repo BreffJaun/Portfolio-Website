@@ -44,96 +44,98 @@ import EditStackModal from "../EditStackModal";
 
 const Stack = () => {
   const navigate = useNavigate();
-  const stackArray: StackItem[] = [
-    {
-      name: "HTML",
-      img: htmlLogo,
-    },
-    {
-      name: "CSS",
-      img: cssLogo,
-    },
-    {
-      name: "Sass",
-      img: sass,
-    },
-    {
-      name: "Bootstrap",
-      img: bootstrapLogo,
-    },
-    {
-      name: "JavaScript",
-      img: jsLogo,
-    },
-    {
-      name: "TypeScript",
-      img: tsLogo,
-    },
-    {
-      name: "React",
-      img: reactLogo,
-    },
-    {
-      name: "Node.js",
-      img: nodeLogo,
-    },
-    {
-      name: "Express.js",
-      img: expressLogo,
-    },
-    {
-      name: "MongoDB",
-      img: mongoLogo,
-    },
-    {
-      name: "Git",
-      img: gitLogo,
-    },
-    {
-      name: "GitHub",
-      img: githubLogo,
-    },
-  ];
+  // const stackArray: StackItem[] = [
+  //   {
+  //     name: "HTML",
+  //     img: htmlLogo,
+  //   },
+  //   {
+  //     name: "CSS",
+  //     img: cssLogo,
+  //   },
+  //   {
+  //     name: "Sass",
+  //     img: sass,
+  //   },
+  //   {
+  //     name: "Bootstrap",
+  //     img: bootstrapLogo,
+  //   },
+  //   {
+  //     name: "JavaScript",
+  //     img: jsLogo,
+  //   },
+  //   {
+  //     name: "TypeScript",
+  //     img: tsLogo,
+  //   },
+  //   {
+  //     name: "React",
+  //     img: reactLogo,
+  //   },
+  //   {
+  //     name: "Node.js",
+  //     img: nodeLogo,
+  //   },
+  //   {
+  //     name: "Express.js",
+  //     img: expressLogo,
+  //   },
+  //   {
+  //     name: "MongoDB",
+  //     img: mongoLogo,
+  //   },
+  //   {
+  //     name: "Git",
+  //     img: gitLogo,
+  //   },
+  //   {
+  //     name: "GitHub",
+  //     img: githubLogo,
+  //   },
+  // ];
   const [mobileView, setMobileView] = useContext(MobileViewContext);
   const [device, setDevice] = useContext(DeviceContext);
-  const [stackArrayWND, setStackArrayWND] = useState<StackItem[]>(stackArray); // WND => With Natural Dimensions
+
+  // WND => With Natural Dimensions
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<Stack_Content>({
-    headline: "Stack",
-    description:
-      "Hier sind ein paar Technologien und Programmiersprachen, mit denen ich in letzter Zeit gearbeitet habe:",
-    stack: [],
-  });
+  // const [content, setContent] = useState<Stack_Content>({
+  //   headline: "Stack",
+  //   description:
+  //     "Hier sind ein paar Technologien und Programmiersprachen, mit denen ich in letzter Zeit gearbeitet habe:",
+  //   stack: [],
+  // });
+  const [fakeContent, setFakeContent] = useState<Stack_Content | null>(null);
+  const [content, setContent] = useState<Stack_Content | null>(null);
+  const [stackArrayWND, setStackArrayWND] = useState<StackItem[] | null>(null);
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
 
   useEffect(() => {
-    // initialContentLoad(URL_ST, setContent, navigate);
+    initialContentLoad(URL_ST, setFakeContent, navigate);
   }, []);
 
   useEffect(() => {
+    if (!fakeContent) return;
     const fetchImageDimensions = async () => {
-      const updatedStackArray = await loadImageDimensions(stackArray);
-      // const updatedStackArray = await loadImageDimensions(content.stack); // für echten Fetch
+      const updatedStackArray = await loadImageDimensions(fakeContent.stack);
       setStackArrayWND(updatedStackArray);
-      setContent({ ...content, stack: updatedStackArray }); //nur für Dummy-Daten
-      // console.log(content);
+      setContent({ ...fakeContent, stack: updatedStackArray });
     };
-
     fetchImageDimensions();
-
-    // }, [content.stack]); // für echten Fetch
-  }, []);
+  }, [fakeContent]);
 
   const handleUpdate = () => {
     closeModal(setIsModalOpen);
-    // initialContentLoad(URL_ST, setContent, navigate);
+    window.scrollTo(0, 0);
+    window.location.reload();
   };
 
   return (
     <>
-      {isPending ? (
+      {isPending || !content || !stackArrayWND ? (
         <div>Loading...</div>
       ) : (
         <div className={`stack ${device === "desktop" ? "desktopMode" : ""}`}>
@@ -159,16 +161,16 @@ const Stack = () => {
                   stopOnHover={true}
                   showThumbs={false}
                 >
-                  {stackArrayWND.map((el) => (
+                  {stackArrayWND?.map((el) => (
                     <div key={el.name}>{renderStackItem(el)}</div>
                   ))}
                 </Carousel>
               ) : (
                 <div className="carousel-track top-slide">
-                  {stackArrayWND.map(renderStackItem)}
-                  {stackArrayWND.map(renderStackItem)}
-                  {stackArrayWND.map(renderStackItem)}
-                  {stackArrayWND.map(renderStackItem)}
+                  {stackArrayWND?.map(renderStackItem)}
+                  {stackArrayWND?.map(renderStackItem)}
+                  {stackArrayWND?.map(renderStackItem)}
+                  {stackArrayWND?.map(renderStackItem)}
                 </div>
               )}
             </div>

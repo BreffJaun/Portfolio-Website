@@ -24,19 +24,6 @@ const AboutMe = () => {
   const [isLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [content, setContent] = useState<MySelf_Content>({
-  //   headline: "My Self",
-  //   motto: `"Aus den eigenen und vor allem aus den Fehlern anderer lernen"`,
-  //   connectingWords: " lautet mein Motto.",
-  //   description: {
-  //     paragraph1:
-  //       "Im Web Development habe ich nicht nur eine neue berufliche    Herausforderung gefunden, sondern auch meine wahre Leidenschaft    entdeckt. Es ist wie ein ständiges Spiel, bei dem ich kreativ sein    und gleichzeitig technische Probleme lösen kann. Jeden Tag gibt es    etwas Neues zu lernen und zu erforschen, und das hält mich auf Trab.    Es ist einfach unglaublich befriedigend, zu sehen, wie meine Codes    zum Leben erwachen und tatsächlich etwas bewirken können. Der    IT-Bereich ist mein Spielfeld, und ich liebe es, darin zu spielen.",
-  //     paragraph2:
-  //       "Nachdem ich mehrere Jahre Berufserfahrung im kaufmännischen Bereich gesammelt und auch in einer Führungsposition mein Können unter    Beweis gestellt habe, bin ich den nächsten Schritt gegangen und habe die nächste Herausforderung im IT-Bereich gewagt.",
-  //     paragraph3:
-  //       "Darum bildete ich mich beim Digital Career Institut zum    Web-Developer fort und habe dort nach erfolgreichem Abschluss des    Kurses meine Karriere im Bereich Web Development als Assistant Teacher angefangen.",
-  //   },
-  // });
   const [content, setContent] = useState<MySelf_Content | null>(null);
 
   useEffect(() => {
