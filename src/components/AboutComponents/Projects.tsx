@@ -25,73 +25,26 @@ import PendingContext from "../../context/PendingContext";
 const Projects = () => {
   const navigate = useNavigate();
   const [isPending] = useContext(PendingContext);
-  const projects: Project_Item[] = [
-    // Maximale Zeichenanzahl:
-    // title: 35 Zeichen
-    // description: 175 Zeichen
-    {
-      order: 1,
-      img: beTemplate,
-      title: "Backend Template",
-      link: "https://github.com/BreffJaun/backend-template-bun-ts-expressJS-mongoDB",
-      description:
-        "This is a simple template for a backend with express.js and for mongoDB. The template is written with bun for better perfomance and it is in TypeScript to make it more secure.",
-      tags: ["Backend", "TypeScript", "MongoDB", "ExpressJS", "Bun"],
-    },
-    {
-      order: 2,
-      img: terminalTacToe,
-      title: "terminalTacToe",
-      link: "https://github.com/BreffJaun/terminalTacToe",
-      description:
-        '"terminalTacToe" is a 2 player tictactoe game for the terminal.You can play the game field with the numpad of your keyboard. Each number reflects a field on the board.',
-      tags: ["JavaScript", "Terminal", "Game"],
-    },
-    {
-      order: 3,
-      img: todoApp,
-      title: "todoApp",
-      link: "https://todoapp-yj97.onrender.com",
-      description:
-        "This To-Do application helps you stay organized and manage your tasks efficiently.",
-      tags: ["JavaScript", "React", "Frontend", "SCSS"],
-    },
-    {
-      order: 4,
-      img: useFetch,
-      title: "useFetch",
-      link: "https://www.npmjs.com/package/@breffjaun/usefetch",
-      description:
-        "useFetch is a simple, reusable JavaScript package designed to streamline the process of making HTTP requests in web applications. ",
-      tags: ["npm", "JavaScript", "Fetch"],
-    },
-    // Weitere Projekte hier hinzufügen
-  ];
-  const [content, setContent] = useState<Projects_Content>({
-    headline: "Projects",
-    description: "Hier finden Sie einige meiner Projekte:",
-    projects: [],
-  });
+  const [content, setContent] = useState<Projects_Content | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Echter Fetch
   useEffect(() => {
-    // initialContentLoad(URL_P, setContent, navigate);
+    initialContentLoad(URL_P, setContent, navigate);
   }, []);
 
-  // Dummy-Daten
-  useEffect(() => {
-    setContent({ ...content, projects: projects });
-  }, []);
+  // useEffect(() => {
+  //   console.log("content:", content);
+  // }, [content]);
 
   const handleUpdate = () => {
     closeModal(setIsModalOpen);
-    // initialContentLoad(URL_P, setContent, navigate);
+    window.scrollTo(0, 0);
+    window.location.reload();
   };
 
   return (
     <>
-      {isPending ? (
+      {isPending || !content ? (
         <div>Loading...</div>
       ) : (
         <div className="projects">
@@ -107,6 +60,8 @@ const Projects = () => {
                 .map((project, index) => (
                   <ProjectCard
                     key={index}
+                    _id={project._id}
+                    order={project.order}
                     img={project.img}
                     title={project.title}
                     link={project.link}
@@ -131,15 +86,3 @@ const Projects = () => {
 };
 
 export default Projects;
-
-// {
-//   avatar: avatarImage,
-//   authorAction: `${"😊"}`,
-//   date: formatCurrentDate(),
-//   mood: "🌴 Feelin fresh",
-//   articleTitle: "Welcome to my portfolio!",
-//   articleContent:
-//     "This is my first post on my portfolio. I'm so excited to share my projects with you. I hope you like them! 😊",
-//   articleImageSrc: avatarImage,
-//   articleLink: "",
-// },

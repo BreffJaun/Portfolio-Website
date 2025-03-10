@@ -43,9 +43,19 @@ export interface Project_Item {
   title: string;
   link: string;
   description: string;
-  tags: string[];
+  tags: string;
   scaledWidth?: number;
   scaledHeight?: number;
+}
+
+export interface Projects_ItemFromDB {
+  _id: string;
+  img: string;
+  order: number;
+  title: string;
+  link: string;
+  description: string;
+  tags: string[];
 }
 
 export interface PostCardProps {

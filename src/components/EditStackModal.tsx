@@ -194,32 +194,29 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     event.preventDefault();
     if (!selectedItem) return;
     // Echter fetch
-    // setIsPending(true);
-    // await fetch(`${BE_HOST}/${URL_ST_T}/${selectedItem._id}`, {
-    //   credentials: "include",
-    //   method: "DELETE",
-    //   // body: JSON.stringify({
-    //   //   stackId: selectedItem._id,
-    //   // }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status === 201) {
-    //       setSelectedItem(null);
-    //       setIsPending(false);
-    //       onSubmit();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsPending(false);
-    //     console.error("Error:", error);
-    //     setTimeout(() => navigate("/*"), 2000);
-    //   });
+    setIsPending(true);
+    await fetch(`${BE_HOST}/${URL_ST_T}/${selectedItem._id}`, {
+      credentials: "include",
+      method: "DELETE",
 
-    // Testing
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 201) {
+          setSelectedItem(null);
+          setIsPending(false);
+          onSubmit();
+        }
+      })
+      .catch((error) => {
+        setIsPending(false);
+        console.error("Error:", error);
+        setTimeout(() => navigate("/*"), 2000);
+      });
+
     onSubmit();
     console.log("Data to delete:", selectedItem);
     setSelectedItem(null);

@@ -6,6 +6,7 @@ import {
   EditProjectsModalProps,
   Project_Item,
   Projects_Content,
+  Projects_ItemFromDB,
 } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
@@ -13,7 +14,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
-import { BE_HOST, URL_P, URL_P_D, URL_P_L } from "../api/host";
+import { BE_HOST, URL_P, URL_P_D, URL_P_P } from "../api/host";
 import { getImageDimensions, isValidLink } from "../utils/utils";
 import PendingContext from "../context/PendingContext";
 import CloseBtn from "./CloseBtn";
@@ -30,13 +31,17 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   const saveCardButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isPending, setIsPending] = useContext(PendingContext);
   const [modalData, setModalData] = useState<Projects_Content>(content);
-  const [selectedItem, setSelectedItem] = useState<Project_Item | null>(null);
-  const [newData, setNewData] = useState<Project_Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Projects_ItemFromDB | null>(
+    null
+  );
+  const [newData, setNewData] = useState<Projects_ItemFromDB | null>(
+    selectedItem
+  );
   const [newItem, setNewItem] = useState<Project_Item>({
     title: "",
     img: "",
     description: "",
-    tags: [],
+    tags: "",
     link: "",
   });
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
@@ -67,6 +72,14 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    setNewData(selectedItem);
+  }, [selectedItem]);
+
+  // useEffect(() => {
+  //   console.log("New data:", newData);
+  // }, [newData]);
+
   // ** UPDATE PROJECTS ** //
   // UPDATE PROJECT INFO //
   const handleInfoChange = (
@@ -90,15 +103,21 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 201) {
-            onSubmit();
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
           }
+          return res.json();
         })
-        .catch((error) => {
-          console.error("Error:", error);
-          setTimeout(() => navigate("/*"), 2000);
+        .then((data) => {
+          setModalData(data.content);
+          onSubmit();
+        })
+        .catch((err) => {
+          console.error(err);
+          setTimeout(() => navigate("/*"), 1000);
         });
     };
     sendData();
@@ -121,7 +140,9 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
         );
         return;
       }
-      setNewData(() => ({ ...selectedItem, [name]: +value }));
+      setNewData(
+        (prev) => ({ ...prev, [name]: +value } as Projects_ItemFromDB)
+      );
       return;
     }
 
@@ -132,7 +153,19 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
       }
     }
 
-    setNewData(() => ({ ...selectedItem, [name]: value }));
+    if (name === "tags") {
+      const tagsArray = value.split(", ");
+      setNewData(
+        (prev) =>
+          ({
+            ...prev,
+            [name]: tagsArray,
+          } as Projects_ItemFromDB)
+      );
+      return;
+    }
+
+    setNewData((prev) => ({ ...prev, [name]: value } as Projects_ItemFromDB));
   };
 
   // IMAGE FILE
@@ -154,48 +187,57 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   // SAVE BOOTH => FETCH
   const submitChangedItem = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (!newData) return;
     if (!selectedItem) return;
+    const { title, description, link, tags, order } = newData;
+    if (!title || !description || !link || !tags || !order) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    console.log("New data:", newData);
+    console.log("tags:", tags);
+    const tagsString = tags.join(", ");
 
     const formData = new FormData();
-    if (newData) formData.append("data", JSON.stringify(newData));
-    if (thumbnail) formData.append("thumbnail", thumbnail);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("link", link);
+    formData.append("tags", tagsString);
+    formData.append("order", order.toString());
+    if (thumbnail) {
+      formData.append("img", thumbnail);
+    } else {
+      formData.append("img", selectedItem.img);
+    }
+    console.log("New item:", formData);
     const sendProjectData = async () => {
       // Echter fetch
-      // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_P_L}/${selectedItem._id}`, {
-      //   credentials: "include",
-      //   method: "PATCH",
-      //   body: formData,
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status === 201) {
-      //       setSelectedItem(null);
-      //       setIsPending(false);
-      //       onSubmit();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsPending(false);
-      //     console.error("Error:", error);
-      //     setTimeout(() => navigate("/*"), 2000);
-      //   });
-
-      // Testing
-      console.log("Data to send:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`${key}:`, {
-            name: value.name,
-            size: value.size,
-            type: value.type,
-          });
-        } else {
-          console.log(`${key}:`, value);
-        }
-      }
-      setSelectedItem(null);
-      onSubmit();
+      setIsPending(true);
+      await fetch(`${BE_HOST}/${URL_P_P}/${selectedItem._id}`, {
+        credentials: "include",
+        method: "PATCH",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log("Data:", data);
+          setSelectedItem(null);
+          setIsPending(false);
+          setTimeout(() => onSubmit(), 1000);
+        })
+        .catch((error) => {
+          setIsPending(false);
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
     };
     sendProjectData();
   };
@@ -207,30 +249,27 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     event.preventDefault();
     if (!selectedItem) return;
     // Echter fetch
-    // setIsPending(true);
-    // await fetch(`${BE_HOST}/${URL_ST_L}/${selectedItem._id}`, {
-    //   credentials: "include",
-    //   method: "DELETE",
-    //   // body: JSON.stringify({
-    //   //   stackId: selectedItem._id,
-    //   // }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status === 201) {
-    //       setSelectedItem(null);
-    //       setIsPending(false);
-    //       onSubmit();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsPending(false);
-    //     console.error("Error:", error);
-    //     setTimeout(() => navigate("/*"), 2000);
-    //   });
+    setIsPending(true);
+    await fetch(`${BE_HOST}/${URL_P_P}/${selectedItem._id}`, {
+      credentials: "include",
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 201) {
+          setSelectedItem(null);
+          setIsPending(false);
+          onSubmit();
+        }
+      })
+      .catch((error) => {
+        setIsPending(false);
+        console.error("Error:", error);
+        setTimeout(() => navigate("/*"), 2000);
+      });
 
     // Testing
     onSubmit();
@@ -245,7 +284,6 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    if (!selectedItem) return; // Sicherheit
     if (name === "order") {
       const checkOrder = modalData.projects.find(
         (item) => item.order === +value
@@ -287,45 +325,46 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
   const addNewItem = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!newItem) return;
+    const { title, description, link, tags, order } = newItem;
+    if (!title || !description || !link || !tags || !order) {
+      alert("Please fill out all fields.");
+      return;
+    }
 
     const formData = new FormData();
-    if (newItem) formData.append("data", JSON.stringify(newItem));
-    if (thumbnailNewCard) formData.append("thumbnail", thumbnailNewCard);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("link", link);
+    formData.append("tags", tags);
+    formData.append("order", order.toString());
+    if (thumbnailNewCard) formData.append("img", thumbnailNewCard);
+    console.log("New item:", formData);
     const sendProjectData = async () => {
       // Echter fetch
-      // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_P_L}`, {
-      //   credentials: "include",
-      //   method: "POST",
-      //   body: formData,
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status === 201) {
-      //       setIsPending(false);
-      //       onSubmit();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsPending(false);
-      //     console.error("Error:", error);
-      //     setTimeout(() => navigate("/*"), 2000);
-      //   });
-
-      // Testing
-      console.log("Data to send:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`${key}:`, {
-            name: value.name,
-            size: value.size,
-            type: value.type,
-          });
-        } else {
-          console.log(`${key}:`, value);
-        }
-      }
-      onSubmit();
+      setIsPending(true);
+      await fetch(`${BE_HOST}/${URL_P_P}`, {
+        credentials: "include",
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log("Data:", data);
+          setIsPending(false);
+          setTimeout(() => onSubmit(), 1000);
+        })
+        .catch((error) => {
+          setIsPending(false);
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
     };
     sendProjectData();
   };
@@ -365,7 +404,6 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
           {modalData.projects
             .sort((a, b) => a.order - b.order)
             .map((item) => (
-              // Für Testing
               <div
                 key={item.title}
                 className={`project-item ${
@@ -374,21 +412,8 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
                 onClick={() => setSelectedItem(item)}
                 title={item.title}
               >
-                {/* <img src={item.img} alt={item.title} /> */}
                 <span>{item.title}</span>
               </div>
-              // Für echten fetch
-              // <div
-              //   key={item._id}
-              //   className={`project-item ${
-              //     selectedItem?._id === item._id ? "highlighted" : ""
-              //   }`}
-              //   onClick={() => setSelectedItem(item)}
-              //   title={item.title}
-              // >
-              //   <img src={item.img} alt={item.title} />
-              //   <span>{item.title}</span>
-              // </div>
             ))}
         </div>
       </div>
@@ -486,7 +511,7 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
                   <input
                     type="text"
                     name="tags"
-                    value={newData?.tags || selectedItem.tags.join(", ")}
+                    value={newData?.tags.join(", ") || selectedItem.tags}
                     onChange={handleSelectedInfoChange}
                   />
                 </div>

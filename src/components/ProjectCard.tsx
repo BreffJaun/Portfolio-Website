@@ -2,7 +2,7 @@
 import "../../src/styles/projectCard.scss";
 
 // I M P O R T:   T Y P E S
-import { Project_Item } from "../types/interfaces";
+import { Projects_ItemFromDB } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 
@@ -10,7 +10,7 @@ import { Project_Item } from "../types/interfaces";
 
 // C O D E
 
-const ProjectCard: React.FC<Project_Item> = ({
+const ProjectCard: React.FC<Projects_ItemFromDB> = ({
   _id,
   img,
   title,
@@ -18,6 +18,7 @@ const ProjectCard: React.FC<Project_Item> = ({
   description,
   tags,
 }) => {
+  // console.log("tags", tags);
   return (
     <div className="project-card">
       <div className="project-card__image-container">
