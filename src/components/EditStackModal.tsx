@@ -198,7 +198,6 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
     await fetch(`${BE_HOST}/${URL_ST_T}/${selectedItem._id}`, {
       credentials: "include",
       method: "DELETE",
-
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },

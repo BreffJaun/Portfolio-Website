@@ -1,0 +1,45 @@
+.description__container {
+  display: flex;
+  align-items: flex-end;
+  align-self: flex-end;
+  gap: 8px;
+  
+  span {
+    flex: 1;
+  }
+  
+  .delete__img__btn {
+    flex-shrink: 0;
+    background-color: var(--red-light);
+    color: var(--red);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 30px !important;
+    height: 30px !important;
+    margin: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 998;
+
+    &:hover {
+      background-color: var(--red);
+      color: var(--red-light);
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+}

@@ -1,17 +1,17 @@
 // I M P O R T:   F I L E S
 import "../../styles/stack.scss";
-import htmlLogo from "../../images/html.png";
-import cssLogo from "../../images/css.png";
-import sass from "../../images/sass.png";
-import bootstrapLogo from "../../images/bootstrap.png";
-import jsLogo from "../../images/javascript.png";
-import tsLogo from "../../images/typescript.png";
-import reactLogo from "../../images/react.png";
-import nodeLogo from "../../images/nodejs.png";
-import expressLogo from "../../images/expressjs.png";
-import mongoLogo from "../../images/mongodb.png";
-import gitLogo from "../../images/git.png";
-import githubLogo from "../../images/github.png";
+// import htmlLogo from "../../images/html.png";
+// import cssLogo from "../../images/css.png";
+// import sass from "../../images/sass.png";
+// import bootstrapLogo from "../../images/bootstrap.png";
+// import jsLogo from "../../images/javascript.png";
+// import tsLogo from "../../images/typescript.png";
+// import reactLogo from "../../images/react.png";
+// import nodeLogo from "../../images/nodejs.png";
+// import expressLogo from "../../images/expressjs.png";
+// import mongoLogo from "../../images/mongodb.png";
+// import gitLogo from "../../images/git.png";
+// import githubLogo from "../../images/github.png";
 
 // I M P O R T:  T Y P E S
 import { StackItem, Stack_Content } from "../../types/interfaces";

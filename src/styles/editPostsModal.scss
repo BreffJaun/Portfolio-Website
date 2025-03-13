@@ -1,7 +1,8 @@
 .thumbnail__label {
   display: flex;
   align-items: center;
-  width: fit-content
+  width: fit-content;
+  // border: 2px solid red;
 }
 
 .thumbnail__group {
@@ -9,7 +10,17 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
+  // border: 2px solid red;
 }
+
+.label__group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  // border: 2px solid red;
+} 
 
 .empty__post__thumbnail__preview {
   display: flex;

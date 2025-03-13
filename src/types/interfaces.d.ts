@@ -71,6 +71,7 @@ export interface PostCardProps {
   articleImageSrc?: string;
   articleLink?: string;
   [key: string]: string | undefined;
+  // onSubmit: () => void;
 }
 
 export interface BackToTopBtnProps {
@@ -133,7 +134,7 @@ export interface Feed_Content {
   statement: string;
   jobTitle: string;
   about: string;
-  posts?: PostCardProps[];
+  // posts?: PostCardProps[];
 }
 
 export interface EditBtnProps {
@@ -205,13 +206,14 @@ export interface EditProjectsModalProps {
 export interface EditFeedModalProps {
   content: Feed_Content;
   onClose: () => void;
-  onSubmit: (updatedContent: Feed_Content) => void;
+  onSubmit: () => void;
   activeModal: string | null;
 }
 
 export interface NewPostCardProps {
   content?: PostCardProps;
   onClose: () => void;
+  onSubmit: () => void;
   activeModal?: string | null;
   isModalOpen?: boolean;
 }

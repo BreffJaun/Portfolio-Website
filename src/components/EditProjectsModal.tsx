@@ -76,10 +76,6 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     setNewData(selectedItem);
   }, [selectedItem]);
 
-  // useEffect(() => {
-  //   console.log("New data:", newData);
-  // }, [newData]);
-
   // ** UPDATE PROJECTS ** //
   // UPDATE PROJECT INFO //
   const handleInfoChange = (
@@ -195,10 +191,7 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
       return;
     }
 
-    console.log("New data:", newData);
-    console.log("tags:", tags);
     const tagsString = tags.join(", ");
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
@@ -210,7 +203,6 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
     } else {
       formData.append("img", selectedItem.img);
     }
-    console.log("New item:", formData);
     const sendProjectData = async () => {
       // Echter fetch
       setIsPending(true);
@@ -257,13 +249,16 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 201) {
-          setSelectedItem(null);
-          setIsPending(false);
-          onSubmit();
+      .then((res) => {
+        setSelectedItem(null);
+        setIsPending(false);
+        if (!res.ok) {
+          throw new Error(`Fehler: ${res.status} ${res.statusText}`);
         }
+        return res.status === 204 ? null : res.json();
+      })
+      .then((data) => {
+        onSubmit();
       })
       .catch((error) => {
         setIsPending(false);
@@ -450,7 +445,7 @@ const EditProjectsModal: React.FC<EditProjectsModalProps> = ({
               </div>
               <div className="form-group">
                 <label htmlFor="projectThumbnail" className="thumbnail__label">
-                  Image:
+                  Image (optional):
                   <EditImageBtn />
                 </label>
                 <input

@@ -1,5 +1,6 @@
 // I M P O R T:   F I L E S
 import "../styles/editPostsModal.scss";
+import "../styles/deleteImgBtn.scss";
 
 // I M P O R T:  T Y P E S
 import {
@@ -10,14 +11,16 @@ import {
 } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import EmojiPicker from "emoji-picker-react";
 import { Theme } from "emoji-picker-react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
-import { BE_HOST, URL_F, URL_F_CP, URL_F_EP } from "../api/host";
+import { BE_HOST, URL_F, URL_F_CP, URL_F_EP, URL_F_DP } from "../api/host";
 import { isValidLink } from "../utils/utils";
 import ThemeContext from "../context/ThemeContext";
 import UserContext from "../context/UserContext";
@@ -30,7 +33,7 @@ import EmojiBtn from "./EmojiBtn";
 const EditPostsModal: React.FC<NewPostCardProps> = ({
   content,
   onClose,
-  // onSubmit,
+  onSubmit,
   isModalOpen,
 }) => {
   const navigate = useNavigate();
@@ -38,23 +41,26 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [user] = useContext(UserContext);
   const [isPending, setIsPending] = useContext(PendingContext);
-  const [modalData, setModalData] = useState<PostCardProps>({
-    postId: "",
-    avatar: "",
-    authorId: "",
-    authorName: "",
-    authorAction: "",
-    date: "",
-    vibe: "",
-    articleTitle: "",
-    articleContent: "",
-    articleImageSrc: "",
-    articleLink: "",
-  });
+  const [modalData, setModalData] = useState<PostCardProps>(
+    content || {
+      postId: "",
+      avatar: "",
+      authorId: "",
+      authorName: "",
+      authorAction: "",
+      date: "",
+      vibe: "",
+      articleTitle: "",
+      articleContent: "",
+      articleImageSrc: "",
+      articleLink: "",
+    }
+  );
   const [error, setError] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [activeEmojiField, setActiveEmojiField] = useState<string | null>(null);
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   useEffect(() => {
     setModalData(content!);
@@ -69,10 +75,14 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
     };
   }, [isModalOpen]);
 
-  // ================================ //
-  // export const URL_F_CP = "content/feed/post"; // Create Post
-  // export const URL_F_EP = "content/feed/post/"; // Edit Post
-  // export const URL_F_DP = "content/feed/post/"; // Delete Post
+  // useEffect(() => {
+  //   console.log("content:", !content?.articleImageSrc);
+  //   console.log("thumbnailUrl:", !thumbnailUrl);
+  //   console.log(
+  //     "Disabled condition:",
+  //     !content?.articleImageSrc || !thumbnailUrl
+  //   );
+  // }, [content?.articleImageSrc, thumbnail]);
 
   // EMOJI PICKER //
   const handleEmojiClick = (emojiObject: { emoji: string }) => {
@@ -98,6 +108,7 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
     setModalData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // IMAGE FILE //
   const handleCardFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // Clean up
     setThumbnail(undefined);
@@ -108,6 +119,7 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
     if (file) {
       setThumbnail(file);
       setThumbnailUrl(URL.createObjectURL(file));
+      setForceUpdate((prev) => !prev);
     }
   };
 
@@ -126,7 +138,6 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
       articleImageSrc,
       articleLink,
     } = modalData;
-    // console.log("HALLO", newPost);
 
     if (articleLink && !isValidLink(articleLink)) {
       setError("Bitte geben Sie einen gültigen Link ein!");
@@ -135,46 +146,54 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
 
     if (error) return;
 
-    if (!modalData) return;
+    if (!modalData || !user) return;
 
     const formData = new FormData();
-    if (modalData) formData.append("data", JSON.stringify(modalData));
-    if (thumbnail) formData.append("thumbnail", thumbnail);
-    const sendProjectData = async () => {
-      // Echter fetch
-      // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_F_EP}`, {
-      //   credentials: "include",
-      //   method: "POST",
-      //   body: formData,
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status === 201) {
-      //       setIsPending(false);
-      //       onClose();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsPending(false);
-      //     console.error("Error:", error);
-      //     setTimeout(() => navigate("/*"), 2000);
-      //   });
+    if (authorId) formData.append("authorId", authorId);
+    if (authorName) formData.append("authorName", authorName);
+    if (avatar) formData.append("authorAvatar", avatar);
+    if (authorAction) formData.append("authorAction", authorAction);
+    if (vibe) formData.append("vibe", vibe);
+    if (articleTitle) formData.append("articleTitle", articleTitle);
+    if (articleContent) formData.append("articleContent", articleContent);
+    if (articleLink) formData.append("articleLink", articleLink);
+    if (thumbnail) {
+      formData.append("articleImageSrc", thumbnail);
+    } else if (articleImageSrc) {
+      formData.append("articleImageSrc", articleImageSrc);
+    } else {
+      formData.append("articleImageSrc", "");
+    }
 
-      // Testing
-      console.log("Data to send:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`${key}:`, {
-            name: value.name,
-            size: value.size,
-            type: value.type,
-          });
-        } else {
-          console.log(`${key}:`, value);
-        }
-      }
-      onClose();
+    // console.log("thumbnail:", thumbnail);
+    // console.log("thumbnailUrl:", thumbnailUrl);
+    // console.log("articleImageSrc:", articleImageSrc);
+
+    const sendProjectData = async () => {
+      setIsPending(true);
+      await fetch(`${BE_HOST}/${URL_F_EP}/${postId}`, {
+        credentials: "include",
+        method: "PATCH",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log("Data:", data);
+          setIsPending(false);
+          setTimeout(() => onSubmit(), 1000);
+        })
+        .catch((error) => {
+          setIsPending(false);
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
     };
     sendProjectData();
   };
@@ -182,212 +201,249 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
   // DELETE POST //
   const deletePost = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // Echter fetch
-    // setIsPending(true);
-    // await fetch(`${BE_HOST}/${URL_F_DP}/${content.postId}`, {
-    //   credentials: "include",
-    //   method: "DELETE",
-    //   // body: JSON.stringify({
-    //   //   postId: content.postId,
-    //   // }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.status === 201) {
-    //       setIsPending(false);
-    //       onClose();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsPending(false);
-    //     console.error("Error:", error);
-    //     setTimeout(() => navigate("/*"), 2000);
-    //   });
+    if (!content) return;
+    setIsPending(true);
+    await fetch(`${BE_HOST}/${URL_F_DP}/${content.postId}`, {
+      credentials: "include",
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => {
+        setIsPending(false);
+        if (!res.ok) {
+          throw new Error(`Fehler: ${res.status} ${res.statusText}`);
+        }
+        return res.status === 204 ? null : res.json();
+      })
+      .then((data) => {
+        onSubmit();
+      })
+      .catch((error) => {
+        setIsPending(false);
+        console.error("Error:", error);
+        setTimeout(() => navigate("/*"), 2000);
+      });
+  };
 
-    // Testing
-    console.log("Data to delete:", modalData);
-    onClose();
+  const deletePostImage = async () => {
+    if (modalData?.articleImageSrc) {
+      setModalData((prev) => ({ ...prev, articleImageSrc: "" }));
+    }
+    if (thumbnail) {
+      setThumbnail(undefined);
+    }
+    if (thumbnailUrl) {
+      setThumbnailUrl("");
+    }
+    setForceUpdate((prev) => !prev);
+    console.log("IMAGE DELETED");
   };
 
   return (
-    <div className={`edit-modal-content stack__modal`}>
-      <CloseBtn onClick={onClose} />
-      <h2>Create a post:</h2>
-      <form>
-        {/* AUTHORACTION */}
-        <div className="form-group">
-          <label className="emoji__label ">
-            Your current mood emoji (optional):
-            <button
-              type="button"
-              className="emoji-btn"
-              onClick={() => toggleEmojiPicker("authorAction")}
-            >
-              <EmojiBtn />
-            </button>
-          </label>
-          <div className="emoji-container">
-            <input
-              type="text"
-              name="authorAction"
-              value={modalData.authorAction}
-              onChange={handlePostInfo}
-            />
-          </div>
-          {showEmojiPicker && activeEmojiField === "authorAction" && (
-            <div className="emoji-picker authorAction__label">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-                theme={theme ? Theme.DARK : Theme.LIGHT}
-              />
+    <>
+      {isPending || !modalData ? (
+        <div>Loading...</div>
+      ) : (
+        <div className={`edit-modal-content stack__modal`}>
+          <CloseBtn onClick={onClose} />
+          <h2>Edit your post:</h2>
+          <form>
+            {/* AUTHORACTION */}
+            <div className="form-group">
+              <label className="emoji__label ">
+                Your current mood emoji (optional):
+                <button
+                  type="button"
+                  className="emoji-btn"
+                  onClick={() => toggleEmojiPicker("authorAction")}
+                >
+                  <EmojiBtn />
+                </button>
+              </label>
+              <div className="emoji-container">
+                <input
+                  type="text"
+                  name="authorAction"
+                  value={modalData.authorAction}
+                  onChange={handlePostInfo}
+                />
+              </div>
+              {showEmojiPicker && activeEmojiField === "authorAction" && (
+                <div className="emoji-picker authorAction__label">
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    theme={theme ? Theme.DARK : Theme.LIGHT}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        {/* VIBE */}
-        <div className="form-group">
-          <label className="emoji__label">
-            Your current vibe (optional):
-            <button
-              type="button"
-              className="emoji-btn"
-              onClick={() => toggleEmojiPicker("vibe")}
-            >
-              <EmojiBtn />
-            </button>
-          </label>
-          <input
-            type="text"
-            name="vibe"
-            value={modalData.vibe}
-            onChange={handlePostInfo}
-          />
-          {showEmojiPicker && activeEmojiField === "vibe" && (
-            <div className="emoji-picker vibe__label">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-                theme={theme ? Theme.DARK : Theme.LIGHT}
+            {/* VIBE */}
+            <div className="form-group">
+              <label className="emoji__label">
+                Your current vibe (optional):
+                <button
+                  type="button"
+                  className="emoji-btn"
+                  onClick={() => toggleEmojiPicker("vibe")}
+                >
+                  <EmojiBtn />
+                </button>
+              </label>
+              <input
+                type="text"
+                name="vibe"
+                value={modalData.vibe}
+                onChange={handlePostInfo}
               />
+              {showEmojiPicker && activeEmojiField === "vibe" && (
+                <div className="emoji-picker vibe__label">
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    theme={theme ? Theme.DARK : Theme.LIGHT}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        {/* Article Title */}
-        <div className="form-group">
-          <label className="emoji__label">
-            Post title (optional):
-            <button
-              type="button"
-              className="emoji-btn"
-              onClick={() => toggleEmojiPicker("articleTitle")}
-            >
-              <EmojiBtn />
-            </button>
-          </label>
-          <input
-            type="text"
-            name="articleTitle"
-            value={modalData.articleTitle}
-            onChange={handlePostInfo}
-          />
-          {showEmojiPicker && activeEmojiField === "articleTitle" && (
-            <div className="emoji-picker articleTitle__label">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-                theme={theme ? Theme.DARK : Theme.LIGHT}
+            {/* Article Title */}
+            <div className="form-group">
+              <label className="emoji__label">
+                Post title (optional):
+                <button
+                  type="button"
+                  className="emoji-btn"
+                  onClick={() => toggleEmojiPicker("articleTitle")}
+                >
+                  <EmojiBtn />
+                </button>
+              </label>
+              <input
+                type="text"
+                name="articleTitle"
+                value={modalData.articleTitle}
+                onChange={handlePostInfo}
               />
+              {showEmojiPicker && activeEmojiField === "articleTitle" && (
+                <div className="emoji-picker articleTitle__label">
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    theme={theme ? Theme.DARK : Theme.LIGHT}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        {/* Article Content */}
-        <div className="form-group">
-          <label className="emoji__label">
-            Post Content:
-            <button
-              type="button"
-              className="emoji-btn"
-              onClick={() => toggleEmojiPicker("articleContent")}
-            >
-              <EmojiBtn />
-            </button>
-          </label>
+            {/* Article Content */}
+            <div className="form-group">
+              <label className="emoji__label">
+                Post Content:
+                <button
+                  type="button"
+                  className="emoji-btn"
+                  onClick={() => toggleEmojiPicker("articleContent")}
+                >
+                  <EmojiBtn />
+                </button>
+              </label>
 
-          <textarea
-            name="articleContent"
-            value={modalData?.articleContent}
-            onChange={handlePostInfo}
-            maxLength={3000}
-            aria-describedby="char-counter-description"
-          />
-          {showEmojiPicker && activeEmojiField === "articleContent" && (
-            <div className="emoji-picker articleContent__label">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-                theme={theme ? Theme.DARK : Theme.LIGHT}
+              <textarea
+                name="articleContent"
+                value={modalData?.articleContent}
+                onChange={handlePostInfo}
+                maxLength={3000}
+                aria-describedby="char-counter-description"
+              />
+              {showEmojiPicker && activeEmojiField === "articleContent" && (
+                <div className="emoji-picker articleContent__label">
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    theme={theme ? Theme.DARK : Theme.LIGHT}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="horizontal__border"></div>
+            {/* Article Image */}
+            <div className="form-group thumbnail__group">
+              <div className="label__group">
+                <label
+                  htmlFor="articleImageSrcEdit"
+                  className="thumbnail__label"
+                >
+                  Image (optional):
+                  <EditImageBtn />
+                </label>
+                <label>
+                  <div className="description__container">
+                    <button
+                      className={`delete__img__btn ${
+                        !modalData?.articleImageSrc && !thumbnailUrl
+                          ? "disabled"
+                          : ""
+                      }`}
+                      onClick={deletePostImage}
+                      disabled={!modalData?.articleImageSrc && !thumbnailUrl}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                </label>
+              </div>
+              <input
+                className="edit__card"
+                type="file"
+                id="articleImageSrcEdit"
+                name="articleImageSrc"
+                onChange={handleCardFile}
+                accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
+                hidden
+              />
+
+              <div
+                className={
+                  thumbnail || modalData.articleImageSrc
+                    ? "full__post__thumbnail__preview"
+                    : "empty__post__thumbnail__preview"
+                }
+              >
+                {thumbnailUrl ? (
+                  <img src={thumbnailUrl} alt="new post image" />
+                ) : modalData?.articleImageSrc ? (
+                  <img src={modalData?.articleImageSrc} alt="new post image" />
+                ) : (
+                  <span>No image selected</span>
+                )}
+              </div>
+            </div>
+            <div className="horizontal__border"></div>
+            {/* Article Link */}
+            <div className="form-group">
+              <label>Post Link:</label>
+              <input
+                type="text"
+                name="articleLink"
+                value={modalData?.articleLink}
+                onChange={handlePostInfo}
               />
             </div>
-          )}
-        </div>
-        <div className="horizontal__border"></div>
-        {/* Article Image */}
-        <div className="form-group thumbnail__group">
-          <label htmlFor="articleImageSrc" className="thumbnail__label">
-            Image (optional):
-            <EditImageBtn />
-          </label>
-          <input
-            className="edit__card"
-            type="file"
-            id="articleImageSrc"
-            name="articleImageSrc"
-            onChange={handleCardFile}
-            accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
-            hidden
-          />
-          <div
-            className={
-              thumbnail || content?.articleImageSrc
-                ? "full__post__thumbnail__preview"
-                : "empty__post__thumbnail__preview"
-            }
-          >
-            {thumbnailUrl ? (
-              <img src={thumbnailUrl} alt="new post image" />
-            ) : content?.articleImageSrc ? (
-              <img src={content?.articleImageSrc} alt="new post image" />
-            ) : (
-              <span>No image selected</span>
-            )}
+          </form>
+          {/* Fehlermeldungs Nachricht */}
+          {error && <p className="error-message">{error}</p>}
+          <div className="btn__group">
+            <button
+              onClick={addPostChanges}
+              className="btn-submit"
+              disabled={!(modalData !== content || thumbnail)}
+            >
+              Save Changes
+            </button>
+            <button onClick={deletePost} className="btn-delete">
+              Delete Post
+            </button>
           </div>
         </div>
-        <div className="horizontal__border"></div>
-        {/* Article Link */}
-        <div className="form-group">
-          <label>Post Link:</label>
-          <input
-            type="text"
-            name="articleLink"
-            value={modalData?.articleLink}
-            onChange={handlePostInfo}
-          />
-        </div>
-      </form>
-      {/* Fehlermeldungs Nachricht */}
-      {error && <p className="error-message">{error}</p>}
-      <div className="btn__group">
-        <button
-          onClick={addPostChanges}
-          className="btn-submit"
-          disabled={!(modalData !== content || thumbnail)}
-        >
-          Save Changes
-        </button>
-        <button onClick={deletePost} className="btn-delete">
-          Delete Post
-        </button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

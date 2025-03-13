@@ -1,9 +1,9 @@
 // I M P O R T:   F I L E S
 import "../../styles/projects.scss";
-import beTemplate from "../../images/be-template.jpg";
-import terminalTacToe from "../../images/terminalTacToe.jpg";
-import todoApp from "../../images/todoApp.png";
-import useFetch from "../../images/useFetch.png";
+// import beTemplate from "../../images/be-template.jpg";
+// import terminalTacToe from "../../images/terminalTacToe.jpg";
+// import todoApp from "../../images/todoApp.png";
+// import useFetch from "../../images/useFetch.png";
 
 // I M P O R T:  T Y P E S
 import { Projects_Content, Project_Item } from "../../types/interfaces";
@@ -31,10 +31,6 @@ const Projects = () => {
   useEffect(() => {
     initialContentLoad(URL_P, setContent, navigate);
   }, []);
-
-  // useEffect(() => {
-  //   console.log("content:", content);
-  // }, [content]);
 
   const handleUpdate = () => {
     closeModal(setIsModalOpen);

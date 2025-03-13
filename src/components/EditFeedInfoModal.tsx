@@ -6,10 +6,13 @@ import { EditFeedModalProps, Feed_Content } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
+import { BE_HOST, URL_F } from "../api/host";
 import CloseBtn from "./CloseBtn";
 import EditImageBtn from "./EditImageBtn";
+import PendingContext from "../context/PendingContext";
 
 // C O D E
 const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
@@ -18,6 +21,8 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
   onSubmit,
   activeModal,
 }) => {
+  const navigate = useNavigate();
+  const [isPending, setIsPending] = useState(false);
   const [newData, setNewData] = useState(content);
   const [newProfileImg, setNewProfileImg] = useState<File | undefined>(
     undefined
@@ -65,28 +70,52 @@ const EditFeedInfoModal: React.FC<EditFeedModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!newData) return;
 
     const formData = new FormData();
-    const updatedContent: Feed_Content = {
-      feed_title_img: "",
-      feed_profile_img: "",
-      ghLink: newData.ghLink || "",
-      fullName: newData.fullName || "",
-      statement: newData.statement || "",
-      jobTitle: newData.jobTitle || "",
-      about: newData.about || "",
-      posts: undefined,
+    formData.append("ghLink", newData.ghLink);
+    formData.append("fullName", newData.fullName);
+    formData.append("statement", newData.statement);
+    formData.append("jobTitle", newData.jobTitle);
+    formData.append("about", newData.about);
+    if (newProfileImg) {
+      formData.append("feed_profile_img", newProfileImg);
+    } else {
+      formData.append("feed_profile_img", content.feed_profile_img);
+    }
+    if (newTitleImg) {
+      formData.append("feed_title_img", newTitleImg);
+    } else {
+      formData.append("feed_title_img", content.feed_title_img);
+    }
+
+    const sendProjectData = async () => {
+      setIsPending(true);
+      await fetch(`${BE_HOST}/${URL_F}`, {
+        credentials: "include",
+        method: "PATCH",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log("Data:", data);
+          setIsPending(false);
+          setTimeout(() => onSubmit(), 1000);
+        })
+        .catch((error) => {
+          setIsPending(false);
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
     };
-    if (newProfileImg) formData.append("feed_profile_img", newProfileImg);
-    if (newTitleImg) formData.append("feed_title_img", newTitleImg);
-
-    (Object.keys(newData) as Array<keyof Feed_Content>).forEach((key) => {
-      if (key !== "posts" && newData[key] !== content[key]) {
-        updatedContent[key] = newData[key];
-      }
-    });
-
-    onSubmit(updatedContent);
+    sendProjectData();
   };
 
   return (

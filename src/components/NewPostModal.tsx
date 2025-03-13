@@ -29,7 +29,7 @@ import EmojiBtn from "./EmojiBtn";
 // C O D E
 const NewPostModal: React.FC<NewPostCardProps> = ({
   onClose,
-  // onSubmit,
+  onSubmit,
   activeModal,
 }) => {
   const navigate = useNavigate();
@@ -44,6 +44,11 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
     articleContent: "",
     articleImageSrc: "",
     articleLink: "",
+    authorId: "",
+    authorName: "",
+    avatar: "",
+    date: "",
+    postId: "",
   });
   const [error, setError] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
@@ -61,6 +66,11 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
       document.documentElement.classList.remove("modal-open");
     };
   }, [activeModal]);
+
+  // useEffect(() => {
+  //   console.log("thumbnailUrl:", thumbnailUrl);
+  //   console.log("thumbnail:", thumbnail);
+  // }, [thumbnailUrl, thumbnail]);
 
   // ================================ //
   // export const URL_F_CP = "content/feed/post"; // Create Post
@@ -114,7 +124,6 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
       articleImageSrc,
       articleLink,
     } = newPost;
-    // console.log("HALLO", newPost);
 
     if (articleLink && !isValidLink(articleLink)) {
       setError("Bitte geben Sie einen gültigen Link ein!");
@@ -123,46 +132,48 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
 
     if (error) return;
 
-    if (!newPost) return;
+    if (!newPost || !user) return;
 
     const formData = new FormData();
-    if (newPost) formData.append("data", JSON.stringify(newPost));
-    if (thumbnail) formData.append("thumbnail", thumbnail);
-    const sendProjectData = async () => {
-      // Echter fetch
-      // setIsPending(true);
-      // await fetch(`${BE_HOST}/${URL_F_CP}`, {
-      //   credentials: "include",
-      //   method: "POST",
-      //   body: formData,
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.status === 201) {
-      //       setIsPending(false);
-      //       onClose();
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     setIsPending(false);
-      //     console.error("Error:", error);
-      //     setTimeout(() => navigate("/*"), 2000);
-      //   });
+    formData.append("authorId", user._id);
+    formData.append("authorName", user.userName);
+    formData.append("authorAvatar", user.avatar);
+    formData.append("authorAction", authorAction || "");
+    formData.append("vibe", vibe || "");
+    formData.append("articleTitle", articleTitle || "");
+    formData.append("articleContent", articleContent);
+    formData.append("articleLink", articleLink || "");
+    if (thumbnail) {
+      formData.append("articleImageSrc", thumbnail);
+    } else {
+      formData.append("articleImageSrc", "");
+    }
 
-      // Testing
-      console.log("Data to send:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(`${key}:`, {
-            name: value.name,
-            size: value.size,
-            type: value.type,
-          });
-        } else {
-          console.log(`${key}:`, value);
-        }
-      }
-      onClose();
+    const sendProjectData = async () => {
+      setIsPending(true);
+      await fetch(`${BE_HOST}/${URL_F_CP}`, {
+        credentials: "include",
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(
+              new Error(`HTTP error! Status: ${res.status}`)
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // console.log("Data:", data);
+          setIsPending(false);
+          setTimeout(() => onSubmit(), 1000);
+        })
+        .catch((error) => {
+          setIsPending(false);
+          console.error("Error:", error);
+          setTimeout(() => navigate("/*"), 2000);
+        });
     };
     sendProjectData();
   };
@@ -287,14 +298,14 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
         <div className="horizontal__border"></div>
         {/* Article Image */}
         <div className="form-group thumbnail__group">
-          <label htmlFor="articleImageSrc" className="thumbnail__label">
+          <label htmlFor="articleImageSrcNew" className="thumbnail__label">
             Image (optional):
             <EditImageBtn />
           </label>
           <input
             className="edit__card"
             type="file"
-            id="articleImageSrc"
+            id="articleImageSrcNew"
             name="articleImageSrc"
             onChange={handleNewCardFile}
             accept=".jpeg, .jpg, .png, .gif, .tiff, .bmp"
