@@ -76,7 +76,8 @@
 
     article {
       // border: 1px solid orange;
-      max-width: 100%;
+      width: 100%;
+      // max-width: 100%;
       margin-bottom: 1rem;
       overflow: hidden;
       word-wrap: break-word;
@@ -89,6 +90,7 @@
       }
     
       .article__content {
+        // border: 2px solid red;
         white-space: pre-line; // to maintain line breaks
         margin-bottom: 1rem;
         color: var(--gray-500);       

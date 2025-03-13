@@ -75,15 +75,6 @@ const EditPostsModal: React.FC<NewPostCardProps> = ({
     };
   }, [isModalOpen]);
 
-  // useEffect(() => {
-  //   console.log("content:", !content?.articleImageSrc);
-  //   console.log("thumbnailUrl:", !thumbnailUrl);
-  //   console.log(
-  //     "Disabled condition:",
-  //     !content?.articleImageSrc || !thumbnailUrl
-  //   );
-  // }, [content?.articleImageSrc, thumbnail]);
-
   // EMOJI PICKER //
   const handleEmojiClick = (emojiObject: { emoji: string }) => {
     if (activeEmojiField) {
