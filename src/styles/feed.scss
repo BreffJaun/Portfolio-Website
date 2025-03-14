@@ -222,6 +222,9 @@
       align-items: flex-start;
       flex-direction: column;
       margin-bottom: 100px;
+      // 
+      position: relative;
+      min-height: 100vh;
 
       .post__positioning__container {
         // border: 1px solid orange;
@@ -256,13 +259,22 @@
 }
 
 .loading-indicator {
-  position: sticky;
+  // position: sticky;
+  // bottom: 20px;
+  // text-align: center;
+  // padding: 1rem;
+  // background: var(--gray-800);
+  // border-radius: 8px;
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  // z-index: 1000;
+  position: fixed;
   bottom: 20px;
-  text-align: center;
-  padding: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   background: var(--gray-800);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
 
   &.visible {

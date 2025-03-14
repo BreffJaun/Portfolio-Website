@@ -57,6 +57,24 @@ const Feed: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [scrollPos, setScrollPos] = useState(0);
   const scrollHeightBeforeLoad = useRef(0);
+  const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
+  const postsContainerRef = useRef<HTMLDivElement>(null);
+
+  const getFirstVisiblePostId = (): string | null => {
+    const posts = postsContainerRef.current?.querySelectorAll(".post-card");
+    if (!posts) return null;
+
+    const containerTop =
+      postsContainerRef.current?.getBoundingClientRect().top || 0;
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const rect = post.getBoundingClientRect();
+      if (rect.top >= containerTop) {
+        return post.id;
+      }
+    }
+    return null;
+  };
 
   // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
   useEffect(() => {
@@ -81,9 +99,9 @@ const Feed: React.FC = () => {
   // FETCH FOR MORE POSTS
   useEffect(() => {
     const loadData = async () => {
-      try {
-        const prevScrollHeight = document.documentElement.scrollHeight;
+      const prevFirstVisiblePost = getFirstVisiblePostId();
 
+      try {
         const data = await loadPosts(
           URL_F_GP,
           currentPage,
@@ -93,14 +111,21 @@ const Feed: React.FC = () => {
           setIsPending
         );
 
-        // Scroll-Position anpassen NUR bei neuen Posts
         if (currentPage > 1 && data.content.length > 0) {
           requestAnimationFrame(() => {
-            const newScrollHeight = document.documentElement.scrollHeight;
-            window.scrollTo({
-              top: window.scrollY + (newScrollHeight - prevScrollHeight),
-              behavior: "auto",
-            });
+            if (prevFirstVisiblePost) {
+              const anchorElement =
+                document.getElementById(prevFirstVisiblePost);
+              if (anchorElement) {
+                const containerTop =
+                  postsContainerRef.current?.getBoundingClientRect().top || 0;
+                const elementTop = anchorElement.getBoundingClientRect().top;
+                window.scrollTo(
+                  0,
+                  window.scrollY + (elementTop - containerTop)
+                );
+              }
+            }
           });
         }
       } catch (error) {
@@ -115,20 +140,18 @@ const Feed: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = throttle(() => {
+      if (isPending) return;
+
       const { scrollTop, scrollHeight, clientHeight } =
         document.documentElement;
-      const scrollPosition = scrollTop + clientHeight;
-      const threshold = 500; // 500px vor dem Ende
+      const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
 
-      if (
-        scrollHeight - scrollPosition < threshold &&
-        !isPending &&
-        currentPage < totalPages
-      ) {
+      if (nearBottom && currentPage < totalPages) {
+        setScrollAnchor(getFirstVisiblePostId());
         setIsPending(true);
         setCurrentPage((prev) => prev + 1);
       }
-    }, 200);
+    }, 500);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
