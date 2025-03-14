@@ -1,7 +1,7 @@
 // I M P O R T:   F I L E S
 
 // I M P O R T:  T Y P E S
-import { StackItem } from "../types/interfaces";
+import { StackItem, PostsResponse, PostCardProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import UAParser from "ua-parser-js";
@@ -236,6 +236,49 @@ export const initialContentLoad = (
       console.error("Error:", error);
       setTimeout(() => navigate("/*"), 100);
     });
+};
+
+/**
+ * Lädt die Posts von der API und setzt den State.
+ * @param url - Die API-URL (z. B. "/api/posts").
+ * @param page - Die aktuelle Seite.
+ * @param limit - Die Anzahl der Posts pro Seite.
+ * @param setPosts - Die State-Setter-Funktion für die Posts.
+ * @param setTotalPages - Die State-Setter-Funktion für die Gesamtzahl der Seiten.
+ */
+export const loadPosts = async (
+  url: string,
+  page: number,
+  limit: number,
+  setPosts: (updater: (prevPosts: PostCardProps[]) => PostCardProps[]) => void,
+  setTotalPages: (totalPages: number) => void,
+  setIsPending?: (isPending: boolean) => void
+): Promise<{ content: PostCardProps[]; totalPages: number }> => {
+  try {
+    const fullUrl = `${BE_HOST}/${url}?page=${page}&limit=${limit}`;
+    const response = await fetch(fullUrl);
+
+    if (response.status === 404) {
+      return { content: [], totalPages: 0 };
+    }
+
+    if (!response.ok) throw new Error("Failed to fetch posts");
+
+    const data = await response.json();
+
+    // Neue Posts immer VORNE anfügen
+    setPosts((prev) =>
+      page === 1 ? data.content : [...prev, ...data.content]
+    );
+
+    setTotalPages(data.totalPages);
+    return data;
+  } catch (error) {
+    console.error("Error loading posts:", error);
+    throw error;
+  } finally {
+    setIsPending?.(false);
+  }
 };
 
 export const getImageDimensions = (file: File) => {

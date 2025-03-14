@@ -59,6 +59,11 @@
   border: 1px solid var(--gray-200);
   border-radius: 8px;
   overflow: hidden;
+  
+  opacity: 1 !important;
+  visibility: visible !important;
+  width: 100% !important;
+  height: auto !important;
 
   img {
     width: 100%;

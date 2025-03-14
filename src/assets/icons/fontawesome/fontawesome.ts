@@ -13,6 +13,7 @@ import {
   faI,
   faPlus,
   faTrash,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage, faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 

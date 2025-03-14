@@ -225,3 +225,8 @@ export interface CloseBtnProps {
 export interface CreateBtnProps {
   onClick: () => void;
 }
+
+export interface PostsResponse {
+  content: PostCardProps[];
+  totalPages: number;
+}

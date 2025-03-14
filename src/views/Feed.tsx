@@ -8,8 +8,10 @@ import feed_title_img from "../../src/assets/logos/breffjaun_feed_bg_anthrazit.j
 import { Feed_Content, PostCardProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
+import { throttle } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useContext, useState } from "react";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useContext, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
@@ -37,6 +39,7 @@ import {
   initialContentLoad,
   openSpecificModal,
   closeSpecificModal,
+  loadPosts,
 } from "../utils/utils";
 
 // C O D E
@@ -50,12 +53,86 @@ const Feed: React.FC = () => {
   >(null);
   const [content, setContent] = useState<Feed_Content | null>(null);
   const [posts, setPosts] = useState<PostCardProps[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [scrollPos, setScrollPos] = useState(0);
+  const scrollHeightBeforeLoad = useRef(0);
 
+  // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
   useEffect(() => {
     window.scrollTo(0, 0);
     initialContentLoad(URL_F, setContent, navigate);
-    initialContentLoad(URL_F_GP, setPosts, navigate);
+    // FETCH FOR THE FIRST 10 POSTS
+    // loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending).catch(
+    //   (error) => console.error("Error loading initial posts:", error)
+    // );
+    const loadInitialPosts = async () => {
+      try {
+        await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
+        window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
+      } catch (error) {
+        console.error("Error loading initial posts:", error);
+      }
+    };
+
+    loadInitialPosts();
   }, []);
+
+  // FETCH FOR MORE POSTS
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const prevScrollHeight = document.documentElement.scrollHeight;
+
+        const data = await loadPosts(
+          URL_F_GP,
+          currentPage,
+          10,
+          setPosts,
+          setTotalPages,
+          setIsPending
+        );
+
+        // Scroll-Position anpassen NUR bei neuen Posts
+        if (currentPage > 1 && data.content.length > 0) {
+          requestAnimationFrame(() => {
+            const newScrollHeight = document.documentElement.scrollHeight;
+            window.scrollTo({
+              top: window.scrollY + (newScrollHeight - prevScrollHeight),
+              behavior: "auto",
+            });
+          });
+        }
+      } catch (error) {
+        console.error("Error loading posts:", error);
+      }
+    };
+
+    if (currentPage === 1 || isPending) {
+      loadData();
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      const { scrollTop, scrollHeight, clientHeight } =
+        document.documentElement;
+      const scrollPosition = scrollTop + clientHeight;
+      const threshold = 500; // 500px vor dem Ende
+
+      if (
+        scrollHeight - scrollPosition < threshold &&
+        !isPending &&
+        currentPage < totalPages
+      ) {
+        setIsPending(true);
+        setCurrentPage((prev) => prev + 1);
+      }
+    }, 200);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isPending, currentPage, totalPages]);
 
   // UPDATE FEED INFO
   const handleFeedInfoUpdate = () => {
@@ -66,7 +143,7 @@ const Feed: React.FC = () => {
   return (
     <>
       {isPending || !content ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading feed...</div>
       ) : (
         <div className="feed">
           <section id="feed">
@@ -168,35 +245,42 @@ const Feed: React.FC = () => {
             <div className="post__container">
               <div className="post__positioning__container">
                 {/* <div className="horizontal__border"></div> */}
-                {posts
-                  .map((post, i) => {
-                    const formattedDate = new Date(
-                      post.createdAt || ""
-                    ).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    });
+                {isPending && (
+                  <div className="loading-indicator visible">
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                    Loading more posts...
+                  </div>
+                )}
+                {posts.map((post) => {
+                  const formattedDate = new Date(
+                    post.createdAt || ""
+                  ).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  });
 
-                    return (
-                      <PostCard
-                        key={post._id}
-                        postId={post._id}
-                        authorId={post.authorId}
-                        authorName={post.authorName}
-                        avatar={post.authorAvatar}
-                        authorAction={post.authorAction}
-                        date={formattedDate}
-                        vibe={post.vibe}
-                        articleTitle={post.articleTitle}
-                        articleContent={post.articleContent}
-                        articleImageSrc={post.articleImageSrc}
-                        articleLink={post.articleLink}
-                        // onSubmit={handleFeedInfoUpdate}
-                      />
-                    );
-                  })
-                  .reverse()}
+                  return (
+                    <PostCard
+                      // className={`post-card ${
+                      //   i >= posts.length - 10 ? "new-post" : ""
+                      // }`}
+                      key={post._id}
+                      postId={post._id}
+                      authorId={post.authorId}
+                      authorName={post.authorName}
+                      avatar={post.authorAvatar}
+                      authorAction={post.authorAction}
+                      date={formattedDate}
+                      vibe={post.vibe}
+                      articleTitle={post.articleTitle}
+                      articleContent={post.articleContent}
+                      articleImageSrc={post.articleImageSrc}
+                      articleLink={post.articleLink}
+                      // onSubmit={handleFeedInfoUpdate}
+                    />
+                  );
+                })}
               </div>
             </div>
           </section>
