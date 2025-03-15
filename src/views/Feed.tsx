@@ -165,22 +165,6 @@ const Feed: React.FC = () => {
 
   // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
   useEffect(() => {
-    window.scrollTo(0, 0); // Zurücksetzen der Scroll-Position
-    initialContentLoad(URL_F, setContent, navigate); // Laden der Feed-Informationen
-  
-    const loadInitialPosts = async () => {
-      try {
-        await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending); // Laden der ersten 10 Posts
-        window.scrollTo(0, 0); // Sicherstellen, dass die Seite oben bleibt
-      } catch (error) {
-        console.error("Error loading initial posts:", error);
-      }
-    };
-  
-    loadInitialPosts();
-  }, []);
-  
-  useEffect(() => {
     const loadData = async () => {
       // Speichere die ID des ersten sichtbaren Posts
       const prevFirstVisiblePost = getFirstVisiblePostId();
@@ -200,25 +184,23 @@ const Feed: React.FC = () => {
         // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
         if (currentPage > 1 && data.content.length > 0) {
           console.log("New posts loaded. Restoring scroll position..."); // Debugging-Ausgabe
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              if (prevFirstVisiblePost) {
-                const anchorElement = document.getElementById(prevFirstVisiblePost);
-                if (anchorElement) {
-                  const containerTop =
-                    postsContainerRef.current?.getBoundingClientRect().top || 0;
-                  const elementTop = anchorElement.getBoundingClientRect().top;
-                  const scrollOffset = elementTop - containerTop;
+          setTimeout(() => {
+            if (prevFirstVisiblePost) {
+              const anchorElement = document.getElementById(prevFirstVisiblePost);
+              if (anchorElement) {
+                const containerTop =
+                  postsContainerRef.current?.getBoundingClientRect().top || 0;
+                const elementTop = anchorElement.getBoundingClientRect().top;
+                const scrollOffset = elementTop - containerTop;
   
-                  // Scroll zur korrekten Position
-                  window.scrollTo({
-                    top: window.scrollY + scrollOffset,
-                    behavior: "auto", // Keine Animation, um iOS-Probleme zu vermeiden
-                  });
-                }
+                // Scroll zur korrekten Position
+                window.scrollTo({
+                  top: window.scrollY + scrollOffset,
+                  behavior: "auto", // Keine Animation, um iOS-Probleme zu vermeiden
+                });
               }
-            }, 100); // 100ms Verzögerung für das DOM-Rendering
-          });
+            }
+          }, 200); // 200ms Verzögerung für das DOM-Rendering
         }
       } catch (error) {
         console.error("Error loading posts:", error);
