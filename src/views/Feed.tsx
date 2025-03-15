@@ -179,11 +179,12 @@ const Feed: React.FC = () => {
   
     loadInitialPosts();
   }, []);
-
+  
   useEffect(() => {
     const loadData = async () => {
       // Speichere die ID des ersten sichtbaren Posts
       const prevFirstVisiblePost = getFirstVisiblePostId();
+      console.log("Loading more posts..."); // Debugging-Ausgabe
   
       try {
         // Lade neue Posts
@@ -198,7 +199,7 @@ const Feed: React.FC = () => {
   
         // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
         if (currentPage > 1 && data.content.length > 0) {
-          // Verwende requestAnimationFrame für eine zuverlässige DOM-Aktualisierung
+          console.log("New posts loaded. Restoring scroll position..."); // Debugging-Ausgabe
           requestAnimationFrame(() => {
             setTimeout(() => {
               if (prevFirstVisiblePost) {
@@ -230,6 +231,25 @@ const Feed: React.FC = () => {
   }, [currentPage]);
   
   useEffect(() => {
+    const handleScroll = throttle(() => {
+      if (isPending) return;
+  
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
+  
+      if (nearBottom && currentPage < totalPages) {
+        console.log("Near bottom. Loading more posts..."); // Debugging-Ausgabe
+        setScrollAnchor(getFirstVisiblePostId());
+        setIsPending(true);
+        setCurrentPage((prev) => prev + 1);
+      }
+    }, 500);
+  
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isPending, currentPage, totalPages]);
+  
+  useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
@@ -249,7 +269,7 @@ const Feed: React.FC = () => {
     }
     return null;
   };
-
+  
   const handleFeedInfoUpdate = () => {
     closeSpecificModal(setActiveModal);
     window.location.reload();
