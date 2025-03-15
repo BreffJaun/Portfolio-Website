@@ -77,6 +77,21 @@ const Feed: React.FC = () => {
     return null;
   };
 
+  const getFirstVisiblePost = () => {
+    const posts = postsContainerRef.current?.querySelectorAll(".post-card");
+    if (!posts) return null;
+  
+    const containerTop = postsContainerRef.current?.getBoundingClientRect().top || 0;
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const rect = post.getBoundingClientRect();
+      if (rect.top >= containerTop) {
+        return post;
+      }
+    }
+    return null;
+  };
+
   // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -96,9 +111,13 @@ const Feed: React.FC = () => {
   // FETCH FOR MORE POSTS
   useEffect(() => {
     const loadData = async () => {
-      const prevFirstVisiblePost = getFirstVisiblePostId();
-
+      // Speichere den ersten sichtbaren Post und seine Position
+      const firstVisiblePost = getFirstVisiblePost();
+      const firstVisiblePostRect = firstVisiblePost?.getBoundingClientRect();
+      const firstVisiblePostTop = firstVisiblePostRect?.top || 0;
+  
       try {
+        // Lade neue Posts
         const data = await loadPosts(
           URL_F_GP,
           currentPage,
@@ -107,29 +126,24 @@ const Feed: React.FC = () => {
           setTotalPages,
           setIsPending
         );
-
+  
+        // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
         if (currentPage > 1 && data.content.length > 0) {
-          requestAnimationFrame(() => {
-            if (prevFirstVisiblePost) {
-              const anchorElement =
-                document.getElementById(prevFirstVisiblePost);
-              if (anchorElement) {
-                const containerTop =
-                  postsContainerRef.current?.getBoundingClientRect().top || 0;
-                const elementTop = anchorElement.getBoundingClientRect().top;
-                window.scrollTo(
-                  0,
-                  window.scrollY + (elementTop - containerTop)
-                );
-              }
+          setTimeout(() => {
+            if (firstVisiblePost) {
+              const newFirstVisiblePostRect = firstVisiblePost.getBoundingClientRect();
+              const newFirstVisiblePostTop = newFirstVisiblePostRect.top;
+              const scrollOffset = newFirstVisiblePostTop - firstVisiblePostTop;
+  
+              window.scrollBy(0, scrollOffset);
             }
-          });
+          }, 100); // 100ms Verzögerung
         }
       } catch (error) {
         console.error("Error loading posts:", error);
       }
     };
-
+  
     if (currentPage === 1 || isPending) {
       loadData();
     }
@@ -162,11 +176,11 @@ const Feed: React.FC = () => {
   };
 
   // iOS SPECIFIC SCROLL BEHAVIOUR
-  // useEffect(() => {
-  //   if ('scrollRestoration' in window.history) {
-  //     window.history.scrollRestoration = 'manual';
-  //   }
-  // }, []);
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
 
   return (
     <>
