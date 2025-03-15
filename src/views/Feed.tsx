@@ -80,10 +80,6 @@ const Feed: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     initialContentLoad(URL_F, setContent, navigate);
-    // FETCH FOR THE FIRST 10 POSTS
-    // loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending).catch(
-    //   (error) => console.error("Error loading initial posts:", error)
-    // );
     const loadInitialPosts = async () => {
       try {
         await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);

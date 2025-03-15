@@ -70,7 +70,7 @@ const PostCard: React.FC<PostCardProps> = ({
     closeSpecificModal(setActiveModal);
     window.location.reload();
   };
-  console.log(articleContent.length);
+
 
   return (
     <>
