@@ -62,7 +62,7 @@ const LandingPage: React.FC = () => {
   return (
     <>
       {isPending || !content ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading...</div>
       ) : (
         <div className="landing__page">
           <section id="#">

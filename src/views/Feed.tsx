@@ -158,10 +158,10 @@ const Feed: React.FC = () => {
   // }, [isPending, currentPage, totalPages]);
 
   // // UPDATE FEED INFO
-  const handleFeedInfoUpdate = () => {
-    closeSpecificModal(setActiveModal);
-    window.location.reload();
-  };
+  // const handleFeedInfoUpdate = () => {
+  //   closeSpecificModal(setActiveModal);
+  //   window.location.reload();
+  // };
 
   // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
   useEffect(() => {
@@ -248,6 +248,11 @@ const Feed: React.FC = () => {
       }
     }
     return null;
+  };
+
+  const handleFeedInfoUpdate = () => {
+    closeSpecificModal(setActiveModal);
+    window.location.reload();
   };
 
 
