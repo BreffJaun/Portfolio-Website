@@ -1,5 +1,7 @@
 // C O D E
-export const BE_HOST = "http://localhost:2404/api";
+// export const BE_HOST = "http://localhost:2404/api";
+export const BE_HOST = "https://portfolio-website-be-wikx.onrender.com/api"
+
 
 // R O U T E S
 export const URL_R = "users/register"; // Register
