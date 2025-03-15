@@ -165,6 +165,21 @@ const Feed: React.FC = () => {
 
   // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
   useEffect(() => {
+    window.scrollTo(0, 0);
+    initialContentLoad(URL_F, setContent, navigate);
+    const loadInitialPosts = async () => {
+      try {
+        await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
+        window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
+      } catch (error) {
+        console.error("Error loading initial posts:", error);
+      }
+    };
+
+    loadInitialPosts();
+  }, []);
+
+  useEffect(() => {
     const loadData = async () => {
       // Speichere die ID des ersten sichtbaren Posts
       const prevFirstVisiblePost = getFirstVisiblePostId();
