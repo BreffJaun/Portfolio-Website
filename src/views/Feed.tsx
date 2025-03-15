@@ -95,9 +95,12 @@ const Feed: React.FC = () => {
   // FETCH FOR MORE POSTS
   useEffect(() => {
     const loadData = async () => {
+      // Speichere die ID des ersten sichtbaren Posts
       const prevFirstVisiblePost = getFirstVisiblePostId();
-
+      console.log("Prev First Visible Post:", prevFirstVisiblePost); // <-- Hier
+    
       try {
+        // Lade neue Posts
         const data = await loadPosts(
           URL_F_GP,
           currentPage,
@@ -106,32 +109,37 @@ const Feed: React.FC = () => {
           setTotalPages,
           setIsPending
         );
-
+    
+        // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
         if (currentPage > 1 && data.content.length > 0) {
-          requestAnimationFrame(() => {
-            if (prevFirstVisiblePost) {
-              const anchorElement =
-                document.getElementById(prevFirstVisiblePost);
-              if (anchorElement) {
-                const containerTop =
-                  postsContainerRef.current?.getBoundingClientRect().top || 0;
-                const elementTop = anchorElement.getBoundingClientRect().top;
-                window.scrollTo(
-                  0,
-                  window.scrollY + (elementTop - containerTop)
-                );
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              if (prevFirstVisiblePost) {
+                const anchorElement = document.getElementById(prevFirstVisiblePost);
+                if (anchorElement) {
+                  const containerTop =
+                    postsContainerRef.current?.getBoundingClientRect().top || 0;
+                  const elementTop = anchorElement.getBoundingClientRect().top;
+                  console.log("Container Top:", containerTop); // <-- Hier
+                  console.log("Element Top:", elementTop); // <-- Hier
+                  console.log(
+                    "Scroll Position:",
+                    window.scrollY + (elementTop - containerTop)
+                  ); // <-- Hier
+    
+                  window.scrollTo(
+                    0,
+                    window.scrollY + (elementTop - containerTop)
+                  );
+                }
               }
-            }
-          });
+            });
+          }, 100); // 100ms Verzögerung
         }
       } catch (error) {
         console.error("Error loading posts:", error);
       }
     };
-
-    if (currentPage === 1 || isPending) {
-      loadData();
-    }
   }, [currentPage]);
 
   useEffect(() => {
