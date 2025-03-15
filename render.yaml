@@ -1,7 +1,7 @@
 static_sites:
   - name: breffjaun
     build_command: npm run build
-    static_path: build
+    static_path: dist
     routes:
       - type: rewrite
         source: /(.*)
