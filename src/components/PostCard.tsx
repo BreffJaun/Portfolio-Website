@@ -17,7 +17,7 @@ import { closeSpecificModal } from "../utils/utils";
 // C O D E
 
 const PostCard: React.FC<PostCardProps> = ({
-  // key,
+  id,
   postId,
   avatar,
   authorId,
@@ -77,10 +77,12 @@ const PostCard: React.FC<PostCardProps> = ({
       {!content ? (
         <div>Loading...</div>
       ) : (
-        <div className="post__card">
+        <div className="post__card post-card" 
+        // id={id}
+        >
           {/* Avatar */}
           <div className="avatar__container">
-            <img src={avatar} alt={avatar} />
+            <img src={avatar} alt={`${authorName}'s avatar`} />
           </div>
           {/* Content */}
           <div className="content__container">
