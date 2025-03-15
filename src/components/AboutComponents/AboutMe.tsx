@@ -1,6 +1,7 @@
 // I M P O R T:   F I L E S
 import bw__image from "../../images/breffjaun_bw.png";
 import cd__image from "../../images/breffjaun_cd.png";
+import "../../styles/feed.scss"
 
 // I M P O R T:  T Y P E S
 import { MySelf_Content } from "../../types/interfaces";

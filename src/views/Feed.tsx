@@ -94,54 +94,11 @@ const Feed: React.FC = () => {
   }, []);
 
   // FETCH FOR MORE POSTS
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     const prevFirstVisiblePost = getFirstVisiblePostId();
-
-  //     try {
-  //       const data = await loadPosts(
-  //         URL_F_GP,
-  //         currentPage,
-  //         10,
-  //         setPosts,
-  //         setTotalPages,
-  //         setIsPending
-  //       );
-
-  //       if (currentPage > 1 && data.content.length > 0) {
-  //         requestAnimationFrame(() => {
-  //           if (prevFirstVisiblePost) {
-  //             const anchorElement =
-  //               document.getElementById(prevFirstVisiblePost);
-  //             if (anchorElement) {
-  //               const containerTop =
-  //                 postsContainerRef.current?.getBoundingClientRect().top || 0;
-  //               const elementTop = anchorElement.getBoundingClientRect().top;
-  //               window.scrollTo(
-  //                 0,
-  //                 window.scrollY + (elementTop - containerTop)
-  //               );
-  //             }
-  //           }
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error loading posts:", error);
-  //     }
-  //   };
-
-  //   if (currentPage === 1 || isPending) {
-  //     loadData();
-  //   }
-  // }, [currentPage]);
   useEffect(() => {
     const loadData = async () => {
-      // Speichere die aktuelle Scroll-Position und Dokumenthöhe
-      scrollPosBeforeLoad.current = window.scrollY;
-      scrollHeightBeforeLoad.current = document.documentElement.scrollHeight;
-  
+      const prevFirstVisiblePost = getFirstVisiblePostId();
+
       try {
-        // Lade neue Posts
         const data = await loadPosts(
           URL_F_GP,
           currentPage,
@@ -150,26 +107,34 @@ const Feed: React.FC = () => {
           setTotalPages,
           setIsPending
         );
-  
-        // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
+
         if (currentPage > 1 && data.content.length > 0) {
-          setTimeout(() => {
-            const newScrollHeight = document.documentElement.scrollHeight;
-            const heightDifference = newScrollHeight - scrollHeightBeforeLoad.current;
-            const newScrollPosition = scrollPosBeforeLoad.current + heightDifference;
-  
-            window.scrollTo(0, newScrollPosition);
-          }, 100); // 100ms Verzögerung
+          requestAnimationFrame(() => {
+            if (prevFirstVisiblePost) {
+              const anchorElement =
+                document.getElementById(prevFirstVisiblePost);
+              if (anchorElement) {
+                const containerTop =
+                  postsContainerRef.current?.getBoundingClientRect().top || 0;
+                const elementTop = anchorElement.getBoundingClientRect().top;
+                window.scrollTo(
+                  0,
+                  window.scrollY + (elementTop - containerTop)
+                );
+              }
+            }
+          });
         }
       } catch (error) {
         console.error("Error loading posts:", error);
       }
     };
-  
+
     if (currentPage === 1 || isPending) {
       loadData();
     }
   }, [currentPage]);
+ 
 
   useEffect(() => {
     const handleScroll = throttle(() => {
@@ -197,11 +162,11 @@ const Feed: React.FC = () => {
   };
 
   // iOS SPECIFIC SCROLL BEHAVIOUR
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ('scrollRestoration' in window.history) {
+  //     window.history.scrollRestoration = 'manual';
+  //   }
+  // }, []);
 
   return (
     <>
