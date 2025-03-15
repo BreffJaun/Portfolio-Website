@@ -159,6 +159,13 @@ const Feed: React.FC = () => {
     window.location.reload();
   };
 
+  // TEST FOR IPHONE
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   return (
     <>
       {isPending || !content ? (
