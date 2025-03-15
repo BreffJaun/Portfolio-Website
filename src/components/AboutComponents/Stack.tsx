@@ -44,56 +44,6 @@ import EditStackModal from "../EditStackModal";
 
 const Stack = () => {
   const navigate = useNavigate();
-  // const stackArray: StackItem[] = [
-  //   {
-  //     name: "HTML",
-  //     img: htmlLogo,
-  //   },
-  //   {
-  //     name: "CSS",
-  //     img: cssLogo,
-  //   },
-  //   {
-  //     name: "Sass",
-  //     img: sass,
-  //   },
-  //   {
-  //     name: "Bootstrap",
-  //     img: bootstrapLogo,
-  //   },
-  //   {
-  //     name: "JavaScript",
-  //     img: jsLogo,
-  //   },
-  //   {
-  //     name: "TypeScript",
-  //     img: tsLogo,
-  //   },
-  //   {
-  //     name: "React",
-  //     img: reactLogo,
-  //   },
-  //   {
-  //     name: "Node.js",
-  //     img: nodeLogo,
-  //   },
-  //   {
-  //     name: "Express.js",
-  //     img: expressLogo,
-  //   },
-  //   {
-  //     name: "MongoDB",
-  //     img: mongoLogo,
-  //   },
-  //   {
-  //     name: "Git",
-  //     img: gitLogo,
-  //   },
-  //   {
-  //     name: "GitHub",
-  //     img: githubLogo,
-  //   },
-  // ];
   const [mobileView, setMobileView] = useContext(MobileViewContext);
   const [device, setDevice] = useContext(DeviceContext);
 
@@ -102,12 +52,6 @@ const Stack = () => {
   const [isLoggedIn] = useContext(LoggedInContext);
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [content, setContent] = useState<Stack_Content>({
-  //   headline: "Stack",
-  //   description:
-  //     "Hier sind ein paar Technologien und Programmiersprachen, mit denen ich in letzter Zeit gearbeitet habe:",
-  //   stack: [],
-  // });
   const [fakeContent, setFakeContent] = useState<Stack_Content | null>(null);
   const [content, setContent] = useState<Stack_Content | null>(null);
   const [stackArrayWND, setStackArrayWND] = useState<StackItem[] | null>(null);
@@ -136,7 +80,7 @@ const Stack = () => {
   return (
     <>
       {isPending || !content || !stackArrayWND ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading...</div>
       ) : (
         <div className={`stack ${device === "desktop" ? "desktopMode" : ""}`}>
           <section id="stack">

@@ -63,7 +63,7 @@ const AboutMe = () => {
   return (
     <>
       {isPending || !content ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading...</div>
       ) : (
         <div className="about__me">
           <section id="aboutme">

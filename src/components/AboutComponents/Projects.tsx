@@ -41,7 +41,7 @@ const Projects = () => {
   return (
     <>
       {isPending || !content ? (
-        <div>Loading...</div>
+        <div className="loading-screen">Loading...</div>
       ) : (
         <div className="projects">
           <section id="projects">
