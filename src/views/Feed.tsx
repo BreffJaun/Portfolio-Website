@@ -61,12 +61,185 @@ const Feed: React.FC = () => {
   const scrollPosBeforeLoad = useRef(0);
   const scrollHeightBeforeLoad = useRef(0);
 
+  // == VERSION FOR DESKTOP WITH CHROME == //
+
+  // const getFirstVisiblePostId = (): string | null => {
+  //   const posts = postsContainerRef.current?.querySelectorAll(".post-card");
+  //   if (!posts) return null;
+
+  //   const containerTop =
+  //     postsContainerRef.current?.getBoundingClientRect().top || 0;
+  //   for (let i = 0; i < posts.length; i++) {
+  //     const post = posts[i];
+  //     const rect = post.getBoundingClientRect();
+  //     if (rect.top >= containerTop) {
+  //       return post.id;
+  //     }
+  //   }
+  //   return null;
+  // };
+
+  // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   initialContentLoad(URL_F, setContent, navigate);
+  //   const loadInitialPosts = async () => {
+  //     try {
+  //       await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
+  //       window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
+  //     } catch (error) {
+  //       console.error("Error loading initial posts:", error);
+  //     }
+  //   };
+
+  //   loadInitialPosts();
+  // }, []);
+
+  // // FETCH FOR MORE POSTS
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const prevFirstVisiblePost = getFirstVisiblePostId();
+
+  //     try {
+  //       const data = await loadPosts(
+  //         URL_F_GP,
+  //         currentPage,
+  //         10,
+  //         setPosts,
+  //         setTotalPages,
+  //         setIsPending
+  //       );
+
+  //       if (currentPage > 1 && data.content.length > 0) {
+  //         requestAnimationFrame(() => {
+  //           if (prevFirstVisiblePost) {
+  //             const anchorElement =
+  //               document.getElementById(prevFirstVisiblePost);
+  //             if (anchorElement) {
+  //               const containerTop =
+  //                 postsContainerRef.current?.getBoundingClientRect().top || 0;
+  //               const elementTop = anchorElement.getBoundingClientRect().top;
+  //               window.scrollTo(
+  //                 0,
+  //                 window.scrollY + (elementTop - containerTop)
+  //               );
+  //             }
+  //           }
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading posts:", error);
+  //     }
+  //   };
+
+  //   if (currentPage === 1 || isPending) {
+  //     loadData();
+  //   }
+  // }, [currentPage]);
+ 
+
+  // useEffect(() => {
+  //   const handleScroll = throttle(() => {
+  //     if (isPending) return;
+
+  //     const { scrollTop, scrollHeight, clientHeight } =
+  //       document.documentElement;
+  //     const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
+
+  //     if (nearBottom && currentPage < totalPages) {
+  //       setScrollAnchor(getFirstVisiblePostId());
+  //       setIsPending(true);
+  //       setCurrentPage((prev) => prev + 1);
+  //     }
+  //   }, 500);
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [isPending, currentPage, totalPages]);
+
+  // // UPDATE FEED INFO
+  // const handleFeedInfoUpdate = () => {
+  //   closeSpecificModal(setActiveModal);
+  //   window.location.reload();
+  // };
+
+  // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
+  useEffect(() => {
+    window.scrollTo(0, 0); // Zurücksetzen der Scroll-Position
+    initialContentLoad(URL_F, setContent, navigate); // Laden der Feed-Informationen
+  
+    const loadInitialPosts = async () => {
+      try {
+        await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending); // Laden der ersten 10 Posts
+        window.scrollTo(0, 0); // Sicherstellen, dass die Seite oben bleibt
+      } catch (error) {
+        console.error("Error loading initial posts:", error);
+      }
+    };
+  
+    loadInitialPosts();
+  }, []);
+  
+  useEffect(() => {
+    const loadData = async () => {
+      // Speichere die ID des ersten sichtbaren Posts
+      const prevFirstVisiblePost = getFirstVisiblePostId();
+  
+      try {
+        // Lade neue Posts
+        const data = await loadPosts(
+          URL_F_GP,
+          currentPage,
+          10,
+          setPosts,
+          setTotalPages,
+          setIsPending
+        );
+  
+        // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
+        if (currentPage > 1 && data.content.length > 0) {
+          // Verwende requestAnimationFrame für eine zuverlässige DOM-Aktualisierung
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (prevFirstVisiblePost) {
+                const anchorElement = document.getElementById(prevFirstVisiblePost);
+                if (anchorElement) {
+                  const containerTop =
+                    postsContainerRef.current?.getBoundingClientRect().top || 0;
+                  const elementTop = anchorElement.getBoundingClientRect().top;
+                  const scrollOffset = elementTop - containerTop;
+  
+                  // Scroll zur korrekten Position
+                  window.scrollTo({
+                    top: window.scrollY + scrollOffset,
+                    behavior: "auto", // Keine Animation, um iOS-Probleme zu vermeiden
+                  });
+                }
+              }
+            }, 100); // 100ms Verzögerung für das DOM-Rendering
+          });
+        }
+      } catch (error) {
+        console.error("Error loading posts:", error);
+      }
+    };
+  
+    if (currentPage === 1 || isPending) {
+      loadData();
+    }
+  }, [currentPage]);
+  
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+  
   const getFirstVisiblePostId = (): string | null => {
     const posts = postsContainerRef.current?.querySelectorAll(".post-card");
     if (!posts) return null;
-
-    const containerTop =
-      postsContainerRef.current?.getBoundingClientRect().top || 0;
+  
+    const containerTop = postsContainerRef.current?.getBoundingClientRect().top || 0;
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i];
       const rect = post.getBoundingClientRect();
@@ -77,96 +250,6 @@ const Feed: React.FC = () => {
     return null;
   };
 
-  // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    initialContentLoad(URL_F, setContent, navigate);
-    const loadInitialPosts = async () => {
-      try {
-        await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
-        window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
-      } catch (error) {
-        console.error("Error loading initial posts:", error);
-      }
-    };
-
-    loadInitialPosts();
-  }, []);
-
-  // FETCH FOR MORE POSTS
-  useEffect(() => {
-    const loadData = async () => {
-      const prevFirstVisiblePost = getFirstVisiblePostId();
-
-      try {
-        const data = await loadPosts(
-          URL_F_GP,
-          currentPage,
-          10,
-          setPosts,
-          setTotalPages,
-          setIsPending
-        );
-
-        if (currentPage > 1 && data.content.length > 0) {
-          requestAnimationFrame(() => {
-            if (prevFirstVisiblePost) {
-              const anchorElement =
-                document.getElementById(prevFirstVisiblePost);
-              if (anchorElement) {
-                const containerTop =
-                  postsContainerRef.current?.getBoundingClientRect().top || 0;
-                const elementTop = anchorElement.getBoundingClientRect().top;
-                window.scrollTo(
-                  0,
-                  window.scrollY + (elementTop - containerTop)
-                );
-              }
-            }
-          });
-        }
-      } catch (error) {
-        console.error("Error loading posts:", error);
-      }
-    };
-
-    if (currentPage === 1 || isPending) {
-      loadData();
-    }
-  }, [currentPage]);
- 
-
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      if (isPending) return;
-
-      const { scrollTop, scrollHeight, clientHeight } =
-        document.documentElement;
-      const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
-
-      if (nearBottom && currentPage < totalPages) {
-        setScrollAnchor(getFirstVisiblePostId());
-        setIsPending(true);
-        setCurrentPage((prev) => prev + 1);
-      }
-    }, 500);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isPending, currentPage, totalPages]);
-
-  // UPDATE FEED INFO
-  const handleFeedInfoUpdate = () => {
-    closeSpecificModal(setActiveModal);
-    window.location.reload();
-  };
-
-  // iOS SPECIFIC SCROLL BEHAVIOUR
-  // useEffect(() => {
-  //   if ('scrollRestoration' in window.history) {
-  //     window.history.scrollRestoration = 'manual';
-  //   }
-  // }, []);
 
   return (
     <>
