@@ -56,9 +56,10 @@ const Feed: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [scrollPos, setScrollPos] = useState(0);
-  const scrollHeightBeforeLoad = useRef(0);
   const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
   const postsContainerRef = useRef<HTMLDivElement>(null);
+  const scrollPosBeforeLoad = useRef(0);
+  const scrollHeightBeforeLoad = useRef(0);
 
   const getFirstVisiblePostId = (): string | null => {
     const posts = postsContainerRef.current?.querySelectorAll(".post-card");
@@ -93,11 +94,54 @@ const Feed: React.FC = () => {
   }, []);
 
   // FETCH FOR MORE POSTS
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const prevFirstVisiblePost = getFirstVisiblePostId();
+
+  //     try {
+  //       const data = await loadPosts(
+  //         URL_F_GP,
+  //         currentPage,
+  //         10,
+  //         setPosts,
+  //         setTotalPages,
+  //         setIsPending
+  //       );
+
+  //       if (currentPage > 1 && data.content.length > 0) {
+  //         requestAnimationFrame(() => {
+  //           if (prevFirstVisiblePost) {
+  //             const anchorElement =
+  //               document.getElementById(prevFirstVisiblePost);
+  //             if (anchorElement) {
+  //               const containerTop =
+  //                 postsContainerRef.current?.getBoundingClientRect().top || 0;
+  //               const elementTop = anchorElement.getBoundingClientRect().top;
+  //               window.scrollTo(
+  //                 0,
+  //                 window.scrollY + (elementTop - containerTop)
+  //               );
+  //             }
+  //           }
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading posts:", error);
+  //     }
+  //   };
+
+  //   if (currentPage === 1 || isPending) {
+  //     loadData();
+  //   }
+  // }, [currentPage]);
   useEffect(() => {
     const loadData = async () => {
-      const prevFirstVisiblePost = getFirstVisiblePostId();
-
+      // Speichere die aktuelle Scroll-Position und Dokumenthöhe
+      scrollPosBeforeLoad.current = window.scrollY;
+      scrollHeightBeforeLoad.current = document.documentElement.scrollHeight;
+  
       try {
+        // Lade neue Posts
         const data = await loadPosts(
           URL_F_GP,
           currentPage,
@@ -106,29 +150,22 @@ const Feed: React.FC = () => {
           setTotalPages,
           setIsPending
         );
-
+  
+        // Stelle die Scroll-Position wieder her, nachdem neue Posts geladen wurden
         if (currentPage > 1 && data.content.length > 0) {
-          requestAnimationFrame(() => {
-            if (prevFirstVisiblePost) {
-              const anchorElement =
-                document.getElementById(prevFirstVisiblePost);
-              if (anchorElement) {
-                const containerTop =
-                  postsContainerRef.current?.getBoundingClientRect().top || 0;
-                const elementTop = anchorElement.getBoundingClientRect().top;
-                window.scrollTo(
-                  0,
-                  window.scrollY + (elementTop - containerTop)
-                );
-              }
-            }
-          });
+          setTimeout(() => {
+            const newScrollHeight = document.documentElement.scrollHeight;
+            const heightDifference = newScrollHeight - scrollHeightBeforeLoad.current;
+            const newScrollPosition = scrollPosBeforeLoad.current + heightDifference;
+  
+            window.scrollTo(0, newScrollPosition);
+          }, 100); // 100ms Verzögerung
         }
       } catch (error) {
         console.error("Error loading posts:", error);
       }
     };
-
+  
     if (currentPage === 1 || isPending) {
       loadData();
     }
@@ -159,12 +196,12 @@ const Feed: React.FC = () => {
     window.location.reload();
   };
 
-  // TEST FOR IPHONE
-  // useEffect(() => {
-  //   if ('scrollRestoration' in window.history) {
-  //     window.history.scrollRestoration = 'manual';
-  //   }
-  // }, []);
+  // iOS SPECIFIC SCROLL BEHAVIOUR
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
 
   return (
     <>
