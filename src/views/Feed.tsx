@@ -1,13 +1,11 @@
 // I M P O R T:   F I L E S
 import "../styles/feed.scss";
-import avatarImage from "../images/breffjaun_profile_img.jpg";
-import feed_profile_img from "../images/breffjaun_profile_img.jpg";
-import feed_title_img from "../../src/assets/logos/breffjaun_feed_bg_anthrazit.jpeg";
 
 // I M P O R T:  T Y P E S
 import { Feed_Content, PostCardProps } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
+import InfiniteScroll from "react-infinite-scroll-component";
 import { throttle } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -55,12 +53,12 @@ const Feed: React.FC = () => {
   const [posts, setPosts] = useState<PostCardProps[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [scrollPos, setScrollPos] = useState(0);
-  const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
   const postsContainerRef = useRef<HTMLDivElement>(null);
-  const scrollPosBeforeLoad = useRef(0);
-  const scrollHeightBeforeLoad = useRef(0);
-  const scrollAnchorRef = useRef<{ key: string; top: number } | null>(null);
+  // const [scrollPos, setScrollPos] = useState(0);
+  // const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
+  // const scrollPosBeforeLoad = useRef(0);
+  // const scrollHeightBeforeLoad = useRef(0);
+  // const scrollAnchorRef = useRef<{ key: string; top: number } | null>(null);
 
   // == VERSION FOR DESKTOP WITH CHROME == //
 
@@ -164,118 +162,45 @@ const Feed: React.FC = () => {
   //   window.location.reload();
   // };
 
-  // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
+  // == INFINITE SCROLL VERSION FOR ALL DEVICES AND ALL BROWSERS == //
   // Hinweis: Scroll-Positionierung wird in zukünftigen Updates verbessert
   // Current priority: Functional pagination & data loading
 
-  const getFirstVisiblePostId = (): string | null => {
-    const posts = postsContainerRef.current?.querySelectorAll(".post-card");
-    if (!posts) return null;
-
-    for (const post of posts) {
-      const rect = post.getBoundingClientRect();
-      if (rect.top >= 0 && rect.top <= window.innerHeight * 0.5) {
-        return post.id;
-      }
-    }
-    return null;
-  };
-
-  const saveScrollState = () => {
-    const anchorId = getFirstVisiblePostId();
-    const scrollY = window.scrollY;
-    
-    if (anchorId) {
-      localStorage.setItem('scrollState', JSON.stringify({
-        anchorId,
-        scrollY,
-        timestamp: Date.now()
-      }));
-    }
-  };
-
-  const restoreScrollState = () => {
-    const saved = localStorage.getItem('scrollState');
-    if (!saved) return;
-
-    const { anchorId, scrollY } = JSON.parse(saved);
-    const anchorElement = document.getElementById(anchorId);
-
-    requestAnimationFrame(() => {
-      if (anchorElement) {
-        const targetY = anchorElement.getBoundingClientRect().top + window.scrollY - 100;
-        window.scrollTo({ top: targetY, behavior: 'auto' });
-      } else {
-        window.scrollTo(0, scrollY);
-      }
-      localStorage.removeItem('scrollState');
-    });
-  };
-
-  // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
+  // INITIAL CONTENT LOAD
   useEffect(() => {
     window.scrollTo(0, 0);
     initialContentLoad(URL_F, setContent, navigate);
     const loadInitialPosts = async () => {
       try {
         await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
-        window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
       } catch (error) {
         console.error("Error loading initial posts:", error);
       }
     };
-
     loadInitialPosts();
   }, []);
 
-  // FETCH FOR MORE POSTS
-  useEffect(() => {
-    const loadData = async () => {
-      saveScrollState(); // 🟢 Scroll-Zustand speichern
+  // LOAD MORE POSTS FUNCTION
+  const loadMorePosts = async () => {
+    if (isPending || currentPage >= totalPages) return;
 
-      try {
-        const data = await loadPosts(
-          URL_F_GP,
-          currentPage,
-          10,
-          setPosts,
-          setTotalPages,
-          setIsPending
-        );
-
-        if (currentPage > 1) {
-          // Warten auf DOM-Update
-          await new Promise(resolve => setTimeout(resolve, 50));
-          
-          restoreScrollState(); // 🟢 Scroll-Zustand wiederherstellen
-        }
-      } catch (error) {
-        console.error("Error loading posts:", error);
-      }
-    };
-
-    if (currentPage === 1 || isPending) loadData();
-  }, [currentPage]);
-
-  // SCROLLHANDLER
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      if (isPending) return;
-
-      const { scrollTop, scrollHeight, clientHeight } =
-        document.documentElement;
-      const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
-
-      if (nearBottom && currentPage < totalPages) {
-        setIsPending(true);
-        setCurrentPage((prev) => prev + 1);
-      }
-    }, 500);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isPending, currentPage, totalPages]);
-
+    try {
+      setIsPending(true);
+      const data = await loadPosts(
+        URL_F_GP,
+        currentPage + 1,
+        10,
+        setPosts,
+        setTotalPages
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setCurrentPage((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   // UPDATE FEED INFO
   const handleFeedInfoUpdate = () => {
@@ -285,17 +210,19 @@ const Feed: React.FC = () => {
 
   return (
     <>
-      {isPending || !content ? (
+      {!content ? (
         <div className="loading-screen">Loading feed...</div>
       ) : (
         <div className="feed">
           <section id="feed">
+            {/* HEADER SECTION */}
             <div className="bg__img__container">
               <img src={content.feed_title_img} alt="feed title image" />
               <div className="avatar__img__container">
                 <img src={content.feed_profile_img} alt="feed profile image" />
               </div>
             </div>
+            {/* INFO BAR */}
             <div className="infobar__container">
               <div className="positioning__container">
                 <a href={content.ghLink} target="_blank">
@@ -311,6 +238,7 @@ const Feed: React.FC = () => {
                   <span>{content.jobTitle}</span>
                   {content.about}
                 </p>
+                {/* SOCIAL LINKS */}
                 <div className="link__container">
                   <div className="link__button__container">
                     <a
@@ -357,7 +285,6 @@ const Feed: React.FC = () => {
                   )}
                 </div>
                 {/* MODALS */}
-                {/* EDIT INFO */}
                 <div
                   className={`edit-modal-container ${
                     activeModal === "editInfo" ? "open" : ""
@@ -365,9 +292,9 @@ const Feed: React.FC = () => {
                 >
                   <EditFeedInfoModal
                     content={content}
+                    activeModal={activeModal}
                     onClose={() => closeSpecificModal(setActiveModal)}
                     onSubmit={handleFeedInfoUpdate}
-                    activeModal={activeModal}
                   />
                 </div>
                 {/* NEW POST */}
@@ -377,60 +304,69 @@ const Feed: React.FC = () => {
                   }`}
                 >
                   <NewPostModal
-                    onClose={() => closeSpecificModal(setActiveModal)}
                     activeModal={activeModal}
+                    onClose={() => closeSpecificModal(setActiveModal)}
                     onSubmit={handleFeedInfoUpdate}
                   />
                 </div>
                 <div className="horizontal__border"></div>
               </div>
             </div>
+            {/* POSTS CONTAINER */}
             <div className="post__container">
-              <div 
-                className="post__positioning__container" 
-                ref={postsContainerRef}
-                // onLoad={() => console.log('Container geladen:', postsContainerRef.current)}
+              <InfiniteScroll
+                dataLength={posts.length}
+                next={loadMorePosts}
+                hasMore={currentPage < totalPages && !isPending}
+                loader={
+                  isPending ? (
+                    <div className="loading-indicator">
+                      <FontAwesomeIcon icon={faSpinner} spin />
+                      Loading more posts...
+                    </div>
+                  ) : null
+                }
+                endMessage={
+                  <p style={{ textAlign: "center", padding: "1rem" }}>
+                    No more posts to show!
+                  </p>
+                }
+                scrollThreshold="100px"
               >
-                {/* <div className="horizontal__border"></div> */}
-                {isPending && (
-                  <div className="loading-indicator visible">
-                    <FontAwesomeIcon icon={faSpinner} spin />
-                    Loading more posts...
-                  </div>
-                )}
-                {posts.map((post) => {
-                  const formattedDate = new Date(
-                    post.createdAt || ""
-                  ).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  });
-                  // if (!post._id) console.error('Post ohne ID:', post);
-                  // console.log('Rendering post with ID:', `post-${post._id}`);
+                <div
+                  className="post__positioning__container"
+                  ref={postsContainerRef}
+                >
+                  {posts.map((post) => {
+                    const formattedDate = new Date(
+                      post.createdAt || ""
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    });
 
-                  return (
-                    <PostCard
-                      // 
-                      id={`post-${post._id}`}
-                      className={"post-card"}
-                      // 
-                      key={post._id}
-                      postId={post._id}
-                      authorId={post.authorId}
-                      authorName={post.authorName}
-                      avatar={post.authorAvatar}
-                      authorAction={post.authorAction}
-                      date={formattedDate}
-                      vibe={post.vibe}
-                      articleTitle={post.articleTitle}
-                      articleContent={post.articleContent}
-                      articleImageSrc={post.articleImageSrc}
-                      articleLink={post.articleLink}
-                    />
-                  );
-                })}
-              </div>
+                    return (
+                      <PostCard
+                        key={post._id}
+                        id={`post-${post._id}`}
+                        className="post-card"
+                        postId={post._id}
+                        authorId={post.authorId}
+                        authorName={post.authorName}
+                        avatar={post.authorAvatar}
+                        authorAction={post.authorAction}
+                        date={formattedDate}
+                        vibe={post.vibe}
+                        articleTitle={post.articleTitle}
+                        articleContent={post.articleContent}
+                        articleImageSrc={post.articleImageSrc}
+                        articleLink={post.articleLink}
+                      />
+                    );
+                  })}
+                </div>
+              </InfiniteScroll>
             </div>
           </section>
           <BackToTopBtn watchElementSelector=".bg__img__container" />
