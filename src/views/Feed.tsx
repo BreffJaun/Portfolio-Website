@@ -64,20 +64,152 @@ const Feed: React.FC = () => {
 
   // == VERSION FOR DESKTOP WITH CHROME == //
 
+  // const getFirstVisiblePostId = (): string | null => {
+  //   const posts = postsContainerRef.current?.querySelectorAll(".post-card");
+  //   if (!posts) return null;
+
+  //   const containerTop =
+  //     postsContainerRef.current?.getBoundingClientRect().top || 0;
+  //   for (let i = 0; i < posts.length; i++) {
+  //     const post = posts[i];
+  //     const rect = post.getBoundingClientRect();
+  //     if (rect.top >= containerTop) {
+  //       return post.id;
+  //     }
+  //   }
+  //   return null;
+  // };
+
+  // // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   initialContentLoad(URL_F, setContent, navigate);
+  //   const loadInitialPosts = async () => {
+  //     try {
+  //       await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
+  //       window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
+  //     } catch (error) {
+  //       console.error("Error loading initial posts:", error);
+  //     }
+  //   };
+
+  //   loadInitialPosts();
+  // }, []);
+
+  // // FETCH FOR MORE POSTS
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const prevFirstVisiblePost = getFirstVisiblePostId();
+  //     console.log(prevFirstVisiblePost);
+
+  //     try {
+  //       const data = await loadPosts(
+  //         URL_F_GP,
+  //         currentPage,
+  //         10,
+  //         setPosts,
+  //         setTotalPages,
+  //         setIsPending
+  //       );
+
+  //       if (currentPage > 1 && data.content.length > 0) {
+  //         requestAnimationFrame(() => {
+  //           if (prevFirstVisiblePost) {
+  //             const anchorElement =
+  //               document.getElementById(prevFirstVisiblePost);
+  //             if (anchorElement) {
+  //               const containerTop =
+  //                 postsContainerRef.current?.getBoundingClientRect().top || 0;
+  //               const elementTop = anchorElement.getBoundingClientRect().top;
+  //               window.scrollTo(
+  //                 0,
+  //                 window.scrollY + (elementTop - containerTop)
+  //               );
+  //             }
+  //           }
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading posts:", error);
+  //     }
+  //   };
+
+  //   if (currentPage === 1 || isPending) {
+  //     loadData();
+  //   }
+  // }, [currentPage]);
+
+  // useEffect(() => {
+  //   const handleScroll = throttle(() => {
+  //     if (isPending) return;
+
+  //     const { scrollTop, scrollHeight, clientHeight } =
+  //       document.documentElement;
+  //     const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
+
+  //     if (nearBottom && currentPage < totalPages) {
+  //       setScrollAnchor(getFirstVisiblePostId());
+  //       setIsPending(true);
+  //       setCurrentPage((prev) => prev + 1);
+  //     }
+  //   }, 500);
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [isPending, currentPage, totalPages]);
+
+  // // UPDATE FEED INFO
+  // const handleFeedInfoUpdate = () => {
+  //   closeSpecificModal(setActiveModal);
+  //   window.location.reload();
+  // };
+
+  // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
+  // Hinweis: Scroll-Positionierung wird in zukünftigen Updates verbessert
+  // Current priority: Functional pagination & data loading
+
   const getFirstVisiblePostId = (): string | null => {
     const posts = postsContainerRef.current?.querySelectorAll(".post-card");
     if (!posts) return null;
 
-    const containerTop =
-      postsContainerRef.current?.getBoundingClientRect().top || 0;
-    for (let i = 0; i < posts.length; i++) {
-      const post = posts[i];
+    for (const post of posts) {
       const rect = post.getBoundingClientRect();
-      if (rect.top >= containerTop) {
+      if (rect.top >= 0 && rect.top <= window.innerHeight * 0.5) {
         return post.id;
       }
     }
     return null;
+  };
+
+  const saveScrollState = () => {
+    const anchorId = getFirstVisiblePostId();
+    const scrollY = window.scrollY;
+    
+    if (anchorId) {
+      localStorage.setItem('scrollState', JSON.stringify({
+        anchorId,
+        scrollY,
+        timestamp: Date.now()
+      }));
+    }
+  };
+
+  const restoreScrollState = () => {
+    const saved = localStorage.getItem('scrollState');
+    if (!saved) return;
+
+    const { anchorId, scrollY } = JSON.parse(saved);
+    const anchorElement = document.getElementById(anchorId);
+
+    requestAnimationFrame(() => {
+      if (anchorElement) {
+        const targetY = anchorElement.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: targetY, behavior: 'auto' });
+      } else {
+        window.scrollTo(0, scrollY);
+      }
+      localStorage.removeItem('scrollState');
+    });
   };
 
   // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
@@ -99,8 +231,7 @@ const Feed: React.FC = () => {
   // FETCH FOR MORE POSTS
   useEffect(() => {
     const loadData = async () => {
-      const prevFirstVisiblePost = getFirstVisiblePostId();
-      // console.log(prevFirstVisiblePost);
+      saveScrollState(); // 🟢 Scroll-Zustand speichern
 
       try {
         const data = await loadPosts(
@@ -112,33 +243,21 @@ const Feed: React.FC = () => {
           setIsPending
         );
 
-        if (currentPage > 1 && data.content.length > 0) {
-          requestAnimationFrame(() => {
-            if (prevFirstVisiblePost) {
-              const anchorElement =
-                document.getElementById(prevFirstVisiblePost);
-              if (anchorElement) {
-                const containerTop =
-                  postsContainerRef.current?.getBoundingClientRect().top || 0;
-                const elementTop = anchorElement.getBoundingClientRect().top;
-                window.scrollTo(
-                  0,
-                  window.scrollY + (elementTop - containerTop)
-                );
-              }
-            }
-          });
+        if (currentPage > 1) {
+          // Warten auf DOM-Update
+          await new Promise(resolve => setTimeout(resolve, 50));
+          
+          restoreScrollState(); // 🟢 Scroll-Zustand wiederherstellen
         }
       } catch (error) {
         console.error("Error loading posts:", error);
       }
     };
 
-    if (currentPage === 1 || isPending) {
-      loadData();
-    }
+    if (currentPage === 1 || isPending) loadData();
   }, [currentPage]);
 
+  // SCROLLHANDLER
   useEffect(() => {
     const handleScroll = throttle(() => {
       if (isPending) return;
@@ -148,7 +267,6 @@ const Feed: React.FC = () => {
       const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
 
       if (nearBottom && currentPage < totalPages) {
-        setScrollAnchor(getFirstVisiblePostId());
         setIsPending(true);
         setCurrentPage((prev) => prev + 1);
       }
@@ -158,17 +276,12 @@ const Feed: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isPending, currentPage, totalPages]);
 
+
   // UPDATE FEED INFO
   const handleFeedInfoUpdate = () => {
     closeSpecificModal(setActiveModal);
     window.location.reload();
   };
-
-  // == VERSION FOR ALL DEVICES AND ALL BROWSERS == //
-  // Hinweis: Scroll-Positionierung wird in zukünftigen Updates verbessert
-  // Current priority: Functional pagination & data loading
-
-
 
   return (
     <>
@@ -273,7 +386,11 @@ const Feed: React.FC = () => {
               </div>
             </div>
             <div className="post__container">
-              <div className="post__positioning__container" ref={postsContainerRef}>
+              <div 
+                className="post__positioning__container" 
+                ref={postsContainerRef}
+                // onLoad={() => console.log('Container geladen:', postsContainerRef.current)}
+              >
                 {/* <div className="horizontal__border"></div> */}
                 {isPending && (
                   <div className="loading-indicator visible">
@@ -289,6 +406,8 @@ const Feed: React.FC = () => {
                     month: "short",
                     year: "numeric",
                   });
+                  // if (!post._id) console.error('Post ohne ID:', post);
+                  // console.log('Rendering post with ID:', `post-${post._id}`);
 
                   return (
                     <PostCard
