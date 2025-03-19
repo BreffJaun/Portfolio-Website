@@ -99,7 +99,8 @@ const Login = () => {
           <div className="form-footer">
             <p>
               Account erstellen?{" "}
-              <NavLink to="/registration">Hier klicken</NavLink>
+              {/* <NavLink to="/registration">Hier klicken</NavLink> */}
+              <NavLink to="*">Hier klicken</NavLink>
             </p>
             <p>
               Passwort vergessen?{" "}
