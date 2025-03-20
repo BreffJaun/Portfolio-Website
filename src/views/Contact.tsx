@@ -19,7 +19,7 @@ const Contact = () => {
         <a
           type="button"
           className="btn btn__outline__success"
-          href="mailto:braun_jeff@web.de"
+          href="mailto:breffjaun@mail.de"
         >
           In Kontakt treten
         </a>

@@ -26,6 +26,8 @@ import ForgottPassword from "./views/ForgottPassword";
 import SetNewPassword from "./views/SetNewPassword";
 import CustomErrorPage from "./views/CustomErrorPage";
 import UserInformation from "./views/UserInformation";
+import PrivacyPolicy from "./views/PrivacyPolicy";
+import Imprint from "./views/Imprint";
 import { detectDevice } from "./utils/utils";
 import { checkLogin } from "./utils/utils";
 
@@ -66,7 +68,7 @@ function App() {
     // console.log("Detected device:", device);
   }, [location]);
   // console.log("isLoggedIn:", isLoggedIn);
-  
+
   return (
     <UserContext.Provider value={[user, setUser]}>
       <PendingContext.Provider value={[isPending, setIsPending]}>
@@ -85,10 +87,10 @@ function App() {
                         <Route path="/feed" element={<Feed />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/login" element={<Login />} />
-                        <Route
+                        {/* <Route
                           path="/registration"
                           element={<Registration />}
-                        />
+                        /> */}
                         <Route
                           path="/forgottpassword"
                           element={<ForgottPassword />}
@@ -101,29 +103,13 @@ function App() {
                           path="/userinformation"
                           element={<UserInformation />}
                         />
+                        <Route path="/privacy" element={<PrivacyPolicy />} />
+                        <Route path="/imprint" element={<Imprint />} />
                         <Route path="*" element={<CustomErrorPage />} />
                       </Routes>
                     </div>
                     <Spotlight />
                   </div>
-                  {/* <div className="App">
-              {isDeviceReady ? (
-                <>
-                  <Header />
-                  <div className="main__content">
-                    <Routes>
-                      <Route path="/" element={<CombinedLP />} />
-                      <Route path="/feed" element={<Feed />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/login" element={<Login />} />
-                    </Routes>
-                  </div>
-                  <Spotlight />
-                </>
-              ) : (
-                <div>Loading...</div>
-              )}
-            </div> */}
                 </ThemeContext.Provider>
               </ThemeClickCountContext.Provider>
             </MobileViewContext.Provider>

@@ -4,6 +4,7 @@ import "../styles/footer.scss";
 // I M P O R T:   P A C K A G E S
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // I M P O R T:   F U N C T I O N S
 import LoggedInContext from "../context/LoginContext";
@@ -34,6 +35,7 @@ const Footer = () => {
 
   return (
     <div className="footer">
+      <div className="left__placeholder"></div>
       <div className="credits__container">
         <p>
           Designed & Built by{" "}
@@ -55,6 +57,24 @@ const Footer = () => {
             grossesbewirken
           </a>
         </p>
+      </div>
+      <div className="right__placeholder">
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to="/privacy"
+        >
+          Datenschutzerklärung
+        </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to="/imprint"
+        >
+          Impressum
+        </NavLink>
       </div>
     </div>
   );

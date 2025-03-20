@@ -1,0 +1,31 @@
+.imprint-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem;
+
+  .imprint-content {
+    background-color: var(--gray-800);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+
+    h2,
+    h3 {
+      color: var(--teal-light);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: var(--gray-400);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+  }
+}

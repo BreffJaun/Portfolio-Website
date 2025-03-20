@@ -15,7 +15,7 @@
   transition: color 0.3s ease;
   // border: 1px solid red;
 
-  div {
+  .credits__container {
     // border: 1px solid orange;
     width: 33%;
   }
@@ -42,12 +42,16 @@
     }
   }
 
+  .left__placeholder,
   .right__placeholder {
+    width: 33%;
+    // border: 2px solid green;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     a {
-      // color: var(--footer-color);
-      color: red;
+      color: var(--gray-500);
+      text-decoration: none;
+      transition: color 0.3s ease;
     }
   }
 

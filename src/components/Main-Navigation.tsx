@@ -29,14 +29,6 @@ const MainNavigation: React.FC<MainNavProps> = ({
   const [showTransition, setShowTransition] = useState<boolean>(false);
   const [mobileView, setMobileView] = useContext(MobileViewContext);
 
-  // const fakeUser = {
-  //   _id: "1",
-  //   userName: "breffjaun",
-  //   email: "breffjaun@test.de",
-  //   avatar: default_avatar,
-  //   password: "12345678",
-  // };
-
   useEffect(() => {
     const checkMobileView = () => {
       return window.innerWidth < 768;
