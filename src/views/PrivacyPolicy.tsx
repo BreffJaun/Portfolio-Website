@@ -8,12 +8,11 @@ import { useEffect } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import Footer from "./Footer";
+import { scrollToTop } from "../utils/utils";
 
 // C O D E
 const PrivacyPolicy = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  scrollToTop();
 
   return (
     <>

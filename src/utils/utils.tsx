@@ -310,3 +310,7 @@ export const isValidLink = (value: string): boolean => {
   );
   return urlPattern.test(value);
 };
+
+export const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};
