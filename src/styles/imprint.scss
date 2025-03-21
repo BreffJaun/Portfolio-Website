@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 2rem;
+  width: 100%;
 
   .imprint-content {
     background-color: var(--gray-800);
@@ -14,18 +15,46 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 10rem;
 
+    h1,
     h2,
-    h3 {
+    h3,
+    h4 {
       color: var(--teal-light);
-      text-align: center;
+      margin-top: 1rem;
       margin-bottom: 1rem;
+
+    }
+
+    h1 {
+      color: var(--teal);
     }
 
     p {
       color: var(--gray-400);
+      max-width: 100%;
       margin-bottom: 0.5rem;
-      text-align: center;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
+
+    ul {
+      color: var(--gray-400);
+      margin-bottom: 0.5rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+
+      li {
+        margin-bottom: 0.5rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .imprint-content {
+    padding: 1rem;
   }
 }

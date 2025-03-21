@@ -7,7 +7,6 @@
   right: 0;
   left: 0;
   display: flex;
-  // flex-direction: column;
   justify-content: space-around;
   align-items: center;
   text-align: center;
@@ -45,25 +44,34 @@
   .left__placeholder,
   .right__placeholder {
     width: 33%;
-    // border: 2px solid green;
     display: flex;
     justify-content: space-around;
+
     a {
+      margin: 0 0.5rem;
       color: var(--gray-500);
       text-decoration: none;
       transition: color 0.3s ease;
     }
   }
 
-  @media (max-width: 768px) {
-    .right__placeholder,
-    .left__placeholder {
-      width: 10%
+    @media (max-width: 768px) {
+      flex-direction: column; // Elemente untereinander anordnen
+      height: auto; // Höhe anpassen, falls mehr Platz gebraucht wird
+      padding: 1rem 0; // Abstand nach oben/unten
+  
+      .left__placeholder,
+      .right__placeholder,
+      .credits__container {
+        width: 100%; // Volle Breite nutzen
+        text-align: center; // Inhalt zentrieren
+        margin-bottom: 0.5rem;
+      }
+  
+      .left__placeholder,
+      .right__placeholder {
+        justify-content: center; // Links/Rechts-Elemente mittig ausrichten
+      }
     }
-
-    .credits__container {
-      width: 80%;
-    }
-  }
 
 }
