@@ -152,7 +152,7 @@ const PrivacyPolicy = () => {
             <br />
             36037 Fulda
           </p>
-          <p>Telefon: 01XXXXXXXXXX</p>
+          <p>Telefon: 015511019500</p>
           <p>
             E-Mail: <a href="mailto:breffjaun@mail.de">breffjaun@mail.de</a>
           </p>
