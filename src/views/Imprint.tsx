@@ -4,12 +4,17 @@ import "../styles/imprint.scss";
 // I M P O R T:   T Y P E S
 
 // I M P O R T:   P A C K A G E S
+import { useEffect } from "react";
 
 // I M P O R T:   F U N C T I O N S
 import Footer from "./Footer";
 
 // C O D E
 const Imprint = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="imprint-container">

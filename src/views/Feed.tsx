@@ -54,7 +54,7 @@ const Feed: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const postsContainerRef = useRef<HTMLDivElement>(null);
-  // const [scrollPos, setScrollPos] = useState(0);
+
   // const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
   // const scrollPosBeforeLoad = useRef(0);
   // const scrollHeightBeforeLoad = useRef(0);
