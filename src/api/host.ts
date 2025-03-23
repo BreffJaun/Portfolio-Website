@@ -6,7 +6,7 @@
 
 // Vor dem Push & Pull auf IONOS nginx server diese Zeile wieder einkommentieren.
 // Für die lokale Arbeit auskommentieren
-const host = "/api";
+export const BE_HOST = "/api";
 
 // R O U T E S
 export const URL_R = "users/register"; // Register
