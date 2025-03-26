@@ -53,6 +53,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const maxContentLength = 300;
   const toggleExpand = () => setExpanded(!expanded);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -113,7 +114,15 @@ const PostCard: React.FC<PostCardProps> = ({
                   {expanded ? "Show less" : "Show more"}
                 </button>
               )}
-              {articleImageSrc && <img src={articleImageSrc} alt="Article" />}
+              {/* {articleImageSrc && <img src={articleImageSrc} alt="Article" />} */}
+              {articleImageSrc && (
+                <img
+                  src={articleImageSrc}
+                  alt="Article"
+                  className="clickable-image"
+                  onClick={() => setIsImageModalOpen(true)}
+                />
+              )}
               {articleLink && (
                 <div className="article__link">
                   <a href={articleLink} target="_blank">
@@ -134,6 +143,18 @@ const PostCard: React.FC<PostCardProps> = ({
               onSubmit={handleFeedInfoUpdate}
             />
           </div>
+          {isImageModalOpen && (
+            <div
+              className="image-modal"
+              onClick={() => setIsImageModalOpen(false)}
+            >
+              <img
+                src={articleImageSrc}
+                alt="Full Size"
+                className="image-modal-content"
+              />
+            </div>
+          )}
         </div>
       )}
     </>
