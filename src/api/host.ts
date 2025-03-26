@@ -2,11 +2,11 @@
 // Vor dem Push & Pull auf IONOS nginx server diese Zeile wieder auskommentieren.
 // Für die lokale Arbeit einkommentieren
 // export const BE_HOST = "http://localhost:2404/api";
-export const BE_HOST = "https://portfolio-website-be-wikx.onrender.com/api";
+// export const BE_HOST = "https://portfolio-website-be-wikx.onrender.com/api";
 
 // Vor dem Push & Pull auf IONOS nginx server diese Zeile wieder einkommentieren.
 // Für die lokale Arbeit auskommentieren
-// export const BE_HOST = "/api";
+export const BE_HOST = "/api";
 
 // R O U T E S
 export const URL_R = "users/register"; // Register
