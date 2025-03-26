@@ -2,6 +2,7 @@
 import "../styles/contact.scss";
 
 // I M P O R T:   P A C K A G E S
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // I M P O R T:   F U N C T I O N S
 import Footer from "./Footer";
@@ -13,16 +14,44 @@ const Contact = () => {
       <section id="contact">
         <h1>Contact</h1>
         <p>
-          Gefällt Ihnen, was ich mache und möchten Sie jetzt mit mir in Kontakt
-          treten? Zögern Sie nicht und schreiben Sie mir eine E-Mail:
+          Do you like what I do and would you like to get in touch? Don’t
+          hesitate to reach out via:
         </p>
-        <a
-          type="button"
-          className="btn btn__outline__success"
-          href="mailto:breffjaun@mail.de"
-        >
-          In Kontakt treten
-        </a>
+        <div className="link__container">
+          <div className="link__button__container">
+            <a
+              type="button"
+              className="btn btn__outline__success"
+              href="mailto:breffjaun@mail.de"
+            >
+              <FontAwesomeIcon
+                icon={["far", "envelope"]}
+                className="socialmedia__icons"
+              />
+              E-Mail
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jeff-braun-0959091a4/"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={["fab", "linkedin-in"]}
+                className="socialmedia__icons"
+              />
+              LinkedIn
+            </a>
+            <a
+              href="https://www.xing.com/profile/Jeff_Braun2/web_profiles?expandNeffi=true"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={["fab", "xing"]}
+                className="socialmedia__icons"
+              />{" "}
+              Xing
+            </a>
+          </div>
+        </div>
       </section>
       <Footer />
     </div>

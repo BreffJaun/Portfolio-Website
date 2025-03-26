@@ -78,7 +78,7 @@ const LandingPage: React.FC = () => {
               className="btn btn__outline__success"
               href="mailto:braun_jeff@web.de"
             >
-              In Kontakt treten
+              Get in touch
             </a>
           </section>
           <div className={`edit-modal-container ${isModalOpen ? "open" : ""}`}>

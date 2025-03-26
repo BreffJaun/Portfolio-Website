@@ -65,7 +65,7 @@ const Footer = () => {
           }
           to="/privacy"
         >
-          Datenschutzerklärung
+          Privacy policy
         </NavLink>
         <NavLink
           className={({ isActive, isPending }) =>
@@ -73,7 +73,7 @@ const Footer = () => {
           }
           to="/imprint"
         >
-          Impressum
+          Legal notice
         </NavLink>
       </div>
     </div>

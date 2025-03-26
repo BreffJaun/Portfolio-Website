@@ -71,14 +71,14 @@ const PostCard: React.FC<PostCardProps> = ({
     window.location.reload();
   };
 
-
   return (
     <>
       {!content ? (
         <div>Loading...</div>
       ) : (
-        <div className="post__card post-card" 
-        // id={id}
+        <div
+          className="post__card post-card"
+          // id={id}
         >
           {/* Avatar */}
           <div className="avatar__container">
@@ -110,7 +110,7 @@ const PostCard: React.FC<PostCardProps> = ({
               </div>
               {articleContent.length > maxContentLength && (
                 <button className="toggle-button" onClick={toggleExpand}>
-                  {expanded ? "Weniger anzeigen" : "Mehr anzeigen"}
+                  {expanded ? "Show less" : "Show more"}
                 </button>
               )}
               {articleImageSrc && <img src={articleImageSrc} alt="Article" />}

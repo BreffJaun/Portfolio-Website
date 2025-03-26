@@ -184,6 +184,10 @@
   @media (max-height: 950px) {
     min-height: 750px;
   }  
+
+  @media (max-width: 376px) {
+    height: 150vh;
+  }
 }
 
 .desktopMode {

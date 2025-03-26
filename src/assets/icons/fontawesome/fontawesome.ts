@@ -15,7 +15,11 @@ import {
   faTrash,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import { faImage, faFaceSmile } from "@fortawesome/free-regular-svg-icons";
+import {
+  faImage,
+  faFaceSmile,
+  faEnvelope,
+} from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faGithub,
@@ -29,5 +33,6 @@ library.add(
   faFaceSmile,
   faI,
   faPlus,
-  faTrash
+  faTrash,
+  faEnvelope
 );

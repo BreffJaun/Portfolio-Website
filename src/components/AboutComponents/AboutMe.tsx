@@ -1,7 +1,7 @@
 // I M P O R T:   F I L E S
 import bw__image from "../../images/breffjaun_bw.png";
 import cd__image from "../../images/breffjaun_cd.png";
-import "../../styles/feed.scss"
+import "../../styles/feed.scss";
 
 // I M P O R T:  T Y P E S
 import { MySelf_Content } from "../../types/interfaces";
@@ -77,7 +77,7 @@ const AboutMe = () => {
             <div>
               <h1>{content.headline}</h1>
               <p>
-                <cite>{content.motto}</cite>
+                <cite>{content.motto}</cite>{" "}
                 <span>{content.connectingWords}</span>
               </p>
               <p>{content.description.paragraph1}</p>
