@@ -68,7 +68,7 @@
 
   
   @media (max-width: 768px) {
-    height: 160vh;
+    // height: 160vh;
     section {
       flex-direction: column;
       align-items: center;
@@ -97,11 +97,17 @@
   }
 
   @media (max-width: 476px) {
-    height: 220vh;
+    // height: 220vh;
   }
 
   @media (max-width: 376px) {
-    height: 250vh;
+    // img {
+    //   margin-top: 0rem;
+    // }
+    // div {
+    //   margin: 0rem;
+    // }
+    height: 220vh;
   }
 
 

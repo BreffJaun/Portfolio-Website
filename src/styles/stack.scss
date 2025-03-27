@@ -160,7 +160,6 @@
             img {
               max-height: 300px;
               object-fit: contain;
-              
             }
           }
           .control-arrow {
@@ -186,7 +185,7 @@
   }  
 
   @media (max-width: 376px) {
-    height: 150vh;
+    // height: 150vh;
   }
 }
 

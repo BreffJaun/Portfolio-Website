@@ -24,10 +24,43 @@ const LandingPage: React.FC = () => {
   const [isPending] = useContext(PendingContext);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [content, setContent] = useState<LP_Content | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
     initialContentLoad(URL_CLP, setContent, navigate);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  const handleScroll = () => {
+    const sections = ["aboutme", "stack", "projects", "contact"];
+    let newActiveSection = "";
+
+    sections.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 165) {
+          newActiveSection = sectionId;
+        }
+      }
+    });
+
+    setActiveSection(newActiveSection);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const targetElement = document.getElementById(sectionId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: "smooth",
+      });
+      handleScroll();
+    }
+  };
 
   const handleUpdate = (updatedContent: LP_Content) => {
     closeModal(setIsModalOpen);
@@ -76,9 +109,12 @@ const LandingPage: React.FC = () => {
             <a
               type="button"
               className="btn btn__outline__success"
-              href="mailto:braun_jeff@web.de"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("aboutme");
+              }}
             >
-              Get in touch
+              Learn more about me
             </a>
           </section>
           <div className={`edit-modal-container ${isModalOpen ? "open" : ""}`}>
