@@ -55,117 +55,6 @@ const Feed: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const postsContainerRef = useRef<HTMLDivElement>(null);
 
-  // const [scrollAnchor, setScrollAnchor] = useState<string | null>(null);
-  // const scrollPosBeforeLoad = useRef(0);
-  // const scrollHeightBeforeLoad = useRef(0);
-  // const scrollAnchorRef = useRef<{ key: string; top: number } | null>(null);
-
-  // == VERSION FOR DESKTOP WITH CHROME == //
-
-  // const getFirstVisiblePostId = (): string | null => {
-  //   const posts = postsContainerRef.current?.querySelectorAll(".post-card");
-  //   if (!posts) return null;
-
-  //   const containerTop =
-  //     postsContainerRef.current?.getBoundingClientRect().top || 0;
-  //   for (let i = 0; i < posts.length; i++) {
-  //     const post = posts[i];
-  //     const rect = post.getBoundingClientRect();
-  //     if (rect.top >= containerTop) {
-  //       return post.id;
-  //     }
-  //   }
-  //   return null;
-  // };
-
-  // // INITIAL CONTENT LOAD AND FETCH FOR THE FIRST 10 POSTS
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   initialContentLoad(URL_F, setContent, navigate);
-  //   const loadInitialPosts = async () => {
-  //     try {
-  //       await loadPosts(URL_F_GP, 1, 10, setPosts, setTotalPages, setIsPending);
-  //       window.scrollTo(0, 0); // Sicherstellen dass oben geblieben wird
-  //     } catch (error) {
-  //       console.error("Error loading initial posts:", error);
-  //     }
-  //   };
-
-  //   loadInitialPosts();
-  // }, []);
-
-  // // FETCH FOR MORE POSTS
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     const prevFirstVisiblePost = getFirstVisiblePostId();
-  //     console.log(prevFirstVisiblePost);
-
-  //     try {
-  //       const data = await loadPosts(
-  //         URL_F_GP,
-  //         currentPage,
-  //         10,
-  //         setPosts,
-  //         setTotalPages,
-  //         setIsPending
-  //       );
-
-  //       if (currentPage > 1 && data.content.length > 0) {
-  //         requestAnimationFrame(() => {
-  //           if (prevFirstVisiblePost) {
-  //             const anchorElement =
-  //               document.getElementById(prevFirstVisiblePost);
-  //             if (anchorElement) {
-  //               const containerTop =
-  //                 postsContainerRef.current?.getBoundingClientRect().top || 0;
-  //               const elementTop = anchorElement.getBoundingClientRect().top;
-  //               window.scrollTo(
-  //                 0,
-  //                 window.scrollY + (elementTop - containerTop)
-  //               );
-  //             }
-  //           }
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error loading posts:", error);
-  //     }
-  //   };
-
-  //   if (currentPage === 1 || isPending) {
-  //     loadData();
-  //   }
-  // }, [currentPage]);
-
-  // useEffect(() => {
-  //   const handleScroll = throttle(() => {
-  //     if (isPending) return;
-
-  //     const { scrollTop, scrollHeight, clientHeight } =
-  //       document.documentElement;
-  //     const nearBottom = scrollHeight - (scrollTop + clientHeight) < 500;
-
-  //     if (nearBottom && currentPage < totalPages) {
-  //       setScrollAnchor(getFirstVisiblePostId());
-  //       setIsPending(true);
-  //       setCurrentPage((prev) => prev + 1);
-  //     }
-  //   }, 500);
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [isPending, currentPage, totalPages]);
-
-  // // UPDATE FEED INFO
-  // const handleFeedInfoUpdate = () => {
-  //   closeSpecificModal(setActiveModal);
-  //   window.location.reload();
-  // };
-
-  // == INFINITE SCROLL VERSION FOR ALL DEVICES AND ALL BROWSERS == //
-  // Hinweis: Scroll-Positionierung wird in zukünftigen Updates verbessert
-  // Current priority: Functional pagination & data loading
-
   // INITIAL CONTENT LOAD
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -235,8 +124,7 @@ const Feed: React.FC = () => {
                 <h1>{content.fullName}</h1>
                 <p>{content.statement}</p>
                 <p>
-                  <span>{content.jobTitle}</span>
-                  {content.about}
+                  <span>{content.jobTitle} </span> {content.about}
                 </p>
                 {/* SOCIAL LINKS */}
                 <div className="link__container">
