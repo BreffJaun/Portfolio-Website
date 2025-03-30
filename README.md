@@ -1,26 +1,11 @@
-# Meine Website
+# My Website
 
-Dieses Repository enthält den Quellcode für meine persönliche Website. Die Website ist mit React erstellt und verwendet React Router für die Navigation.
+This repository contains the source code for my personal website. The website is built with React and uses React Router for navigation.
 
-## Beschreibung
+## Description
 
-Meine Website dient als digitales Portfolio, auf dem ich Informationen über mich selbst, meine Projekte, meine Fähigkeiten und Kontaktmöglichkeiten präsentiere. Der Header-Bereich der Website wurde mit besonderem Augenmerk auf Design und Benutzerfreundlichkeit gestaltet.
+My website serves as a digital portfolio where I showcase information about myself, my projects, my skills, and contact details. The header section has been designed with a focus on aesthetics and user experience.
 
-## Voraussetzungen
+## Backend Repository
 
-Um die Website lokal auszuführen, benötigen Sie Node.js und npm auf Ihrem System.
-
-## Installation
-
-1. Klonen Sie das Repository auf Ihren lokalen Computer:
-
-   ```bash
-   git clone https://github.com/dein/benutzername/meine-website.git
-
-// I M P O R T:   F I L E S
-
-// I M P O R T:   P A C K A G E S
-
-// I M P O R T:   F U N C T I O N S
-
-// C O D E
+Here is the link to the backend repo of my portfolio website: [Backend Repo](https://github.com/BreffJaun/Portfolio-Website-BE)
