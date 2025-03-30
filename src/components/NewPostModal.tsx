@@ -67,14 +67,6 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
     };
   }, [activeModal]);
 
-  // useEffect(() => {
-  //   console.log("thumbnailUrl:", thumbnailUrl);
-  //   console.log("thumbnail:", thumbnail);
-  // }, [thumbnailUrl, thumbnail]);
-
-  // ================================ //
-  // export const URL_F_CP = "content/feed/post"; // Create Post
-
   // EMOJI PICKER //
   const handleEmojiClick = (emojiObject: { emoji: string }) => {
     if (activeEmojiField) {

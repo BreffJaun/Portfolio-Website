@@ -399,6 +399,52 @@ body {
       }
     }
   }
+
+  // PRIVACY POLICY
+  .privacy-container {
+    .privacy-content {
+      background-color: var(--white) !important;
+
+      h2 {
+        color: var(--gray-800);
+      }
+
+      h3 {
+        color: var(--gray-600);
+      }
+
+      h4 {
+        color: var(--gray-500);
+      }
+
+      p {
+        color: var(--gray-500);
+      }
+    }
+  }
+
+  // IMPRINT
+  .imprint-container {
+    .imprint-content {
+      background-color: var(--white) !important;
+
+      h2 {
+        color: var(--gray-800);
+      }
+
+      h3 {
+        color: var(--gray-600);
+      }
+
+      h4 {
+        color: var(--gray-500);
+      }
+
+      p {
+        color: var(--gray-500);
+      }
+    }
+  }
   
 }
 
