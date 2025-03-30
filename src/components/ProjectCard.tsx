@@ -5,6 +5,7 @@ import "../../src/styles/projectCard.scss";
 import { Projects_ItemFromDB } from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
+import { useState } from "react";
 
 // I M P O R T:   F U N C T I O N S
 
@@ -18,11 +19,17 @@ const ProjectCard: React.FC<Projects_ItemFromDB> = ({
   description,
   tags,
 }) => {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   // console.log("tags", tags);
   return (
     <div className="project-card">
       <div className="project-card__image-container">
-        <img src={img} alt={title} className="project-card__image" />
+        <img
+          src={img}
+          alt={title}
+          className="project-card__image"
+          onClick={() => setIsImageModalOpen(true)}
+        />
       </div>
       <div className="project-card__content">
         <h3 className="project-card__title">
@@ -40,6 +47,11 @@ const ProjectCard: React.FC<Projects_ItemFromDB> = ({
           ))}
         </div>
       </div>
+      {isImageModalOpen && (
+        <div className="image-modal" onClick={() => setIsImageModalOpen(false)}>
+          <img src={img} alt="Full Size" className="image-modal-content" />
+        </div>
+      )}
     </div>
   );
 };
