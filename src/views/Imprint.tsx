@@ -21,17 +21,31 @@ const Imprint = () => {
           <h1>Impressum</h1>
           <h2>Kontakt</h2>
           <p>
-            Herr Jeff Braun
+            Hasime__ - Jeff Braun
             <br />
-            c/o AutorenServices.de
+            c/o Online-Impressum.de #28978
             <br />
-            Birkenallee 24
+            Europaring 90
             <br />
-            36037 Fulda
+            53757 Sankt Augustin
           </p>
           <p>Telefon: 015511019500</p>
           <p>
             E-Mail: <a href="mailto:breffjaun@mail.de">breffjaun@mail.de</a>
+          </p>
+          <p>
+            <a
+              href="https://www.mein.online-impressum.de/hasime__/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Zweiter Kontaktweg
+            </a>
+          </p>
+          <p>
+            Zuständige Regulierungs- und Aufsichtsbehörde:
+            <br /> Niedersächsische Landesmedienanstalt <br />
+            Sitz: Deutschland
           </p>
           <p>
             Quelle:{" "}
