@@ -156,7 +156,7 @@ const PrivacyPolicy = () => {
             <br />
             53757 Sankt Augustin
           </p>
-          <p>Telefon: 015511019500</p>
+          <p>Telefon: 015123823449</p>
           <p>
             E-Mail: <a href="mailto:breffjaun@mail.de">breffjaun@mail.de</a>
           </p>

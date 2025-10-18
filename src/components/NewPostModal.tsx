@@ -275,7 +275,7 @@ const NewPostModal: React.FC<NewPostCardProps> = ({
             name="articleContent"
             value={newPost?.articleContent}
             onChange={handleNewPostInfo}
-            maxLength={3000}
+            maxLength={10000}
             aria-describedby="char-counter-description"
           />
           {showEmojiPicker && activeEmojiField === "articleContent" && (
