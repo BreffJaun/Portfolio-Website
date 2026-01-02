@@ -9,3 +9,12 @@ export type MobileViewContextType = [
 ];
 
 export type DeviceContextType = [string, Dispatch<SetStateAction<string>>];
+
+export type StackCategory =
+  | "web"
+  | "mobile-ios"
+  | "mobile-android"
+  | "tools"
+  | "ux";
+
+export type StackItemDraft = Partial<StackItem>;

@@ -24,11 +24,23 @@ export interface ThemeClickCountContextType {
   setClickCount: (count: number) => void;
 }
 
+// export interface StackItem {
+//   _id?: string;
+//   name: string;
+//   img?: string;
+//   // style: string;
+//   dimensions?: { width: number; height: number };
+//   naturalWidth?: number;
+//   naturalHeight?: number;
+//   scaledWidth?: number;
+//   scaledHeight?: number;
+// }
+
 export interface StackItem {
   _id?: string;
   name: string;
   img?: string;
-  // style: string;
+  category: StackCategory;
   dimensions?: { width: number; height: number };
   naturalWidth?: number;
   naturalHeight?: number;

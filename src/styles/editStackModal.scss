@@ -123,9 +123,9 @@
         margin-bottom: 5px;
         background-color: var(--gray-600);
         border: 1px solid var(--gray-200);
-        border-radius: 8px;        
+        border-radius: 8px;  
       }
-
+      
       input {
         width: 100%;
         padding: 8px;
@@ -137,6 +137,27 @@
           border-color: var(--teal);
         }
       }
+
+      // input,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid var(--gray-200);
+        border-radius: 4px;
+        background-color: var(--gray-700);
+        color: var(--gray-200);
+        font-size: 1rem;
+
+        &:focus {
+          outline: none;
+          border-color: var(--teal);
+        }
+      }
+
+      select {
+        appearance: none;
+        cursor: pointer;
+      }
     }
 
     .btn__group {
@@ -145,6 +166,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 1.25rem;
 
       .btn-submit {
         width: 47.5%;
@@ -189,6 +211,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 1.25rem;
 
       .btn-add {
         width: 47.5%;
