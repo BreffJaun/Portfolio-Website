@@ -489,7 +489,7 @@ import {
   Stack_Content,
 } from "../types/interfaces";
 import { StackCategory, StackItemDraft } from "../types/types";
-import { getImageDimensions } from "../utils/utils";
+import { loadImageDimensions, getImageDimensions } from "../utils/utils";
 
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -537,9 +537,24 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
   });
 
   useEffect(() => {
-    setModalData(content);
-    document.documentElement.classList.toggle("modal-open", isModalOpen);
-    return () => document.documentElement.classList.remove("modal-open");
+    const init = async () => {
+      if (!content) return;
+
+      const stackWithDimensions = await loadImageDimensions(content.stack);
+
+      setModalData({
+        ...content,
+        stack: stackWithDimensions,
+      });
+
+      document.documentElement.classList.toggle("modal-open", isModalOpen);
+    };
+
+    init();
+
+    return () => {
+      document.documentElement.classList.remove("modal-open");
+    };
   }, [isModalOpen, content]);
 
   // ---------------- STACK INFO ----------------
@@ -717,7 +732,6 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                 setEditDraft(null);
                 setThumbnail(undefined);
                 setThumbnailUrl("");
-                setThumbnailDimensions({ width: "", height: "" });
               }}
             >
               <img src={item.img} alt={item.name} />
@@ -758,14 +772,6 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                 <div className="thumbnail__preview">
                   <img
                     src={thumbnailUrl || selectedItem.img}
-                    // alt={selectedItem.name}
-                    // width={
-                    //   thumbnailDimensions.width || selectedItem.scaledWidth
-                    // }
-                    // height={
-                    //   thumbnailDimensions.height || selectedItem.scaledHeight
-                    // }
-                    // src={thumbnailUrl || selectedItem.img}
                     alt={thumbnail ? thumbnail.name : selectedItem.name}
                     width={
                       thumbnailDimensions.width || selectedItem.scaledWidth
