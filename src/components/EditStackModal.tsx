@@ -481,8 +481,10 @@
 
 // ==================================
 
+// I M P O R T:   F I L E S
 import "../styles/editStackModal.scss";
 
+// I M P O R T:  T Y P E S
 import {
   EditStackModalProps,
   StackItem,
@@ -491,9 +493,11 @@ import {
 import { StackCategory, StackItemDraft } from "../types/types";
 import { loadImageDimensions, getImageDimensions } from "../utils/utils";
 
+// I M P O R T:   P A C K A G E S
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+// I M P O R T:   F U N C T I O N S
 import { BE_HOST, URL_ST_D, URL_ST_T } from "../api/host";
 import PendingContext from "../context/PendingContext";
 import CloseBtn from "./CloseBtn";
@@ -765,7 +769,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                   id="editThumbnail"
                   type="file"
                   hidden
-                  accept=".png,.svg,.gif"
+                  accept=".png,.gif"
                   onChange={handleSelectedFileChange}
                 />
 
@@ -850,7 +854,7 @@ const EditStackModal: React.FC<EditStackModalProps> = ({
                 id="newThumbnail"
                 type="file"
                 hidden
-                accept=".png,.svg,.gif"
+                accept=".png, .gif"
                 onChange={handleNewCardFile}
               />
 

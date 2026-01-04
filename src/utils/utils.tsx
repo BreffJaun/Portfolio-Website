@@ -1,7 +1,12 @@
 // I M P O R T:   F I L E S
 
 // I M P O R T:  T Y P E S
-import { StackItem, PostsResponse, PostCardProps } from "../types/interfaces";
+import {
+  StackItem,
+  PostsResponse,
+  PostCardProps,
+  CertificateItem,
+} from "../types/interfaces";
 
 // I M P O R T:   P A C K A G E S
 import UAParser from "ua-parser-js";

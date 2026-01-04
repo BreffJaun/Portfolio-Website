@@ -7,6 +7,7 @@ import "../styles/about.scss";
 import AboutMe from "./AboutComponents/AboutMe";
 import Stack from "./AboutComponents/Stack";
 import Projects from "./AboutComponents/Projects";
+import Certificates from "./AboutComponents/Certificates";
 
 // C O D E
 const About = () => {
@@ -15,6 +16,7 @@ const About = () => {
       <AboutMe />
       <Stack />
       <Projects />
+      <Certificates />
     </div>
   );
 };

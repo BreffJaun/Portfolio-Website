@@ -24,18 +24,6 @@ export interface ThemeClickCountContextType {
   setClickCount: (count: number) => void;
 }
 
-// export interface StackItem {
-//   _id?: string;
-//   name: string;
-//   img?: string;
-//   // style: string;
-//   dimensions?: { width: number; height: number };
-//   naturalWidth?: number;
-//   naturalHeight?: number;
-//   scaledWidth?: number;
-//   scaledHeight?: number;
-// }
-
 export interface StackItem {
   _id?: string;
   name: string;
@@ -46,6 +34,13 @@ export interface StackItem {
   naturalHeight?: number;
   scaledWidth?: number;
   scaledHeight?: number;
+}
+
+export interface CertificateItem {
+  _id: string;
+  title: string;
+  category: CertificateCategory;
+  img: string;
 }
 
 export interface Project_Item {
@@ -132,6 +127,12 @@ export interface Stack_Content {
   stack: StackItem[];
 }
 
+export interface Certificates_Content {
+  headline: string;
+  description: string;
+  certificates: Certificate_Item[];
+}
+
 export interface Projects_Content {
   headline: string;
   description: string;
@@ -203,6 +204,13 @@ export interface EditMySelfModalProps {
 
 export interface EditStackModalProps {
   content: Stack_Content;
+  onClose: () => void;
+  onSubmit: () => void;
+  isModalOpen: boolean;
+}
+
+export interface EditCertificatesModalProps {
+  content: Certificates_Content;
   onClose: () => void;
   onSubmit: () => void;
   isModalOpen: boolean;

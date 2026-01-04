@@ -1,3 +1,5 @@
+import { CertificateItem } from "./interfaces";
+
 export type ThemeClickCountContextType = [
   number,
   React.Dispatch<React.SetStateAction<number>>
@@ -18,3 +20,11 @@ export type StackCategory =
   | "ux";
 
 export type StackItemDraft = Partial<StackItem>;
+
+export type CertificateCategory =
+  | "web-development"
+  | "app-development"
+  | "soft-skills"
+  | "events";
+
+export type CertificateItemDraft = Partial<CertificateItem>;

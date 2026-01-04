@@ -1,8 +1,8 @@
 // C O D E
 // Vor dem Push & Pull auf IONOS nginx server diese Zeile wieder auskommentieren.
 // Für die lokale Arbeit einkommentieren
-// export const BE_HOST = "http://localhost:2404/api";
-export const BE_HOST = "https://portfolio-website-be-wikx.onrender.com/api";
+export const BE_HOST = "http://localhost:2404/api";
+// export const BE_HOST = "https://portfolio-website-be-wikx.onrender.com/api";
 
 // Vor dem Push & Pull auf IONOS nginx server diese Zeile wieder einkommentieren.
 // Für die lokale Arbeit auskommentieren
@@ -20,6 +20,9 @@ export const URL_MS = "content/myself"; // ContentMyself
 export const URL_ST = "content/stack"; // ContentStack
 export const URL_ST_D = "content/stack/description"; // ContentStack
 export const URL_ST_T = "content/stack/technologies"; // ContentStack
+export const URL_C = "content/certificates"; // ContentCertificates
+export const URL_C_D = "content/certificates/description"; // ContentCertificates Description
+export const URL_C_C = "content/certificates/items"; // ContentCertificates List
 export const URL_P = "content/projects"; // Projects
 export const URL_P_D = "content/projects/description"; // Projects Description
 export const URL_P_P = "content/projects/projects"; // Projects List

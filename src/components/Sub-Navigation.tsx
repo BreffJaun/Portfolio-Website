@@ -14,7 +14,12 @@ import { isSectionInView } from "../utils/utils";
 const SubNavigation = ({ hideMobileNav = () => {} }) => {
   const [activeSection, setActiveSection] = useState<string>("");
   const handleScroll = () => {
-    const sections = ["aboutme", "stack", "projects", "contact"];
+    const sections = [
+      "aboutme",
+      "stack",
+      "projects",
+      "certificates" /* , "contact" */,
+    ];
     let newActiveSection = "";
 
     sections.forEach((sectionId) => {
@@ -96,6 +101,20 @@ const SubNavigation = ({ hideMobileNav = () => {} }) => {
           </li>
           <li>
             <a
+              href="#certificates"
+              className={activeSection === "certificates" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                hideMobileNav();
+                scrollToSection("certificates");
+              }}
+            >
+              <span>My </span>
+              Certificates
+            </a>
+          </li>
+          {/* <li>
+            <a
               href="#contact"
               className={activeSection === "contact" ? "active" : ""}
               onClick={(e) => {
@@ -107,7 +126,7 @@ const SubNavigation = ({ hideMobileNav = () => {} }) => {
               <span>My </span>
               Contact
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </>
