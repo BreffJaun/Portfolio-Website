@@ -85,7 +85,15 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
     formData.append("title", data.title);
     formData.append("category", data.category);
 
-    if (thumbnail) formData.append("img", thumbnail);
+    if (data.order !== undefined) {
+      formData.append("order", data.order.toString());
+    }
+
+    if (thumbnail) {
+      formData.append("img", thumbnail);
+    } else {
+      formData.append("img", selectedItem.img);
+    }
 
     setIsPending(true);
     await fetch(`${BE_HOST}/${URL_C_C}/${selectedItem._id}`, {
@@ -99,11 +107,19 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
 
   // -------- CREATE NEW --------
   const addNewItem = async () => {
-    if (!newItem.title || !newThumbnail) return;
+    if (
+      !newItem.title ||
+      newItem.order === undefined ||
+      !newItem.category ||
+      !newThumbnail
+    ) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("title", newItem.title);
     formData.append("category", newItem.category);
+    formData.append("order", newItem.order.toString());
     formData.append("img", newThumbnail);
 
     setIsPending(true);
@@ -145,23 +161,25 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
       <div className="stack-list">
         <h2>Current Certificates List</h2>
         <div className="stack-items">
-          {modalData.certificates.map((item) => (
-            <div
-              key={item._id}
-              className={`stack-item ${
-                selectedItem?._id === item._id ? "highlighted" : ""
-              }`}
-              onClick={() => {
-                setSelectedItem(item);
-                setEditDraft(null);
-                setThumbnail(null);
-                setThumbnailUrl("");
-              }}
-            >
-              <img src={item.img} alt={item.title} />
-              <span>{item.title}</span>
-            </div>
-          ))}
+          {modalData.certificates
+            .sort((a, b) => a.order - b.order)
+            .map((item) => (
+              <div
+                key={item._id}
+                className={`stack-item ${
+                  selectedItem?._id === item._id ? "highlighted" : ""
+                }`}
+                onClick={() => {
+                  setSelectedItem(item);
+                  setEditDraft(null);
+                  setThumbnail(null);
+                  setThumbnailUrl("");
+                }}
+              >
+                <img src={item.img} alt={item.title} />
+                <span>{item.title}</span>
+              </div>
+            ))}
         </div>
       </div>
 
@@ -173,7 +191,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
           {selectedItem ? (
             <div className="edit__or__delete__card">
               <div className="form-group">
-                <label>Title</label>
+                <label>Title:</label>
                 <input
                   value={editDraft?.title ?? selectedItem.title}
                   onChange={(e) =>
@@ -187,7 +205,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
 
               <div className="form-group">
                 <label className="thumbnail__label" htmlFor="editCertImage">
-                  Image <EditImageBtn />
+                  Image: <EditImageBtn />
                 </label>
 
                 <input
@@ -212,7 +230,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
               </div>
 
               <div className="form-group category-select">
-                <label>Category</label>
+                <label>Category:</label>
                 <select
                   value={editDraft?.category ?? selectedItem.category}
                   onChange={(e) =>
@@ -227,6 +245,36 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
                   <option value="courses">Courses</option>
                   <option value="events">Events</option>
                 </select>
+              </div>
+
+              <div className="form-group">
+                <label>Order:</label>
+                <input
+                  type="text"
+                  name="order"
+                  value={editDraft?.order ?? selectedItem.order}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+
+                    const duplicate = modalData.certificates.find(
+                      (c) =>
+                        c.order === value &&
+                        c._id !== selectedItem._id &&
+                        c.category ===
+                          (editDraft?.category ?? selectedItem.category)
+                    );
+
+                    if (duplicate) {
+                      alert(`Order ${value} already exists in this category.`);
+                      return;
+                    }
+
+                    setEditDraft((prev) => ({
+                      ...(prev ?? selectedItem),
+                      order: value,
+                    }));
+                  }}
+                />
               </div>
 
               <div className="btn__group">
@@ -265,7 +313,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
 
           <div className="edit__or__delete__card">
             <div className="form-group">
-              <label>Title</label>
+              <label>Title:</label>
               <input
                 value={newItem.title}
                 onChange={(e) =>
@@ -277,7 +325,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
 
             <div className="form-group">
               <label className="thumbnail__label" htmlFor="newCertImage">
-                Image <EditImageBtn />
+                Image: <EditImageBtn />
               </label>
 
               <input
@@ -304,7 +352,7 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
             </div>
 
             <div className="form-group">
-              <label>Category</label>
+              <label>Category:</label>
               <select
                 value={newItem.category}
                 onChange={(e) =>
@@ -321,11 +369,39 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
               </select>
             </div>
 
+            <div className="form-group">
+              <label>Order:</label>
+              <input
+                type="text"
+                value={newItem.order ?? ""}
+                placeholder={(modalData.certificates.length + 1).toString()}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+
+                  const duplicate = modalData.certificates.find(
+                    (c) => c.order === value && c.category === newItem.category
+                  );
+
+                  if (duplicate) {
+                    alert(`Order ${value} already exists in this category.`);
+                    return;
+                  }
+
+                  setNewItem((p) => ({ ...p, order: value }));
+                }}
+              />
+            </div>
+
             <div className="btn__group__single">
               <button
                 onClick={addNewItem}
                 className="btn-add"
-                disabled={!newItem.title || !newItem.category || !newThumbnail}
+                disabled={
+                  !newItem.title ||
+                  newItem.order === undefined ||
+                  !newItem.category ||
+                  !newThumbnail
+                }
               >
                 Add Card
               </button>

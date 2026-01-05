@@ -41,6 +41,7 @@ export interface CertificateItem {
   title: string;
   category: CertificateCategory;
   img: string;
+  order: number;
 }
 
 export interface Project_Item {
