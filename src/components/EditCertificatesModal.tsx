@@ -240,9 +240,9 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
                     }))
                   }
                 >
-                  <option value="hard-skills">Hard Skills</option>
+                  <option value="web-development">Web Development</option>
+                  <option value="app-development">App Development</option>
                   <option value="soft-skills">Soft Skills</option>
-                  <option value="courses">Courses</option>
                   <option value="events">Events</option>
                 </select>
               </div>
@@ -362,9 +362,9 @@ const EditCertificatesModal: React.FC<EditCertificatesModalProps> = ({
                   }))
                 }
               >
-                <option value="hard-skills">Hard Skills</option>
+                <option value="web-development">Web Development</option>
+                <option value="app-development">App Development</option>
                 <option value="soft-skills">Soft Skills</option>
-                <option value="courses">Courses</option>
                 <option value="events">Events</option>
               </select>
             </div>
