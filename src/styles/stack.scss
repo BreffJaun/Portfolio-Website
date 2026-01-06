@@ -347,12 +347,16 @@
 
   h2 {
     color: var(--white);
-    font-size: smaller;
-    margin-top: -1.5rem;
+    font-size: 1.250rem;
+    max-width: 170px;
+    margin-top: -1.50rem;
     margin-bottom: 1.5rem;
     position: absolute;
     top: 4rem;
     z-index: 2;
+    // border: 2px solid red;
+    white-space: normal;
+    word-break: break-word;
   }
 }
 
