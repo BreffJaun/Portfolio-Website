@@ -21,7 +21,7 @@ const Imprint = () => {
           <h1>Impressum</h1>
           <h2>Kontakt</h2>
           <p>
-            Hasime__ - Jeff Braun
+            breffjaun.com - Jeff Braun
             <br />
             c/o Online-Impressum.de #3082
             <br />
@@ -35,7 +35,7 @@ const Imprint = () => {
           </p>
           <p>
             <a
-              href="https://www.mein.online-impressum.de/hasime__/"
+              href="https://mein.online-impressum.de/breffjaun-com/#Zweiter_Kontaktweg"
               target="_blank"
               rel="noopener noreferrer"
             >
